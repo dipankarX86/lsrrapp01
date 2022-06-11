@@ -40,7 +40,6 @@ import HomeServiceDashboard from './pages/homeService/HomeServiceDashboard';
 function App() {
   return (
     <div className='container'>
-      <h1>This is outside of router</h1>
       <Router>
         <Routes>
           <Route path='/' element={<AdminUserLogin />} />
@@ -76,6 +75,8 @@ function App() {
           
         </Routes>
       </Router>
+      
+      {/* <h3>This is from App.js(Can be Footer too ..)</h3> */}
     </div>
   );
 }
