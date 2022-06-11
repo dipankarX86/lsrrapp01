@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom'
 import { Outlet } from "react-router-dom"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
+import logo from '../../logo.jpeg';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -21,7 +22,9 @@ function HomeServiceDashboard() {
       
       <Navbar key={expand} bg={theme} variant={theme} expand={expand} className="mb-3">
         <Container fluid>
-          <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+          <Navbar.Brand href="#/homeService">
+            <img src={logo} alt="DCleans.com" />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-${expand}`}
@@ -30,12 +33,12 @@ function HomeServiceDashboard() {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                Offcanvas
+                <img src={logo} alt="DCleans.com" />
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action1">Home</Nav.Link>
+                <Nav.Link href="#/">Home</Nav.Link>
                 <Nav.Link href="#action2">Link</Nav.Link>
                 <NavDropdown
                   title="Dropdown"
