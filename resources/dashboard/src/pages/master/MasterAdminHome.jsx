@@ -1,5 +1,6 @@
 import {FaUser} from 'react-icons/fa'
 import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MasterAdminHome() {
   return (
