@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom'
+// import {Link} from 'react-router-dom'
 import { Outlet } from "react-router-dom"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -44,7 +44,7 @@ function MasterAdminDashboard() {
 
       <Navbar key={expand} bg={theme} variant={theme} expand={expand} className="mb-3">
         <Container fluid>
-          <Navbar.Brand href="/master">
+          <Navbar.Brand href="#/master">
             <img src={logo} alt="DCleans.com" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
