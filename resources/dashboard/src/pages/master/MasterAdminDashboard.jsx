@@ -1,5 +1,7 @@
 import {Link} from 'react-router-dom'
 import { Outlet } from "react-router-dom"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 function MasterAdminDashboard() {
   return (
@@ -70,6 +72,8 @@ function MasterAdminDashboard() {
           </Link>
         </li>
       </header>
+      
+      <Button variant="primary">Primary</Button>{' '}
 
       <Outlet />
   </>
