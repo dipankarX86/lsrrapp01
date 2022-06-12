@@ -1,3 +1,5 @@
+import React, { Suspense } from 'react';
+
 import {HashRouter as Router, Routes, Route} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -40,8 +42,8 @@ import WorkerDashboard from './pages/worker/WorkerDashboard';
 import WorkerHome from './pages/worker/WorkerHome';
 
 // Home Service Pages
-import HomeServiceDashboard from './pages/homeService/HomeServiceDashboard';
-import HomeServiceHome from './pages/homeService/HomeServiceHome';
+const HomeServiceDashboard = React.lazy(() => import('./pages/homeService/HomeServiceDashboard'));
+const HomeServiceHome = React.lazy(() => import('./pages/homeService/HomeServiceHome'));
 
 function App() {
   return (
@@ -85,7 +87,13 @@ function App() {
             <Route path='/worker' element={<WorkerHome />} />
           </Route>
           
-          <Route path='/homeService' element={<HomeServiceDashboard />}>
+          <Route 
+            path='/homeService' 
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <HomeServiceDashboard />
+              </Suspense>}
+          >
             <Route path='/homeService' element={<HomeServiceHome />} />
           </Route>
           
