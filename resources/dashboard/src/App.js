@@ -24,18 +24,23 @@ import Services from './pages/masterAdmin/services/Services';
 
 // Shop Pages
 import ShopAdminDashboard from './pages/shopAmin/ShopAdminDashboard';
+import ShopAdminHome from './pages/shopAmin/ShopAdminHome';
 
 // Front-Desk Pages
 import FrontDeskDashboard from './pages/frontDesk/FrontDeskDashboard';
+import FrontDeskHome from './pages/frontDesk/FrontDeskHome';
 
 // Transporter Pages
 import TransporterDashboard from './pages/transporter/TransporterDashboard';
+import TransporterHome from './pages/transporter/TransporterHome';
 
 // Worker Pages
 import WorkerDashboard from './pages/worker/WorkerDashboard';
+import WorkerHome from './pages/worker/WorkerHome';
 
 // Home Service Pages
 import HomeServiceDashboard from './pages/homeService/HomeServiceDashboard';
+import HomeServiceHome from './pages/homeService/HomeServiceHome';
 
 function App() {
   return (
@@ -64,16 +69,24 @@ function App() {
           </Route>
 
           <Route path='/shopAdmin' element={<ShopAdminDashboard />}>
-
+            <Route path='/shopAdmin' element={<ShopAdminHome />} />
           </Route>
           
-          <Route path='/frontDesk' element={<FrontDeskDashboard />} />
+          <Route path='/frontDesk' element={<FrontDeskDashboard />}>
+            <Route path='/frontDesk' element={<FrontDeskHome />} />
+          </Route>
           
-          <Route path='/transporter' element={<TransporterDashboard />} />
+          <Route path='/transporter' element={<TransporterDashboard />}>
+            <Route path='/transporter' element={<TransporterHome />} />
+          </Route>
           
-          <Route path='/worker' element={<WorkerDashboard />} />
+          <Route path='/worker' element={<WorkerDashboard />}>
+            <Route path='/worker' element={<WorkerHome />} />
+          </Route>
           
-          <Route path='/homeService' element={<HomeServiceDashboard />} />
+          <Route path='/homeService' element={<HomeServiceDashboard />}>
+            <Route path='/homeService' element={<HomeServiceHome />} />
+          </Route>
           
         </Routes>
       </Router>

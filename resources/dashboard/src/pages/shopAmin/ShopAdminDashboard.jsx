@@ -22,7 +22,7 @@ function ShopAdminDashboard() {
 
       <Navbar key={expand} bg={theme} variant={theme} expand={expand} className="mb-3">
         <Container fluid>
-          <Navbar.Brand href="#/shop">
+          <Navbar.Brand href="#/shopAdmin">
             <img src={logo} alt="DCleans.com" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
