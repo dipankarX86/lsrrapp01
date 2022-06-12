@@ -95,7 +95,7 @@ function MasterAdminDashboard() {
 
       <Outlet />
 
-      <h3>This is from MasterAdminHome.js(Should be Footer ..)</h3>
+      <h3>This is from:<br/> MasterAdminDashboard.js<br/> (Should be Footer ..)</h3>
   </>
   )
 }

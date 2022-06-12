@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
-function ShopDashboard() {
+function ShopAdminDashboard() {
   
   const expand = 'md'
   const theme = 'light'
@@ -70,10 +70,10 @@ function ShopDashboard() {
 
       <Outlet />
 
-      <h3>ShopDashboard</h3>
+      <h3>ShopAdminDashboard</h3>
 
     </>
   )
 }
 
-export default ShopDashboard
+export default ShopAdminDashboard

@@ -23,7 +23,7 @@ import Service from './pages/master/services/Service';
 import Services from './pages/master/services/Services';
 
 // Shop Pages
-import ShopDashboard from './pages/shop/ShopDashboard';
+import ShopAdminDashboard from './pages/shop/ShopAdminDashboard';
 
 // Front-Desk Pages
 import FrontDeskDashboard from './pages/frontDesk/FrontDeskDashboard';
@@ -63,7 +63,7 @@ function App() {
             <Route path='/master/services/edit/1' element={<EditService />} />
           </Route>
 
-          <Route path='/shop' element={<ShopDashboard />} />
+          <Route path='/shop' element={<ShopAdminDashboard />} />
           
           <Route path='/frontDesk' element={<FrontDeskDashboard />} />
           
