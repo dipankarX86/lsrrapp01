@@ -1,4 +1,5 @@
 import {HashRouter as Router, Routes, Route} from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import the pages
 import AdminUserLogin from './pages/AdminUserLogin';

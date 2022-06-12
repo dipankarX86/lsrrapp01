@@ -78,7 +78,7 @@ function MasterAdminDashboard() {
                   <NavDropdown.Item href="#/masterAdmin/categories/edit/1">Edit Category</NavDropdown.Item>
                 </NavDropdown>
 
-                <NavDropdown title="Services" id={`offcanvasNavbarDropdown-expand-${expand}`}>
+                <NavDropdown className="dropdown-menu-end" title="Services" id={`offcanvasNavbarDropdown-expand-${expand}`}>
                   <NavDropdown.Item href="#/masterAdmin/services">Services</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#/masterAdmin/services/1">Service</NavDropdown.Item>
