@@ -14,8 +14,8 @@ import Container from 'react-bootstrap/Container';
 
 function HomeServiceDashboard() {
   
-  const expand = 'md'
-  const theme = 'light'
+  // const expand = 'md'
+  // const theme = 'light'
 
   return (
     <>
