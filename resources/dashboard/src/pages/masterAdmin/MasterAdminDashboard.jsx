@@ -44,7 +44,7 @@ function MasterAdminDashboard() {
 
       <Navbar key={expand} bg={theme} variant={theme} expand={expand} className="mb-3">
         <Container fluid>
-          <Navbar.Brand href="#/master">
+          <Navbar.Brand href="#/masterAdmin">
             <img src={logo} alt="DCleans.com" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -63,27 +63,27 @@ function MasterAdminDashboard() {
                 <Nav.Link href="#/">Home</Nav.Link>
 
                 <NavDropdown title="Shops" id={`offcanvasNavbarDropdown-expand-${expand}`}>
-                  <NavDropdown.Item href="#/master/shops">Shops</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/shops">Shops</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#/master/shops/1">Shop</NavDropdown.Item>
-                  <NavDropdown.Item href="#/master/shops/create">Add Shop</NavDropdown.Item>
-                  <NavDropdown.Item href="#/master/shops/edit/1">Edit Shop Shop</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/shops/1">Shop</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/shops/create">Add Shop</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/shops/edit/1">Edit Shop Shop</NavDropdown.Item>
                 </NavDropdown>
 
                 <NavDropdown title="Categories" id={`offcanvasNavbarDropdown-expand-${expand}`}>
-                  <NavDropdown.Item href="#/master/categories">Categories</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/categories">Categories</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#/master/categories/1">Category</NavDropdown.Item>
-                  <NavDropdown.Item href="#/master/categories/create">Add Category</NavDropdown.Item>
-                  <NavDropdown.Item href="#/master/categories/edit/1">Edit Category</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/categories/1">Category</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/categories/create">Add Category</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/categories/edit/1">Edit Category</NavDropdown.Item>
                 </NavDropdown>
 
                 <NavDropdown title="Services" id={`offcanvasNavbarDropdown-expand-${expand}`}>
-                  <NavDropdown.Item href="#/master/services">Services</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/services">Services</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#/master/services/1">Service</NavDropdown.Item>
-                  <NavDropdown.Item href="#/master/services/create">Add Service</NavDropdown.Item>
-                  <NavDropdown.Item href="#/master/services/edit/1">Edit Shop Service</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/services/1">Service</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/services/create">Add Service</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/services/edit/1">Edit Shop Service</NavDropdown.Item>
                 </NavDropdown>
 
               </Nav>
