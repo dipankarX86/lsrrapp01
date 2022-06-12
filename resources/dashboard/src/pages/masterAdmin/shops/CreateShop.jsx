@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react'
 // import {useSelector, useDispatch} from 'react-redux'
 // import {useNavigate} from 'react-router'
 // import {toast} from 'react-toastify'
-import {FaUser} from 'react-icons/fa'
+import {FaStore} from 'react-icons/fa'
 // import {register, reset} from '../features/auth/authSlice'
 import Spinner from '../../../components/Spinner'
 
@@ -11,13 +10,20 @@ import Spinner from '../../../components/Spinner'
 function CreateShop() {
 
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
-    password: '',
-    password2: ''
+    phone: '',
+    address: '',
+    latLon: '',
+    ownerName: '',
+    ownerEmail: '',
+    ownerPhone: '',
+    ownerAddress: '',
+    pan: '',
+    gst: '',
+    tradeLicense: ''
   })
 
-  const {name, email, password, password2} = formData
+  const {email, phone, address, latLon, ownerName, ownerEmail, ownerPhone, ownerAddress, pan, gst, tradeLicense} = formData
 
   // const navigate = useNavigate()
   // const dispatch = useDispatch()
@@ -49,12 +55,12 @@ function CreateShop() {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if(password !== password2) {
+    if(true) {
       // toast.error('passwords do not match')
       console.log('Error 54')
     } else {
       const userData = {
-        name, email, password
+        email
       }
 
       // dispatch(register(userData))
@@ -67,61 +73,162 @@ function CreateShop() {
 
   return (
     <>
-      <section className="heading">
+
+      <section className="headingg">
         <h1>
-          <FaUser /> Register
+          <FaStore /> Create Store
         </h1>
-        <p>Please create an account</p>
+        <p>create stores and increase your horizon</p>
       </section>
 
-      <section className="form">
+      <section className="formm">
         <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input 
-              type="text" 
-              className="form-control" 
-              id="name" 
-              name="name" 
-              value={name} 
-              placeholder="enter your name" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
+          
+          <div className="mb-3 formm-group">
+            <label htmlFor="email" className="form-label">Shop Email Address</label>
             <input 
               type="email" 
-              className="form-control" 
+              className="" 
               id="email" 
               name="email" 
               value={email} 
-              placeholder="enter your email" 
+              placeholder="enter shop email address" 
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="phone" className="form-label">Shop Phone</label>
             <input 
-              type="password" 
-              className="form-control" 
-              id="password" 
-              name="password" 
-              value={password} 
-              placeholder="choose a password" 
+              type="number" 
+              className="" 
+              id="phone" 
+              name="phone" 
+              value={phone} 
+              placeholder="enter shop phone number" 
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="address" className="form-label">Address</label>
             <input 
-              type="password" 
-              className="form-control" 
-              id="password2" 
-              name="password2" 
-              value={password2} 
-              placeholder="confirm password" 
+              type="number" 
+              className="" 
+              id="address" 
+              name="address" 
+              value={address} 
+              placeholder="enter shop address" 
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
-            <button type="submit" className='btn btn-block'>Submit</button>
+         
+          <div className="mb-3 formm-group">
+            <label htmlFor="latLon" className="form-label">GPS Location in Lat-Lon</label>
+            <input 
+              type="text" 
+              className="" 
+              id="latLon" 
+              name="latLon" 
+              value={latLon} 
+              placeholder="enter lattitude and longitude separated by comma" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="ownerName" className="form-label">Full Name of Owner</label>
+            <input 
+              type="text" 
+              className="" 
+              id="ownerName" 
+              name="ownerName" 
+              value={ownerName} 
+              placeholder="enter full name of owner" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="ownerEmail" className="form-label">Owner's Email Address</label>
+            <input 
+              type="email" 
+              className="" 
+              id="ownerEmail" 
+              name="ownerEmail" 
+              value={ownerEmail} 
+              placeholder="enter owner's email address" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="ownerPhone" className="form-label">Owner's Phone</label>
+            <input 
+              type="number" 
+              className="" 
+              id="ownerPhone" 
+              name="ownerPhone" 
+              value={ownerPhone} 
+              placeholder="enter owner's phone number" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="ownerAddress" className="form-label">Owner's Address</label>
+            <input 
+              type="number" 
+              className="" 
+              id="ownerAddress" 
+              name="ownerAddress" 
+              value={ownerAddress} 
+              placeholder="enter owner's address" 
+              onChange={onChange}
+            />
+          </div>
+         
+          <div className="mb-3 formm-group">
+            <label htmlFor="pan" className="form-label">Shop PAN-Card Details</label>
+            <input 
+              type="text" 
+              className="" 
+              id="pan" 
+              name="pan" 
+              value={pan} 
+              placeholder="shop's pan card details" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="gst" className="form-label">Shop GST Details</label>
+            <input 
+              type="text" 
+              className="" 
+              id="gst" 
+              name="gst" 
+              value={gst} 
+              placeholder="shop's GST card details" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="tradeLicense" className="form-label">Shop Trade-License Details</label>
+            <input 
+              type="text" 
+              className="" 
+              id="tradeLicense" 
+              name="tradeLicense" 
+              value={tradeLicense} 
+              placeholder="shop's trade license details" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <button type="submit" className="btnn btnn-block">Submit</button>
           </div>
         </form>
       </section>

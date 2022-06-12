@@ -10,13 +10,16 @@ import Spinner from '../../../components/Spinner'
 function CreateAccount() {
 
   const [formData, setFormData] = useState({
+    role: '',
     name: '',
+    username: '',
     email: '',
+    phone: '',
     password: '',
     password2: ''
   })
 
-  const {name, email, password, password2} = formData
+  const {role, name, username, email, phone, password, password2} = formData
 
   // const navigate = useNavigate()
   // const dispatch = useDispatch()
@@ -74,27 +77,22 @@ function CreateAccount() {
         <p>Please create an account</p>
       </section>
 
-      {/* <section className="form">
-        <form>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" />
-          </div>
-          <div className="mb-3 form-check">
-            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-            <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-          </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
-      </section> */}
-
       <section className="formm">
         <form onSubmit={onSubmit}>
+          
+          <div className="mb-3 formm-group">
+            <label htmlFor="role" className="form-label">Role</label>
+            <input 
+              type="number" 
+              className="" 
+              id="role" 
+              name="role" 
+              value={role} 
+              placeholder="enter your role" 
+              onChange={onChange}
+            />
+          </div>
+         
           <div className="mb-3 formm-group">
             <label htmlFor="name" className="form-label">Your Name</label>
             <input 
@@ -104,6 +102,19 @@ function CreateAccount() {
               name="name" 
               value={name} 
               placeholder="enter your name" 
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="username" className="form-label">Username</label>
+            <input 
+              type="text" 
+              className="" 
+              id="username" 
+              name="username" 
+              value={username} 
+              placeholder="pick an username" 
               onChange={onChange}
             />
           </div>
@@ -120,6 +131,20 @@ function CreateAccount() {
               onChange={onChange}
             />
             <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+          </div>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="phone" className="form-label">Phone</label>
+            <input 
+              type="number" 
+              className="" 
+              id="phone" 
+              name="phone" 
+              value={phone} 
+              placeholder="enter your phone number" 
+              onChange={onChange}
+            />
+            <div id="emailHelp" className="form-text">We'll never share your phone with anyone else.</div>
           </div>
 
           <div className="mb-3 formm-group">
