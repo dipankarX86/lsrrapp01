@@ -37,7 +37,7 @@ h3 {
 }
 
 /* HEADING DESIGN */
-.heading {
+.headingg {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 50px;
@@ -45,23 +45,23 @@ h3 {
   text-align: center;
 }
 
-.heading p {
+.headingg p {
   color: #828282;
 }
 
 /* FORM DESIGN */
-.form {
+.formm {
   width: 80%;
   margin: 0 auto;
 }
 
-.form-group {
+.formm-group {
   margin-bottom: 10px;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.formm-group input,
+.formm-group textarea,
+.formm-group select {
   width: 100%;
   padding: 10px;
   border: 1px solid #e6e6e6;
@@ -70,14 +70,14 @@ h3 {
   font-family: inherit;
 }
 
-.form-group label {
+.formm-group label {
   text-align: left;
   display: block;
   margin: 0 0 5px 3px;
 }
 
 /* BUTTON DESIGN   */
-.btn {
+.btnn {
   padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
@@ -93,23 +93,22 @@ h3 {
   justify-content: center;
 }
 
-.btn svg {
+/* .btnn svg {
   margin-right: 8px;
 }
 
-.btn-reverse {
+.btnn-reverse {
   background: #fff;
   color: #000;
-}
+} */
 
-.btn-block {
+.btnn-block {
   width: 100%;
   margin-bottom: 20px;
 }
 
-.btn:hover {
+.btnn:hover {
   transform: scale(0.98);
-  color: #b2b2b2;
 }
 
 /* SPINNER DESIGN */

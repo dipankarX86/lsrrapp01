@@ -67,7 +67,7 @@ function CreateAccount() {
   return (
     <>
 
-      <section className="heading">
+      <section className="headingg">
         <h1>
           <FaUser /> Register
         </h1>
@@ -93,13 +93,13 @@ function CreateAccount() {
         </form>
       </section> */}
 
-      <section className="form">
+      <section className="formm">
         <form onSubmit={onSubmit}>
-          <div className="mb-3 form-group">
+          <div className="mb-3 formm-group">
             <label htmlFor="name" className="form-label">Your Name</label>
             <input 
               type="text" 
-              className="form-control" 
+              className="" 
               id="name" 
               name="name" 
               value={name} 
@@ -108,11 +108,11 @@ function CreateAccount() {
             />
           </div>
 
-          <div className="mb-3 form-group">
+          <div className="mb-3 formm-group">
             <label htmlFor="email" className="form-label">Your Email Address</label>
             <input 
               type="email" 
-              className="form-control" 
+              className="" 
               id="email" 
               name="email" 
               value={email} 
@@ -122,11 +122,11 @@ function CreateAccount() {
             <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
           </div>
 
-          <div className="mb-3 form-group">
+          <div className="mb-3 formm-group">
             <label htmlFor="password" className="form-label">Choose a Password</label>
             <input 
               type="password" 
-              className="form-control" 
+              className="" 
               id="password" 
               name="password" 
               value={password} 
@@ -135,11 +135,11 @@ function CreateAccount() {
             />
           </div>
 
-          <div className="mb-3 form-group">
+          <div className="mb-3 formm-group">
             <label htmlFor="password2" className="form-label">Confirm Password</label>
             <input 
               type="password" 
-              className="form-control" 
+              className="" 
               id="password2" 
               name="password2" 
               value={password2} 
@@ -148,8 +148,8 @@ function CreateAccount() {
             />
           </div>
 
-          <div className="mb-3 form-group">
-            <button type="submit" className="btn btn-block">Submit</button>
+          <div className="mb-3 formm-group">
+            <button type="submit" className="btnn btnn-block">Submit</button>
           </div>
         </form>
       </section>
