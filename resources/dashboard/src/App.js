@@ -15,6 +15,11 @@ import EditShop from './pages/masterAdmin/shops/EditShop';
 import Shop from './pages/masterAdmin/shops/Shop';
 import Shops from './pages/masterAdmin/shops/Shops';
 //
+import CreateAccount from './pages/masterAdmin/accounts/CreateAccount';
+import EditAccount from './pages/masterAdmin/accounts/EditAccount';
+import Account from './pages/masterAdmin/accounts/Account';
+import Accounts from './pages/masterAdmin/accounts/Accounts';
+//
 import CreateCategory from './pages/masterAdmin/categories/CreateCategory';
 import EditCategory from './pages/masterAdmin/categories/EditCategory';
 import Category from './pages/masterAdmin/categories/Category';
@@ -59,6 +64,11 @@ function App() {
             <Route path='/masterAdmin/shops/1' element={<Shop />} />
             <Route path='/masterAdmin/shops/create' element={<CreateShop />} />
             <Route path='/masterAdmin/shops/edit/1' element={<EditShop />} />
+            
+            <Route path='/masterAdmin/accounts' element={<Accounts />} />
+            <Route path='/masterAdmin/accounts/1' element={<Account />} />
+            <Route path='/masterAdmin/accounts/create' element={<CreateAccount />} />
+            <Route path='/masterAdmin/accounts/edit/1' element={<EditAccount />} />
             
             <Route path='/masterAdmin/categories' element={<Categories />} />
             <Route path='/masterAdmin/categories/1' element={<Category />} />

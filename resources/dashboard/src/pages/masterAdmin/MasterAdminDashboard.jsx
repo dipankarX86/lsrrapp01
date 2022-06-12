@@ -67,8 +67,16 @@ function MasterAdminDashboard() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#/masterAdmin/shops/1">Shop</NavDropdown.Item>
                   <NavDropdown.Item href="#/masterAdmin/shops/create">Add Shop</NavDropdown.Item>
-                  <NavDropdown.Item href="#/masterAdmin/shops/edit/1">Edit Shop Shop</NavDropdown.Item>
+                  <NavDropdown.Item href="#/masterAdmin/shops/edit/1">Edit Shop</NavDropdown.Item>
                 </NavDropdown>
+
+                  <NavDropdown title="Accounts" id={`offcanvasNavbarDropdown-expand-${expand}`}>
+                    <NavDropdown.Item href="#/masterAdmin/accounts">Accounts</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#/masterAdmin/accounts/1">Account</NavDropdown.Item>
+                    <NavDropdown.Item href="#/masterAdmin/accounts/create">Add Account</NavDropdown.Item>
+                    <NavDropdown.Item href="#/masterAdmin/accounts/edit/1">Edit Account</NavDropdown.Item>
+                  </NavDropdown>
 
                 <NavDropdown title="Categories" id={`offcanvasNavbarDropdown-expand-${expand}`}>
                   <NavDropdown.Item href="#/masterAdmin/categories">Categories</NavDropdown.Item>

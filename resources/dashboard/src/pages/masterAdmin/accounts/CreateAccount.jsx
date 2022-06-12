@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 // import {useSelector, useDispatch} from 'react-redux'
 // import {useNavigate} from 'react-router'
@@ -8,7 +7,7 @@ import {FaUser} from 'react-icons/fa'
 import Spinner from '../../../components/Spinner'
 
 
-function CreateShop() {
+function CreateAccount() {
 
   const [formData, setFormData] = useState({
     name: '',
@@ -67,6 +66,7 @@ function CreateShop() {
 
   return (
     <>
+
       <section className="heading">
         <h1>
           <FaUser /> Register
@@ -74,9 +74,29 @@ function CreateShop() {
         <p>Please create an account</p>
       </section>
 
+      {/* <section className="form">
+        <form>
+          <div className="mb-3">
+            <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+            <input type="password" className="form-control" id="exampleInputPassword1" />
+          </div>
+          <div className="mb-3 form-check">
+            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+            <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" className="btn btn-primary">Submit</button>
+        </form>
+      </section> */}
+
       <section className="form">
         <form onSubmit={onSubmit}>
-          <div className="form-group">
+          <div className="mb-3 form-group">
+            <label htmlFor="name" className="form-label">Your Name</label>
             <input 
               type="text" 
               className="form-control" 
@@ -87,18 +107,23 @@ function CreateShop() {
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
+
+          <div className="mb-3 form-group">
+            <label htmlFor="email" className="form-label">Your Email Address</label>
             <input 
               type="email" 
               className="form-control" 
               id="email" 
               name="email" 
               value={email} 
-              placeholder="enter your email" 
+              placeholder="enter your email address" 
               onChange={onChange}
             />
+            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
           </div>
-          <div className="form-group">
+
+          <div className="mb-3 form-group">
+            <label htmlFor="password" className="form-label">Choose a Password</label>
             <input 
               type="password" 
               className="form-control" 
@@ -109,19 +134,22 @@ function CreateShop() {
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
+
+          <div className="mb-3 form-group">
+            <label htmlFor="password2" className="form-label">Confirm Password</label>
             <input 
               type="password" 
               className="form-control" 
               id="password2" 
               name="password2" 
               value={password2} 
-              placeholder="confirm password" 
+              placeholder="confirm your password" 
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
-            <button type="submit" className='btn btn-block'>Submit</button>
+
+          <div className="mb-3 form-group">
+            <button type="submit" className="btn btn-block">Submit</button>
           </div>
         </form>
       </section>
@@ -129,4 +157,4 @@ function CreateShop() {
   )
 }
 
-export default CreateShop
+export default CreateAccount
