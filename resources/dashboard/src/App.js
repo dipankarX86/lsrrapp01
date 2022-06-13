@@ -111,7 +111,20 @@ function App() {
         </Routes>
       </Router>
       
-      This is from App.js
+      <div className="container app-footer">
+        <div className="row">
+          <div className="col p-2">
+            Column
+          </div>
+          <div className="col p-2">
+            This is from App.js
+          </div>
+          <div className="col p-2">
+            Column
+          </div>
+        </div>
+      </div>
+
       <ToastContainer />
     </div>
   );

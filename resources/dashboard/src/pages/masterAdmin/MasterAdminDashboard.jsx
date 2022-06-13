@@ -103,7 +103,22 @@ function MasterAdminDashboard() {
 
       <Outlet />
 
-      <h3>This is from:<br/> MasterAdminDashboard.js<br/> (Should be Footer ..)</h3>
+      
+      
+      <div className="container app-footer-dash">
+        <div className="row">
+          <div className="col p-2">
+            Column
+          </div>
+          <div className="col p-2">
+            This is from: MasterAdminDashboard.js
+          </div>
+          <div className="col p-2">
+            Column
+          </div>
+        </div>
+      </div>
+
   </>
   )
 }

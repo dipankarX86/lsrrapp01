@@ -150,7 +150,7 @@ function CreateShop() {
         <h1>
           <FaStore /> Create Shop
         </h1>
-        <p>Add shop to expand horizon</p>
+        <p>Add new shop to the workforce</p>
       </section>
 
       <section className="formm">

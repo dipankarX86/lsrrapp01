@@ -156,3 +156,16 @@ h3 {
     font-size: 1.5rem;
   }
 }
+
+/* APP FOOTER */
+.app-footer {
+  min-height: 60px;
+  border-top: 1px solid #ccc;
+}
+
+/* APP FOOTER FROM DASHBOARD */
+.app-footer-dash {
+  min-height: 120px;
+  /* background: rgb(174, 234, 252); */
+  border-top: 1px solid #ccc;
+}
