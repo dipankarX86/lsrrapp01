@@ -134,9 +134,10 @@ function CreateAccount() {
           </div>
 
           <div className="mb-3 formm-group">
-            <label htmlFor="phone" className="form-label">Phone</label>
+            <label htmlFor="phone" className="form-label">Phone(10 digits)</label>
             <input 
-              type="number" 
+              type="tel" 
+              pattern="[0-9]{10}"
               className="" 
               id="phone" 
               name="phone" 
