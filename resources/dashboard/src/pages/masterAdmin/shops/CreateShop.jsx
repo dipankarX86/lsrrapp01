@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-// import {useSelector, useDispatch} from 'react-redux'
-// import {useNavigate} from 'react-router'
-// import {toast} from 'react-toastify'
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router'
+import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
 // import {register, reset} from '../features/auth/authSlice'
 import Spinner from '../../../components/Spinner'
@@ -67,8 +67,8 @@ function CreateShop() {
     ownerAddrPostalCode
   } = formData
 
-  // const navigate = useNavigate()
-  // const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   // const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
 
@@ -97,16 +97,16 @@ function CreateShop() {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if(true) {
-      // toast.error('passwords do not match')
-      console.log('Error 54')
-    } else {
-      const userData = {
-        email
-      }
+    toast.error('form submitted!!!!')
+    // if(true) {
+    //   toast.error('passwords do not match')
+    // } else {
+    //   const userData = {
+    //     email
+    //   }
 
-      // dispatch(register(userData))
-    }
+    //   dispatch(register(userData))
+    // }
   }
 
   // if(isLoading) {
@@ -118,9 +118,9 @@ function CreateShop() {
 
       <section className="headingg">
         <h1>
-          <FaStore /> Create Store
+          <FaStore /> Create Shop
         </h1>
-        <p>create stores and increase your horizon</p>
+        <p>Add shop to expand horizon</p>
       </section>
 
       <section className="formm">

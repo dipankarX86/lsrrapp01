@@ -63,8 +63,7 @@ function CreateAccount() {
     e.preventDefault()
 
     if(password !== password2) {
-      // toast.error('passwords do not match')
-      console.log('Error 54')
+      toast.error('passwords do not match')
     } else {
       const userData = {
         role, 
@@ -89,9 +88,9 @@ function CreateAccount() {
 
       <section className="headingg">
         <h1>
-          <FaUser /> Register
+          <FaUser /> Account Creation
         </h1>
-        <p>Please create an account</p>
+        <p>Create account for available roles</p>
       </section>
 
       <section className="formm">
@@ -105,20 +104,20 @@ function CreateAccount() {
               id="role" 
               name="role" 
               value={role} 
-              placeholder="enter your role" 
+              placeholder="enter role" 
               onChange={onChange}
             />
           </div>
          
           <div className="mb-3 formm-group">
-            <label htmlFor="name" className="form-label">Your Name</label>
+            <label htmlFor="name" className="form-label">Name</label>
             <input 
               type="text" 
               className="" 
               id="name" 
               name="name" 
               value={name} 
-              placeholder="enter your name" 
+              placeholder="enter name" 
               onChange={onChange}
             />
           </div>
@@ -137,17 +136,17 @@ function CreateAccount() {
           </div>
 
           <div className="mb-3 formm-group">
-            <label htmlFor="email" className="form-label">Your Email Address</label>
+            <label htmlFor="email" className="form-label">Email Address</label>
             <input 
               type="email" 
               className="" 
               id="email" 
               name="email" 
               value={email} 
-              placeholder="enter your email address" 
+              placeholder="enter email address" 
               onChange={onChange}
             />
-            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+            <div id="emailHelp" className="form-text">We'll never share email with anyone else.</div>
           </div>
 
           <div className="mb-3 formm-group">
@@ -159,10 +158,10 @@ function CreateAccount() {
               id="phone" 
               name="phone" 
               value={phone} 
-              placeholder="enter your phone number" 
+              placeholder="enter phone number" 
               onChange={onChange}
             />
-            <div id="emailHelp" className="form-text">We'll never share your phone with anyone else.</div>
+            <div id="emailHelp" className="form-text">We'll never share phone with anyone else.</div>
           </div>
 
           <div className="mb-3 formm-group">
@@ -186,7 +185,7 @@ function CreateAccount() {
               id="password2" 
               name="password2" 
               value={password2} 
-              placeholder="confirm your password" 
+              placeholder="confirm password" 
               onChange={onChange}
             />
           </div>

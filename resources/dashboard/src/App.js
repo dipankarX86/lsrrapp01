@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
-
 import {HashRouter as Router, Routes, Route} from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import the pages
@@ -111,6 +112,7 @@ function App() {
       </Router>
       
       This is from App.js
+      <ToastContainer />
     </div>
   );
 }
