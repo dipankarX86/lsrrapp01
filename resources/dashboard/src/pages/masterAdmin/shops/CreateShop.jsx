@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-// import {register, reset} from '../features/auth/authSlice'
+import {createShop, reset} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 
 
@@ -70,7 +70,7 @@ function CreateShop() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+  const {shops, isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
 
   // // use effect function call
   // useEffect(() => {
@@ -86,7 +86,7 @@ function CreateShop() {
 
   // }, [user, isError, isSuccess, message, navigate, dispatch])
 
-  // on change (what is it???)
+  // on change
   const onChange = (e) => {
     setFormData((previousState) => ({
       ...previousState, 
@@ -97,6 +97,36 @@ function CreateShop() {
   const onSubmit = (e) => {
     e.preventDefault()
 
+    const shopData = {
+      email, 
+      phone, 
+
+      addrLine1,
+      addrLine2,
+      addrCity,
+      addrState,
+      addrCountry,
+      addrPostalCode,
+
+      latLon, 
+      
+      pan, 
+      gst, 
+      tradeLicense,
+
+      ownerName, 
+      ownerEmail, 
+      ownerPhone, 
+
+      ownerAddrLine1,
+      ownerAddrLine2,
+      ownerAddrCity,
+      ownerAddrState,
+      ownerAddrCountry,
+      ownerAddrPostalCode
+    }
+
+    dispatch(createShop(shopData))
     toast.error('form submitted!!!!')
     // if(true) {
     //   toast.error('passwords do not match')
@@ -105,13 +135,13 @@ function CreateShop() {
     //     email
     //   }
 
-    //   dispatch(register(userData))
+    //   dispatch(createShop(userData))
     // }
   }
 
-  // if(isLoading) {
-  //   return <Spinner />
-  // }
+  if(isLoading) {
+    return <Spinner />
+  }
 
   return (
     <>
