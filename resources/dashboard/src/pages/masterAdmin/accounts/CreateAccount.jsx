@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-// import {useSelector, useDispatch} from 'react-redux'
-// import {useNavigate} from 'react-router'
-// import {toast} from 'react-toastify'
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router'
+import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
-// import {register, reset} from '../features/auth/authSlice'
+import {createUser, reset} from '../../../features/users/userSlice'
 import Spinner from '../../../components/Spinner'
 
 
@@ -19,26 +19,37 @@ function CreateAccount() {
     password2: ''
   })
 
-  const {role, name, username, email, phone, password, password2} = formData
+  const {
+    role, 
+    name, 
+    username, 
+    email, 
+    phone, 
+    password, 
+    password2
+  } = formData
 
-  // const navigate = useNavigate()
-  // const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  // const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+  const {users, isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
-  // // use effect function call
-  // useEffect(() => {
-  //   if(isError) {
-  //     toast.error(message)
-  //   }
+  // use effect function call
+  useEffect(() => {
+    if(isError) {
+      console.log(message);
+    }
 
-  //   if(isSuccess || user) {
-  //     navigate('/dashboard')
-  //   }
+    // if(!user) {
+    //   navigate('/dashboard/login')
+    // }
 
-  //   dispatch(reset())
+    // dispatch(getGoals())
 
-  // }, [user, isError, isSuccess, message, navigate, dispatch])
+    // return () => {
+    //   dispatch(reset())
+    // }
+  }, [users, isError, isSuccess, message, navigate, dispatch])
 
   // on change (what is it???)
   const onChange = (e) => {
@@ -56,16 +67,22 @@ function CreateAccount() {
       console.log('Error 54')
     } else {
       const userData = {
-        name, email, password
+        role, 
+        name, 
+        username, 
+        email, 
+        phone, 
+        password, 
+        password2
       }
 
-      // dispatch(register(userData))
+      dispatch(createUser(userData))
     }
   }
 
-  // if(isLoading) {
-  //   return <Spinner />
-  // }
+  if(isLoading) {
+    return <Spinner />
+  }
 
   return (
     <>
