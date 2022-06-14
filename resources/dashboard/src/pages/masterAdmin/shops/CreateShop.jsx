@@ -172,7 +172,7 @@ function CreateShop() {
             <label htmlFor="phone" className="form-label">Shop Phone(10 digits)</label>
             <input 
               type="tel" 
-              pattern="[0-9]{10}"
+              pattern="[0-9]{11}"
               className="" 
               id="phone" 
               name="phone" 
@@ -346,7 +346,7 @@ function CreateShop() {
             <label htmlFor="ownerPhone" className="form-label">Owner's Phone(10 digits)</label>
             <input 
               type="tel" 
-              pattern="[0-9]{10}"
+              pattern="[0-9]{11}"
               className="" 
               id="ownerPhone" 
               name="ownerPhone" 

@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::post('/users', function() {
+    return 'from backend users';
+});
+Route::post('/shops', function(Request $request) {
+    return $request;
+});
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
