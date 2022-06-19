@@ -15,3 +15,29 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         //
     ]);
+
+
+// following part is for react
+// mix.options({
+//     postCss: [
+//         require('autoprefixer'),
+//     ],
+// });
+
+// mix.setPublicPath('public');
+
+// mix.webpackConfig({
+//     resolve: {
+//         extensions: ['.js', '.vue'],
+//         alias: {
+//             '@': __dirname + 'resources'
+//         }
+//     },
+//     output: {
+//         chunkFilename: 'js/chunks/[name].js',
+//     },
+// }).react();
+
+// // used to run app using reactjs
+// mix.js('resources/react-app/src/index.js', 'public/js/app.js').version();
+// mix.copy('resources/react-app/src/assets', 'public/assets');

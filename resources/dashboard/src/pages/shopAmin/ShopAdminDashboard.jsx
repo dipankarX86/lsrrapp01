@@ -1,6 +1,13 @@
+
+import { useEffect } from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router'
+import {toast} from 'react-toastify'
+import {logout, reset} from '../../features/auth/authSlice'
+// import Spinner from '../../components/Spinner'
+
 // import {Link} from 'react-router-dom'
 import { Outlet } from "react-router-dom"
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import logo from '../../logo.jpeg';
 import Navbar from 'react-bootstrap/Navbar';
@@ -13,7 +20,35 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
 function ShopAdminDashboard() {
-  
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {auth, isError, message} = useSelector((state) => state.auth)
+
+  // use effect function call
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
+
+    if(!auth || auth.user.role !== '2') {
+      // console.log(auth.user.role)  // this cannot be done on logout, as auth will become null after deleting the local storage data
+      navigate('/')
+    }
+
+    dispatch(reset())
+
+  }, [auth, isError, message, navigate, dispatch])
+
+  const logUserOut = (e) => {
+    e.preventDefault()
+    dispatch(logout())
+  }
+
+  // if(isLoading) {
+  //   return <Spinner />
+  // }
+
   const expand = 'md'
   const theme = 'light'
 
@@ -70,7 +105,19 @@ function ShopAdminDashboard() {
 
       <Outlet />
 
-      <h3>ShopAdminDashboard</h3>
+      <div className="container app-footer-dash">
+        <div className="row">
+          <div className="col p-2">
+            <Button variant="outline-primary" onClick={logUserOut}>Logout</Button>{' '}
+          </div>
+          <div className="col p-2">
+            This is from: ShopAdminDashboard.js
+          </div>
+          <div className="col p-2">
+            Column
+          </div>
+        </div>
+      </div>
 
     </>
   )

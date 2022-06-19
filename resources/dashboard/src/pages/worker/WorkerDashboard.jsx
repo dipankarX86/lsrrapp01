@@ -1,4 +1,11 @@
-// import {Link} from 'react-router-dom'
+
+import { useEffect } from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router'
+import {toast} from 'react-toastify'
+import {logout, reset} from '../../features/auth/authSlice'
+// import Spinner from '../../components/Spinner'
+
 import { Outlet } from "react-router-dom"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,6 +21,34 @@ import Button from 'react-bootstrap/Button';
 
 function WorkerDashboard() {
   
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {auth, isError, message} = useSelector((state) => state.auth)
+
+  // use effect function call
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
+
+    if(!auth || auth.user.role !== '5') {
+      navigate('/')
+    }
+
+    dispatch(reset())
+
+  }, [auth, isError, message, navigate, dispatch])
+
+  const logUserOut = (e) => {
+    e.preventDefault()
+    dispatch(logout())
+  }
+
+  // if(isLoading) {
+  //   return <Spinner />
+  // }
+
   const expand = 'md'
   const theme = 'light'
 
@@ -69,8 +104,20 @@ function WorkerDashboard() {
       </Navbar>
 
       <Outlet />
-
-      <h3>WorkerDashboard</h3>
+      
+      <div className="container app-footer-dash">
+        <div className="row">
+          <div className="col p-2">
+            <Button variant="outline-primary" onClick={logUserOut}>Logout</Button>{' '}
+          </div>
+          <div className="col p-2">
+            This is from: TransporterDashboard.js
+          </div>
+          <div className="col p-2">
+            Column
+          </div>
+        </div>
+      </div>
       
     </>
   )
