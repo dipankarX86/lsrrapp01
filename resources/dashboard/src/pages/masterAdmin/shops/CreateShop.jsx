@@ -70,21 +70,28 @@ function CreateShop() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {shops, isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
+  const {auth} = useSelector((state) => state.auth)
+  // const {shops, isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
+  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
 
-  // // use effect function call
-  // useEffect(() => {
-  //   if(isError) {
-  //     toast.error(message)
-  //   }
+  // use effect function call
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
 
-  //   if(isSuccess || user) {
-  //     navigate('/dashboard')
-  //   }
+    if(!auth) {
+      // navigate('/')
+      toast.error('Create-Shop access is Unauthorized')
+    }
 
-  //   dispatch(reset())
+    if(isSuccess) {
+      navigate('/masterAdmin/shops')
+    }
 
-  // }, [user, isError, isSuccess, message, navigate, dispatch])
+    dispatch(reset())
+
+  }, [auth, isError, isSuccess, message, navigate, dispatch])
 
   // on change
   const onChange = (e) => {
@@ -127,16 +134,7 @@ function CreateShop() {
     }
 
     dispatch(createShop(shopData))
-    toast.error('form submitted!!!!')
-    // if(true) {
-    //   toast.error('passwords do not match')
-    // } else {
-    //   const userData = {
-    //     email
-    //   }
-
-    //   dispatch(createShop(userData))
-    // }
+    toast.success('form submitted!!!!')
   }
 
   if(isLoading) {
@@ -150,7 +148,7 @@ function CreateShop() {
         <h1>
           <FaStore /> Create Shop
         </h1>
-        <p>Add new shop to the workforce</p>
+        <p>Add a new shop to the workforce</p>
       </section>
 
       <section className="formm">
@@ -169,10 +167,10 @@ function CreateShop() {
             />
           </div>
           <div className="mb-3 formm-group">
-            <label htmlFor="phone" className="form-label">Shop Phone(10 digits)</label>
+            <label htmlFor="phone" className="form-label">Shop Phone(example: +91 9999999999)</label>
             <input 
               type="tel" 
-              pattern="[0-9]{11}"
+              pattern="((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}"  // or [0-9]{10}
               className="" 
               id="phone" 
               name="phone" 
@@ -343,10 +341,10 @@ function CreateShop() {
             />
           </div>
           <div className="mb-3 formm-group">
-            <label htmlFor="ownerPhone" className="form-label">Owner's Phone(10 digits)</label>
+            <label htmlFor="ownerPhone" className="form-label">Owner's Phone(example: +91 9999999999)</label>
             <input 
               type="tel" 
-              pattern="[0-9]{11}"
+              pattern="((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}"  // [0-9]{10}
               className="" 
               id="ownerPhone" 
               name="ownerPhone" 

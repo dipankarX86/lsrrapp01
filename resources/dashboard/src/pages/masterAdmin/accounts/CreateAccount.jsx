@@ -16,7 +16,7 @@ function CreateAccount() {
     email: '',
     phone: '',
     password: '',
-    password2: ''
+    password_confirmation: ''
   })
 
   const {
@@ -26,13 +26,15 @@ function CreateAccount() {
     email, 
     phone, 
     password, 
-    password2
+    password_confirmation
   } = formData
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {users, isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
+  const {auth} = useSelector((state) => state.auth)
+  // const {users, isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
+  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
   // use effect function call
   useEffect(() => {
@@ -40,16 +42,17 @@ function CreateAccount() {
       console.log(message);
     }
 
-    // if(!user) {
-    //   navigate('/dashboard/login')
-    // }
+    if(!auth) {
+      // navigate('/')
+      toast.error('Create-Account access is unauthorized')
+    }
 
-    // dispatch(getGoals())
+    if(isSuccess) {
+      navigate('/masterAdmin/accounts')
+    }
 
-    // return () => {
-    //   dispatch(reset())
-    // }
-  }, [users, isError, isSuccess, message, navigate, dispatch])
+    dispatch(reset())
+  }, [auth, isError, isSuccess, message, navigate, dispatch])
 
   // on change (what is it???)
   const onChange = (e) => {
@@ -62,7 +65,8 @@ function CreateAccount() {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if(password !== password2) {
+    // if(false) {
+    if(password !== password_confirmation) {
       toast.error('passwords do not match')
     } else {
       const userData = {
@@ -72,7 +76,7 @@ function CreateAccount() {
         email, 
         phone, 
         password, 
-        password2
+        password_confirmation
       }
 
       dispatch(createUser(userData))
@@ -150,10 +154,10 @@ function CreateAccount() {
           </div>
 
           <div className="mb-3 formm-group">
-            <label htmlFor="phone" className="form-label">Phone(10 digits)</label>
+            <label htmlFor="phone" className="form-label">Phone(example: +91 9999999999)</label>
             <input 
               type="tel" 
-              pattern="[0-9]{10}"
+              pattern="((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}"
               className="" 
               id="phone" 
               name="phone" 
@@ -178,13 +182,13 @@ function CreateAccount() {
           </div>
 
           <div className="mb-3 formm-group">
-            <label htmlFor="password2" className="form-label">Confirm Password</label>
+            <label htmlFor="password_confirmation" className="form-label">Confirm Password</label>
             <input 
               type="password" 
               className="" 
-              id="password2" 
-              name="password2" 
-              value={password2} 
+              id="password_confirmation" 
+              name="password_confirmation" 
+              value={password_confirmation} 
               placeholder="confirm password" 
               onChange={onChange}
             />
