@@ -17,7 +17,7 @@ function CreateAccount() {
 
   // Form value fields
   const [formData, setFormData] = useState({
-    role: '',
+    role: '0',  // role preset to 0
     name: '',
     username: '',
     email: '',
@@ -36,18 +36,15 @@ function CreateAccount() {
     password_confirmation
   } = formData
 
-  // some preset values, somehow role = 0 does not work, as declared constant
-  // formData.role = 0
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
   const {isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
+
   // use effect function call
   useEffect(() => {
-
     if(isError) {
       console.log(message);
     }
@@ -72,12 +69,23 @@ function CreateAccount() {
       });  
     }
 
+    /* setFormData(() => ({
+      ['role']: '2',
+      ['name']: 'Dipankar Saikia',
+      ['username']: 'dipu',
+      ['email']: 'response@data.data',
+      ['phone']: '08899889988',
+      ['password']: '',
+      ['password_confirmation']: '',
+    })) */
+
     if(isSuccess) {
       navigate('/masterAdmin/accounts')
     }
 
     dispatch(reset())
   }, [auth, isError, isSuccess, message, navigate, dispatch])
+
 
   // on change (what is it???)
   const onChange = (e) => {
@@ -86,6 +94,7 @@ function CreateAccount() {
       [e.target.name]: e.target.value,
     }))
   }
+
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -107,6 +116,7 @@ function CreateAccount() {
       dispatch(createUser(userData))
     }
   }
+
 
   if(isLoading) {
     return <Spinner />
