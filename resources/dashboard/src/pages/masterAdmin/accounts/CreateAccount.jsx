@@ -5,7 +5,7 @@ import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
 import {createUser, reset} from '../../../features/users/userSlice'
 import Spinner from '../../../components/Spinner'
-
+import utilityService from '../../../features/utilities/utilityService'
 
 function CreateAccount() {
 
@@ -28,6 +28,10 @@ function CreateAccount() {
     password, 
     password_confirmation
   } = formData
+
+  // const token = JSON.parse(localStorage.getItem('auth')).token
+  // const roles = utilityService.getRoles(token)
+  // console.log(roles)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
