@@ -5,10 +5,17 @@ import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
 import {createUser, reset} from '../../../features/users/userSlice'
 import Spinner from '../../../components/Spinner'
-import utilityService from '../../../features/utilities/utilityService'
+
+import axios from 'axios'
 
 function CreateAccount() {
 
+  // Form prefill datas
+  const [formPrefill, setFormPrefill] = useState({
+    roles: []
+  })
+
+  // Form value fields
   const [formData, setFormData] = useState({
     role: '',
     name: '',
@@ -29,26 +36,40 @@ function CreateAccount() {
     password_confirmation
   } = formData
 
-  // const token = JSON.parse(localStorage.getItem('auth')).token
-  // const roles = utilityService.getRoles(token)
-  // console.log(roles)
+  // some preset values, somehow role = 0 does not work, as declared constant
+  // formData.role = 0
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  // const {users, isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
   const {isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
   // use effect function call
   useEffect(() => {
+
     if(isError) {
       console.log(message);
     }
 
     if(!auth) {
-      // navigate('/')
       toast.error('Create-Account access is unauthorized')
+    } else {
+      const token = JSON.parse(localStorage.getItem('auth')).token
+      const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+      }
+      axios.get('/api/roles', config).then((response) => {
+
+        setFormPrefill((previousState) => ({
+          ...previousState, 
+          ['roles']: response.data,
+        }))
+
+        console.log(formPrefill.roles)
+      });  
     }
 
     if(isSuccess) {
@@ -106,7 +127,7 @@ function CreateAccount() {
           
           <div className="mb-3 formm-group">
             <label htmlFor="role" className="form-label">Role</label>
-            <input 
+            {/* <input 
               type="number" 
               className="" 
               id="role" 
@@ -114,7 +135,21 @@ function CreateAccount() {
               value={role} 
               placeholder="enter role" 
               onChange={onChange}
-            />
+            /> */}
+            <select 
+              type="number" 
+              className="form-select" 
+              id="role" 
+              name="role" 
+              value={role} 
+              onChange={onChange}
+              aria-label="User Roles"
+            >
+              <option key={0} value={0}>Select a Role</option>
+              {formPrefill.roles.map(role => (
+                <option key={role.id} value={role.id}>{role.name}</option>
+              ))}
+            </select>
           </div>
          
           <div className="mb-3 formm-group">
