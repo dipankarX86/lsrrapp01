@@ -3,10 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
-use App\Models\Shop;
+// use App\Models\Shop;
 use App\Models\Service;
 use App\Models\Category;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\Customer;
+use App\Models\State;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,8 +24,10 @@ class DatabaseSeeder extends Seeder
         // Seed users
         // \App\Models\User::factory(10)->create();
 
+
         // Seed shops
         // Shop::factory(6)->create();
+
 
         // Seed roles
         Role::create([
@@ -48,6 +53,23 @@ class DatabaseSeeder extends Seeder
         Role::create([
             'code' => 'HS',
             'name' => 'Home Service'
+        ]);
+
+
+        // Seed country
+        Country::create([
+            'name' => 'India'
+        ]);
+        // Seed State
+        State::create([
+            'name' => 'Assam',
+            'country' => '1'
+        ]);
+        // Seed City
+        City::create([
+            'name' => 'Guwahati',
+            'state' => '1',
+            // 'country' => '1'
         ]);
 
     }

@@ -20,12 +20,13 @@ class Shop extends Model
         'email',
         'phone',
 
-        'addr_line1',
-        'addr_line2',
-        'addr_city',
-        'addr_state',
-        'addr_country',
-        'addr_postal_code',
+        'address',
+        // 'addr_line1',
+        // 'addr_line2',
+        // 'addr_city',
+        // 'addr_state',
+        // 'addr_country',
+        // 'addr_postal_code',
 
         'lat_lon',
 
@@ -37,12 +38,24 @@ class Shop extends Model
         'owner_email',
         'owner_phone',
 
-        'owner_addr_line1',
-        'owner_addr_line2',
-        'owner_addr_city',
-        'owner_addr_state',
-        'owner_addr_country',
-        'owner_addr_postal_code',
+        'owner_address',
+        // 'owner_addr_line1',
+        // 'owner_addr_line2',
+        // 'owner_addr_city',
+        // 'owner_addr_state',
+        // 'owner_addr_country',
+        // 'owner_addr_postal_code',
     ];
+
+    
+    // Relationship to Address
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address');
+    }
+    public function ownerAddress()
+    {
+        return $this->belongsTo(Address::class, 'owner_address');
+    }
 
 }
