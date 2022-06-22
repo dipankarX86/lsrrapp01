@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Shop extends Model
 {
     use HasFactory;
-    
-    // Relationship to shop
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id');
-    // }
     
     // Fillables preset
     protected $fillable = [
@@ -57,5 +52,11 @@ class Shop extends Model
     {
         return $this->belongsTo(Address::class, 'owner_address');
     }
-
+    
+    // Relationship to user
+    // public function users()
+    // {
+    //     return $this->hasMany(User::class, 'shop_id');
+    // }
+    
 }

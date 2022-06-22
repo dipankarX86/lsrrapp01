@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\City;
+use App\Models\Shop;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Database\Eloquent\Model;

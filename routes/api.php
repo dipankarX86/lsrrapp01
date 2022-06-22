@@ -2,9 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StateController;
+use App\Http\Controllers\CountryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +38,11 @@ Route::get('/sanctum/csrf-cookie', function (Request $request) {  // CSRF token 
 //
 // Route::get('/roles', [RoleController::class, 'index']);  // retrieving all the roles
 Route::middleware(['auth:sanctum', 'role:1'])->get('/roles', [RoleController::class, 'index']);  // retrieving all the roles
+
+// city, state and country lists returning
+Route::get('/cities', [CityController::class, 'index']);
+Route::get('/states', [StateController::class, 'index']);
+Route::get('/countries', [CountryController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'role:1'])->get('/users', [UserController::class, 'index']);  // show all users
 Route::middleware(['auth:sanctum', 'role:1'])->post('/users', [UserController::class, 'store']);  // creates a new user
