@@ -16,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        // return User::all();
+        return User::with('role')->get();
     }
 
     /**
@@ -29,7 +30,7 @@ class UserController extends Controller
     {
         // error message
         $fields = $request->validate([
-            'role' => 'required|string',
+            'role' => 'required',
             'name' => 'string',
             'username' => 'required|string|unique:users,username',
             'email' => 'required|string|unique:users,email',
