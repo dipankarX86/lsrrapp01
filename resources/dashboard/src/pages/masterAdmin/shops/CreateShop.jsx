@@ -5,6 +5,7 @@ import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
 import {createShop, reset} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
+import Address from '../../../components/addrComponents/Address'
 
 
 function CreateShop() {
@@ -12,59 +13,45 @@ function CreateShop() {
   const [formData, setFormData] = useState({
     email: '',
     phone: '',
-
-    addrLine1: '',
-    addrLine2: '',
-    addrCity: '',
-    addrState: '',
-    addrCountry: '',
-    addrPostalCode: '',
-
+    address: {},
+    // address: {
+    //   line1: '',
+    //   line2: '',
+    //   city: '',
+    //   state: '',
+    //   country: '',
+    //   postalCode: '',
+    // },
     latLon: '',
-
     pan: '',
     gst: '',
     tradeLicense: '',
-
     ownerName: '',
     ownerEmail: '',
     ownerPhone: '',
-
-    ownerAddrLine1: '',
-    ownerAddrLine2: '',
-    ownerAddrCity: '',
-    ownerAddrState: '',
-    ownerAddrCountry: '',
-    ownerAddrPostalCode: ''
+    ownerAddress: {},
+    // ownerAddress: {
+    //   line1: '',
+    //   line2: '',
+    //   city: '',
+    //   state: '',
+    //   country: '',
+    //   postalCode: '',
+    // },
   })
 
   const {
     email, 
     phone, 
-
-    addrLine1,
-    addrLine2,
-    addrCity,
-    addrState,
-    addrCountry,
-    addrPostalCode,
-
+    address, //
     latLon, 
-    
     pan, 
     gst, 
     tradeLicense,
-
     ownerName, 
     ownerEmail, 
     ownerPhone, 
-
-    ownerAddrLine1,
-    ownerAddrLine2,
-    ownerAddrCity,
-    ownerAddrState,
-    ownerAddrCountry,
-    ownerAddrPostalCode
+    ownerAddress, //
   } = formData
 
   const navigate = useNavigate()
@@ -93,6 +80,25 @@ function CreateShop() {
 
   }, [auth, isError, isSuccess, message, navigate, dispatch])
 
+
+  const setAddrData = (inAddress) => {
+    console.log(inAddress)
+    setFormData((previousState) => ({
+      ...previousState, 
+      [address]: inAddress,
+    }))
+    console.log(address)
+  }
+  const setOwnerAddrData = (inAddress) => {
+    console.log(inAddress)
+    setFormData((previousState) => ({
+      ...previousState, 
+      [ownerAddress]: inAddress,
+    }))
+    console.log(ownerAddress)
+  }
+
+
   // on change
   const onChange = (e) => {
     setFormData((previousState) => ({
@@ -108,13 +114,13 @@ function CreateShop() {
       email, 
       phone, 
 
-      addrLine1,
-      addrLine2,
-      addrCity,
-      addrState,
-      addrCountry,
-      addrPostalCode,
-
+      address, //
+      // addrLine1,
+      // addrLine2,
+      // addrCity,
+      // addrState,
+      // addrCountry,
+      // addrPostalCode,
       latLon, 
       
       pan, 
@@ -124,17 +130,18 @@ function CreateShop() {
       ownerName, 
       ownerEmail, 
       ownerPhone, 
-
-      ownerAddrLine1,
-      ownerAddrLine2,
-      ownerAddrCity,
-      ownerAddrState,
-      ownerAddrCountry,
-      ownerAddrPostalCode
+      ownerAddress, //
+      // ownerAddrLine1,
+      // ownerAddrLine2,
+      // ownerAddrCity,
+      // ownerAddrState,
+      // ownerAddrCountry,
+      // ownerAddrPostalCode
     }
 
-    dispatch(createShop(shopData))
-    toast.success('form submitted!!!!')
+    console.log(shopData)
+    // dispatch(createShop(shopData))
+    // toast.success('form submitted!!!!')
   }
 
   if(isLoading) {
@@ -183,7 +190,8 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          <div className="mb-3 formm-group">
+          <Address setAddrData={setAddrData} />
+          {/* <div className="mb-3 formm-group">
             <label htmlFor="addrLine1" className="form-label">Address Line 1</label>
             <input 
               type="text" 
@@ -254,7 +262,7 @@ function CreateShop() {
               placeholder="enter postel code" 
               onChange={onChange}
             />
-          </div>
+          </div> */}
           <br />
 
           <div className="mb-3 formm-group">
@@ -357,7 +365,8 @@ function CreateShop() {
 
           <h4>Owner Address Details</h4>
           <br />
-          <div className="mb-3 formm-group">
+          <Address  setAddrData={setOwnerAddrData}/>
+          {/* <div className="mb-3 formm-group">
             <label htmlFor="ownerAddrLine1" className="form-label">Address Line 1</label>
             <input 
               type="text" 
@@ -429,7 +438,7 @@ function CreateShop() {
               placeholder="enter postel code" 
               onChange={onChange}
             />
-          </div>
+          </div> */}
           
           <div className="mb-3 formm-group">
             <button type="submit" className="btnn btnn-block">Submit</button>
