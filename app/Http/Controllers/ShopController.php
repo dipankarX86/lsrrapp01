@@ -42,7 +42,14 @@ class ShopController extends Controller
         $fields = $request->validate([
             'email' => 'required|string|unique:shops,email',
             'phone' => 'required|string|max:14|unique:shops,phone',
-            // 'address' => 'string',
+
+            // 'address.line1' => 'string',  // this is a possibility  
+            // 'address.line2' => 'string',
+            // 'address.city' => 'string',
+            // 'address.state' => 'string',
+            // 'address.country' => 'string',
+            // 'address.postal_code' => 'string',
+
             'address' => '',
             'lat_lon' => 'string',
             'pan' => 'string',
@@ -51,7 +58,14 @@ class ShopController extends Controller
             'owner_name' => 'string',
             'owner_email' => 'required|string|unique:shops,owner_email',
             'owner_phone' => 'required|string|max:14|unique:shops,owner_phone',
-            // 'owner_address' => 'string',
+
+            // 'owner_address.line1' => 'string',  // this is a possibility  
+            // 'owner_address.line2' => 'string',
+            // 'owner_address.city' => 'string',
+            // 'owner_address.state' => 'string',
+            // 'owner_address.country' => 'string',
+            // 'owner_address.postal_code' => 'string',
+
             'owner_address' => '',
         ]);
         
