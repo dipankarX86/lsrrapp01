@@ -69,7 +69,7 @@ class AddressController extends Controller
 
     // Store a newly created resource in storage from another controller
     // public function createNew($addrDataRaw)
-    public function createNew($fields)
+    public static function createNew($fields)
     {
         /* $addrData = json_decode($addrDataRaw, true);
         // 
