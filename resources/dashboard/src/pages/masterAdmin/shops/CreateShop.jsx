@@ -164,7 +164,7 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          <Address setAddrData={setAddrData} />
+          <Address setAddrDataToShop={setAddrData} />
           <br />
 
           <div className="mb-3 formm-group">
@@ -267,7 +267,7 @@ function CreateShop() {
 
           <h4>Owner Address Details</h4>
           <br />
-          <Address  setAddrData={setOwnerAddrData}/>
+          <Address  setAddrDataToShop={setOwnerAddrData}/>
           
           <div className="mb-3 formm-group">
             <button type="submit" className="btnn btnn-block">Submit</button>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function Address(props) {
+function Address({setAddrDataToShop}) {
 
   const [addrData, setAddrData] = useState({
     line1: '',
@@ -21,12 +21,21 @@ function Address(props) {
   } = addrData
 
 
+  // needed to check if all the field data entered is updated to state
+  const [submitPossible, setSubmitPossible] = useState(true);
+  const [submitCount, setSubmitCount] = useState(1);
+  //
   // use effect function call
   useEffect(() => {
     
-    // if any change in data in the state detected, send the new addrData to Shop component
+    // if submit is possible, submit it once and increase submit count to 1
+    if( submitPossible && submitCount === 0 ) {
+      console.log(addrData)
+      setAddrDataToShop(addrData);
+      setSubmitCount(1)
+    }
 
-  }, [])
+  }, [submitPossible, submitCount, addrData, setAddrDataToShop])
 
   
   // on change
@@ -38,7 +47,7 @@ function Address(props) {
 
     // send the data to shop form 
     // props.setAddrData(JSON.stringify(addrData));
-    props.setAddrData(addrData);
+    // props.setAddrData(addrData);
   }
 
   
@@ -54,6 +63,9 @@ function Address(props) {
           value={line1} 
           placeholder="address line 1" 
           onChange={onChange}
+          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}} 
+          onBlur={() => {setSubmitPossible(true)}} 
+          autoComplete="new-password" 
         />
       </div>
       <div className="mb-3 formm-group">
@@ -66,6 +78,9 @@ function Address(props) {
           value={line2} 
           placeholder="address line 2" 
           onChange={onChange}
+          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
+          onBlur={() => {setSubmitPossible(true)}} 
+          autoComplete="new-password" 
         />
       </div>
       <div className="mb-3 formm-group">
@@ -78,6 +93,9 @@ function Address(props) {
           value={city} 
           placeholder="enter city the shop is in" 
           onChange={onChange}
+          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
+          onBlur={() => {setSubmitPossible(true)}} 
+          autoComplete="new-password" 
         />
       </div>
       <div className="mb-3 formm-group">
@@ -90,6 +108,9 @@ function Address(props) {
           value={state} 
           placeholder="choose state" 
           onChange={onChange}
+          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
+          onBlur={() => {setSubmitPossible(true)}} 
+          autoComplete="new-password" 
         />
       </div>
       <div className="mb-3 formm-group">
@@ -102,6 +123,9 @@ function Address(props) {
           value={country} 
           placeholder="choose country" 
           onChange={onChange}
+          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
+          onBlur={() => {setSubmitPossible(true)}} 
+          autoComplete="new-password" 
         />
       </div>
       <div className="mb-3 formm-group">
@@ -114,6 +138,9 @@ function Address(props) {
           value={postalCode} 
           placeholder="enter postel code" 
           onChange={onChange}
+          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
+          onBlur={() => {setSubmitPossible(true)}} 
+          autoComplete="new-password" 
         />
       </div>
     </>
