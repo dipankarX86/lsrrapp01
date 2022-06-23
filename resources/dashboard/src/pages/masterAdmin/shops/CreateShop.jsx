@@ -113,9 +113,9 @@ function CreateShop() {
       ownerAddress, //
     }
 
-    console.log(shopData)
-    // dispatch(createShop(shopData))
-    // toast.success('form submitted!!!!')
+    // console.log(shopData)
+    dispatch(createShop(shopData))
+    toast.success('form submitted!!!!')
   }
 
   if(isLoading) {

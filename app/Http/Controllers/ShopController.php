@@ -27,6 +27,11 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+        /* $myfile = fopen("TEST.txt", "w") or die("Unable to open file!");
+        $txt = $request;
+        fwrite($myfile, $txt);
+        fclose($myfile); */
+
         // error message
         /* $request->validate([
             'email' => 'required|string|unique:shops,email',
@@ -50,7 +55,7 @@ class ShopController extends Controller
             // 'address.country' => 'string',
             // 'address.postal_code' => 'string',
 
-            'address' => '',
+            // 'address' => '',
             'lat_lon' => 'string',
             'pan' => 'string',
             'gst' => 'string',
@@ -66,7 +71,7 @@ class ShopController extends Controller
             // 'owner_address.country' => 'string',
             // 'owner_address.postal_code' => 'string',
 
-            'owner_address' => '',
+            // 'owner_address' => '',
         ]);
         
         // // 

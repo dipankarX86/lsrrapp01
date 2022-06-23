@@ -44,10 +44,15 @@ function Address({setAddrDataToShop}) {
       ...previousState, 
       [e.target.name]: e.target.value,
     }))
-
-    // send the data to shop form 
-    // props.setAddrData(JSON.stringify(addrData));
-    // props.setAddrData(addrData);
+  }
+  const onFocus = () => {
+    setSubmitCount(0)
+    setSubmitPossible(false)
+    // console.log('on-focus')
+  }
+  const onBlur = () => {
+    setSubmitPossible(true)
+    // console.log('on-blur')
   }
 
   
@@ -63,8 +68,8 @@ function Address({setAddrDataToShop}) {
           value={line1} 
           placeholder="address line 1" 
           onChange={onChange}
-          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}} 
-          onBlur={() => {setSubmitPossible(true)}} 
+          onFocus={onFocus} 
+          onBlur={onBlur} 
           autoComplete="new-password" 
         />
       </div>
@@ -78,8 +83,8 @@ function Address({setAddrDataToShop}) {
           value={line2} 
           placeholder="address line 2" 
           onChange={onChange}
-          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
-          onBlur={() => {setSubmitPossible(true)}} 
+          onFocus={onFocus} 
+          onBlur={onBlur} 
           autoComplete="new-password" 
         />
       </div>
@@ -93,8 +98,8 @@ function Address({setAddrDataToShop}) {
           value={city} 
           placeholder="enter city the shop is in" 
           onChange={onChange}
-          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
-          onBlur={() => {setSubmitPossible(true)}} 
+          onFocus={onFocus} 
+          onBlur={onBlur} 
           autoComplete="new-password" 
         />
       </div>
@@ -108,8 +113,8 @@ function Address({setAddrDataToShop}) {
           value={state} 
           placeholder="choose state" 
           onChange={onChange}
-          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
-          onBlur={() => {setSubmitPossible(true)}} 
+          onFocus={onFocus} 
+          onBlur={onBlur} 
           autoComplete="new-password" 
         />
       </div>
@@ -123,8 +128,8 @@ function Address({setAddrDataToShop}) {
           value={country} 
           placeholder="choose country" 
           onChange={onChange}
-          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
-          onBlur={() => {setSubmitPossible(true)}} 
+          onFocus={onFocus} 
+          onBlur={onBlur} 
           autoComplete="new-password" 
         />
       </div>
@@ -138,8 +143,8 @@ function Address({setAddrDataToShop}) {
           value={postalCode} 
           placeholder="enter postel code" 
           onChange={onChange}
-          onFocus={() => {setSubmitCount(0); setSubmitPossible(false)}}
-          onBlur={() => {setSubmitPossible(true)}} 
+          onFocus={onFocus} 
+          onBlur={onBlur} 
           autoComplete="new-password" 
         />
       </div>
