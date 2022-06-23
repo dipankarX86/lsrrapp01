@@ -24,6 +24,8 @@ function Address(props) {
   // use effect function call
   useEffect(() => {
     
+    // if any change in data in the state detected, send the new addrData to Shop component
+
   }, [])
 
   
