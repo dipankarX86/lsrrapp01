@@ -13,7 +13,7 @@ function CreateShop() {
   const [formData, setFormData] = useState({
     email: '',
     phone: '',
-    address: {},
+    // address: {},
     // address: {
     //   line1: '',
     //   line2: '',
@@ -29,7 +29,7 @@ function CreateShop() {
     ownerName: '',
     ownerEmail: '',
     ownerPhone: '',
-    ownerAddress: {},
+    // ownerAddress: {},
     // ownerAddress: {
     //   line1: '',
     //   line2: '',
@@ -43,7 +43,7 @@ function CreateShop() {
   const {
     email, 
     phone, 
-    address, //
+    // address, //
     latLon, 
     pan, 
     gst, 
@@ -51,7 +51,7 @@ function CreateShop() {
     ownerName, 
     ownerEmail, 
     ownerPhone, 
-    ownerAddress, //
+    // ownerAddress, //
   } = formData
 
   const navigate = useNavigate()
@@ -81,20 +81,25 @@ function CreateShop() {
   }, [auth, isError, isSuccess, message, navigate, dispatch])
 
 
+  const [address, setAddrFromChild] = useState(0);
+  const [ownerAddress, setOwnerAddrFromChild] = useState(0);
+  // 
   const setAddrData = (inAddress) => {
     console.log(inAddress)
-    setFormData((previousState) => ({
-      ...previousState, 
-      [address]: inAddress,
-    }))
+    // setFormData((previousState) => ({
+    //   ...previousState, 
+    //   [address]: inAddress,
+    // }))
+    setAddrFromChild(inAddress);
     console.log(address)
   }
   const setOwnerAddrData = (inAddress) => {
     console.log(inAddress)
-    setFormData((previousState) => ({
-      ...previousState, 
-      [ownerAddress]: inAddress,
-    }))
+    // setFormData((previousState) => ({
+    //   ...previousState, 
+    //   [ownerAddress]: inAddress,
+    // }))
+    setOwnerAddrFromChild(inAddress);
     console.log(ownerAddress)
   }
 
