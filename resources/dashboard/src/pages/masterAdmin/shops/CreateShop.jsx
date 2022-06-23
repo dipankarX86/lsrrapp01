@@ -52,7 +52,6 @@ function CreateShop() {
     }
 
     if(!auth) {
-      // navigate('/')
       toast.error('Create-Shop access is Unauthorized')
     }
 
@@ -64,17 +63,13 @@ function CreateShop() {
 
   }, [auth, isError, isSuccess, message, navigate, dispatch])
 
-
-  // const [address, setAddrFromChild] = useState(0);
-  // const [ownerAddress, setOwnerAddrFromChild] = useState(0);
-  // 
+  // set address datas from child to current state
   const setAddrData = (inAddress) => {
     console.log(inAddress)
     setFormData((previousState) => ({
       ...previousState, 
       'address': inAddress,
     }))
-    // setAddrFromChild(inAddress);
     console.log(address)
   }
   const setOwnerAddrData = (inAddress) => {
@@ -83,10 +78,8 @@ function CreateShop() {
       ...previousState, 
       'ownerAddress': inAddress,
     }))
-    // setOwnerAddrFromChild(inAddress);
     console.log(ownerAddress)
   }
-
 
   // on change
   const onChange = (e) => {
@@ -124,7 +117,6 @@ function CreateShop() {
 
   return (
     <>
-
       <section className="headingg">
         <h1>
           <FaStore /> Create Shop

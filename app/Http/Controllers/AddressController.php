@@ -65,8 +65,6 @@ class AddressController extends Controller
         //
     }
 
-
-
     // Store a newly created resource in storage from another controller
     // public function createNew($addrDataRaw)
     public static function createNew($fields)
@@ -91,9 +89,10 @@ class AddressController extends Controller
         $country = Country::where('id', $fields['country'])->first();
         // 
         if(!$city || !$state || !$country) {
-            return response([
-                'message' => 'City, State or Country Does Not exists'
-            ], 401);
+            // return response([
+            //     'message' => 'City, State or Country Does Not exists'
+            // ], 401);
+            return '0';  // this needs work
         }
         // for now it is Ok, but when any of them is 0 or 'Something Else', the item needs to be stored in it's table
         // first chk if city is 0, if yes, it will have associated $fields['new_city'] variable, create a new city for that data

@@ -20,7 +20,6 @@ function Address({setAddrDataToShop}) {
     postalCode,
   } = addrData
 
-
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
   const [submitCount, setSubmitCount] = useState(1);
@@ -36,9 +35,8 @@ function Address({setAddrDataToShop}) {
     }
 
   }, [submitPossible, submitCount, addrData, setAddrDataToShop])
-
   
-  // on change
+  // form effects
   const onChange = (e) => {
     setAddrData((previousState) => ({
       ...previousState, 
@@ -48,13 +46,10 @@ function Address({setAddrDataToShop}) {
   const onFocus = () => {
     setSubmitCount(0)
     setSubmitPossible(false)
-    // console.log('on-focus')
   }
   const onBlur = () => {
     setSubmitPossible(true)
-    // console.log('on-blur')
   }
-
   
   return (
     <>

@@ -28,49 +28,34 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        /* $myfile = fopen("TEST.txt", "w") or die("Unable to open file!");
-        $txt = $request;
-        fwrite($myfile, $txt);
-        fclose($myfile); */
-
-        // error message
-        /* $request->validate([
-            'email' => 'required|string|unique:shops,email',
-            'phone' => 'required|string|max:14|unique:shops,phone',
-            'lat_lon' => ['required', 'string', 'regex:/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/'], 
-                                                // regex:/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/  too should work.
-            'owner_email' => 'required|string|unique:shops,owner_email',
-            'owner_phone' => 'required|string|max:14|unique:shops,owner_phone',
-        ]);
-        return Shop::create($request->all()); */
-
         // error message
         $fields = $request->validate([
             'email' => 'required|string|unique:shops,email',
             'phone' => 'required|string|max:14|unique:shops,phone',
 
-            'address.line1' => 'string',  // this is a possibility  
-            'address.line2' => 'string',
+            'address.line1' => 'nullable|string',  // this is a possibility  
+            'address.line2' => 'nullable|string',
             'address.city' => 'string',
             'address.state' => 'string',
             'address.country' => 'string',
-            'address.postal_code' => 'string',
+            'address.postal_code' => 'nullable|string',
 
             // 'address' => '',
-            'lat_lon' => 'string',
-            'pan' => 'string',
-            'gst' => 'string',
-            'trade_license' => 'string',
-            'owner_name' => 'string',
+            'lat_lon' => ['nullable', 'string', 'regex:/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/'], 
+                            // regex:/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/  too should work.
+            'pan' => 'nullable|string',
+            'gst' => 'nullable|string',
+            'trade_license' => 'nullable|string',
+            'owner_name' => 'nullable|string',
             'owner_email' => 'required|string|unique:shops,owner_email',
             'owner_phone' => 'required|string|max:14|unique:shops,owner_phone',
 
-            'owner_address.line1' => 'string',  // this is a possibility  
-            'owner_address.line2' => 'string',
+            'owner_address.line1' => 'nullable|string',  // this is a possibility  
+            'owner_address.line2' => 'nullable|string',
             'owner_address.city' => 'string',
             'owner_address.state' => 'string',
             'owner_address.country' => 'string',
-            'owner_address.postal_code' => 'string',
+            'owner_address.postal_code' => 'nullable|string',
 
             // 'owner_address' => '',
         ]);
@@ -88,6 +73,7 @@ class ShopController extends Controller
             $fields['owner_address']['state'] === $fields['address']['state'] &&
             $fields['owner_address']['country'] === $fields['address']['country'] &&
             $fields['owner_address']['postal_code'] === $fields['address']['postal_code']) 
+            || $addressId === 0
         ) {
             $ownerAddressId = AddressController::createNew($fields['owner_address']); // ->id  not sure if this id extraction will work, 
                                                                         //for now will write to a file to see results
