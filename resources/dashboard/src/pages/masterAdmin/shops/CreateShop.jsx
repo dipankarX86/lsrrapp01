@@ -14,14 +14,6 @@ function CreateShop() {
     email: '',
     phone: '',
     // address: {},
-    // address: {
-    //   line1: '',
-    //   line2: '',
-    //   city: '',
-    //   state: '',
-    //   country: '',
-    //   postalCode: '',
-    // },
     latLon: '',
     pan: '',
     gst: '',
@@ -30,14 +22,6 @@ function CreateShop() {
     ownerEmail: '',
     ownerPhone: '',
     // ownerAddress: {},
-    // ownerAddress: {
-    //   line1: '',
-    //   line2: '',
-    //   city: '',
-    //   state: '',
-    //   country: '',
-    //   postalCode: '',
-    // },
   })
 
   const {
@@ -118,30 +102,15 @@ function CreateShop() {
     const shopData = {
       email, 
       phone, 
-
       address, //
-      // addrLine1,
-      // addrLine2,
-      // addrCity,
-      // addrState,
-      // addrCountry,
-      // addrPostalCode,
       latLon, 
-      
       pan, 
       gst, 
       tradeLicense,
-
       ownerName, 
       ownerEmail, 
       ownerPhone, 
       ownerAddress, //
-      // ownerAddrLine1,
-      // ownerAddrLine2,
-      // ownerAddrCity,
-      // ownerAddrState,
-      // ownerAddrCountry,
-      // ownerAddrPostalCode
     }
 
     console.log(shopData)
@@ -196,78 +165,6 @@ function CreateShop() {
           <h4>Shop Address:</h4>
           <br />
           <Address setAddrData={setAddrData} />
-          {/* <div className="mb-3 formm-group">
-            <label htmlFor="addrLine1" className="form-label">Address Line 1</label>
-            <input 
-              type="text" 
-              className="" 
-              id="addrLine1" 
-              name="addrLine1" 
-              value={addrLine1} 
-              placeholder="shop address line 1" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="addrLine2" className="form-label">Address Line 2</label>
-            <input 
-              type="text" 
-              className="" 
-              id="addrLine2" 
-              name="addrLine2" 
-              value={addrLine2} 
-              placeholder="shop address line 2" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="addrCity" className="form-label">Shop's City</label>
-            <input 
-              type="number" 
-              className="" 
-              id="addrCity" 
-              name="addrCity" 
-              value={addrCity} 
-              placeholder="enter city the shop is in" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="addrState" className="form-label">State</label>
-            <input 
-              type="number" 
-              className="" 
-              id="addrState" 
-              name="addrState" 
-              value={addrState} 
-              placeholder="choose state" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="addrCountry" className="form-label">Country</label>
-            <input 
-              type="number" 
-              className="" 
-              id="addrCountry" 
-              name="addrCountry" 
-              value={addrCountry} 
-              placeholder="choose country" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="addrPostalCode" className="form-label">Postal Code</label>
-            <input 
-              type="text" 
-              className="" 
-              id="addrPostalCode" 
-              name="addrPostalCode" 
-              value={addrPostalCode} 
-              placeholder="enter postel code" 
-              onChange={onChange}
-            />
-          </div> */}
           <br />
 
           <div className="mb-3 formm-group">
@@ -371,79 +268,6 @@ function CreateShop() {
           <h4>Owner Address Details</h4>
           <br />
           <Address  setAddrData={setOwnerAddrData}/>
-          {/* <div className="mb-3 formm-group">
-            <label htmlFor="ownerAddrLine1" className="form-label">Address Line 1</label>
-            <input 
-              type="text" 
-              className="" 
-              id="ownerAddrLine1" 
-              name="ownerAddrLine1" 
-              value={ownerAddrLine1} 
-              placeholder=" owner's address line 1" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="ownerAddrLine2" className="form-label">Address Line 2</label>
-            <input 
-              type="text" 
-              className="" 
-              id="ownerAddrLine2" 
-              name="ownerAddrLine2" 
-              value={ownerAddrLine2} 
-              placeholder=" owner's address line 2" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="ownerAddrCity" className="form-label">Owner's City</label>
-            <input 
-              type="number" 
-              className="" 
-              id="ownerAddrCity" 
-              name="ownerAddrCity" 
-              value={ownerAddrCity} 
-              placeholder="enter city the  owner lives in" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="ownerAddrState" className="form-label">State</label>
-            <input 
-              type="number" 
-              className="" 
-              id="ownerAddrState" 
-              name="ownerAddrState" 
-              value={ownerAddrState} 
-              placeholder="choose owner's state" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="ownerAddrCountry" className="form-label">Country</label>
-            <input 
-              type="number" 
-              className="" 
-              id="ownerAddrCountry" 
-              name="ownerAddrCountry" 
-              value={ownerAddrCountry} 
-              placeholder="choose owner's country" 
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3 formm-group">
-            <label htmlFor="ownerAddrPostalCode" className="form-label">Owner's Postal Code</label>
-            <input 
-              type="text" 
-              pattern="[0-9]{6}"
-              className="" 
-              id="ownerAddrPostalCode" 
-              name="ownerAddrPostalCode" 
-              value={ownerAddrPostalCode} 
-              placeholder="enter postel code" 
-              onChange={onChange}
-            />
-          </div> */}
           
           <div className="mb-3 formm-group">
             <button type="submit" className="btnn btnn-block">Submit</button>
