@@ -1,11 +1,11 @@
 import { useCallback, useState, useEffect } from 'react'
 import {useSelector} from 'react-redux'
-// import {toast} from 'react-toastify'
 import axios from 'axios'
 
 function Address({setAddrDataToShop, fillData}) {
 
   // console.log(fillData)
+  console.log("ADDRESS: Entered")
   // if fill data has state and city in it, we need cities and states loaded
   
   // Form prefill datas
@@ -24,7 +24,7 @@ function Address({setAddrDataToShop, fillData}) {
       city: '0',
       state: '0',
       country: '0',
-      postalCode: '',
+      postalCode: '',       //  Try reducing number of STATES, try using REDUX instead ---- 24th June 2022
     }
   )
 
@@ -39,8 +39,6 @@ function Address({setAddrDataToShop, fillData}) {
 
   // whatever the prefil data, there should be a initial return submit
   const [initialSubmitCount, setInitialSubmitCount] = useState(0);
-  // setAddrDataToShop(addrData);  // figure out, why it cannot happen here? 
-  // may need to learn working on vanilla js soon
 
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
@@ -53,18 +51,8 @@ function Address({setAddrDataToShop, fillData}) {
 
   const loadItem = useCallback((item, id) => {
     if(!auth) {
-      // toast.error('Access of Country, State and City list are unauthorized!')
       console.log('Access of Country, State and City list are unauthorized!')
     } 
-    // else if(item === 'countries' && formPrefill.countries.length>0) {  // if already exists do not call again
-    //   console.log('countries already loaded')
-    // } 
-    // else if(item === 'states' && formPrefill.states.length>0 && formPrefill.states[0].id == id) {  // if already exists do not call again
-    //   console.log('states already loaded')
-    // } 
-    // else if(item === 'cities' && formPrefill.cities.length>0 && formPrefill.cities[0].id == id) {  // if already exists do not call again
-    //   console.log('cities already loaded')
-    // } 
     else {
       const token = JSON.parse(localStorage.getItem('auth')).token
       const config = {
@@ -75,73 +63,23 @@ function Address({setAddrDataToShop, fillData}) {
       const apiPath = '/api/'+item+'/2levels/'+id
       // 
       axios.get(apiPath, config).then((response) => {
-        console.log(response.data)                        ////////////////
+        //console.log(response.data)
+        console.log(item)                                  ////////////////
         setFormPrefill((previousState) => ({
           ...previousState, 
           [item]: response.data,
         }))
       });  
     }
-  }, [])
-
-  /* const loadItem = (item, id) => {
-    if(!auth) {
-      // toast.error('Access of Country, State and City list are unauthorized!')
-      console.log('Access of Country, State and City list are unauthorized!')
-    } 
-    // else if(item === 'countries' && formPrefill.countries.length>0) {  // if already exists do not call again
-    //   console.log('countries already loaded')
-    // } 
-    // else if(item === 'states' && formPrefill.states.length>0 && formPrefill.states[0].id == id) {  // if already exists do not call again
-    //   console.log('states already loaded')
-    // } 
-    // else if(item === 'cities' && formPrefill.cities.length>0 && formPrefill.cities[0].id == id) {  // if already exists do not call again
-    //   console.log('cities already loaded')
-    // } 
-    else {
-      const token = JSON.parse(localStorage.getItem('auth')).token
-      const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      }
-      const apiPath = '/api/'+item+'/2levels/'+id
-      // 
-      axios.get(apiPath, config).then((response) => {
-        console.log(response.data)                        ////////////////
-        setFormPrefill((previousState) => ({
-          ...previousState, 
-          [item]: response.data,
-        }))
-      });  
-    }
-  } */
+  }, [auth])
 
   // use effect function call
   useEffect(() => {
     
-    /* if(!auth) {
-      toast.error('Access of Country, State and City list are unauthorized!')
-    } else {
-      const token = JSON.parse(localStorage.getItem('auth')).token
-      const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      }
-      axios.get('/api/countries', config).then((response) => {
-        console.log(response.data)
-        setFormPrefill((previousState) => ({
-          ...previousState, 
-          'countries': response.data,
-        }))
-      });  
-    } */
-    
     // initial return submit, for possible changes in oener-address data, 
     // this needs to happen only once 
     if( initialSubmitCount === 0 ) {
-      console.log(addrData)                        ////////////////
+      console.log("ADDRESS: UseEffect - 1")                ////////////////
       setAddrDataToShop(addrData, true);
 
       loadItem('countries', 0)  // taking the opportunity to load the drop down before anything happens
@@ -149,9 +87,11 @@ function Address({setAddrDataToShop, fillData}) {
       // if the data is passed through props, it may have state and city in it
       // if so, it will need the dropdown list
       if(fillData && fillData.state) {
+        console.log("ADDRESS: UseEffect - 1A") 
         loadItem('states', fillData.country)
       } 
       if(fillData && fillData.city) {
+        console.log("ADDRESS: UseEffect - 1B") 
         loadItem('cities', fillData.state)
       }
 
@@ -160,15 +100,17 @@ function Address({setAddrDataToShop, fillData}) {
     
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {
-      console.log(addrData)
+      // console.log(addrData)
+      console.log("ADDRESS: UseEffect - 2") 
       setAddrDataToShop(addrData);
       setSubmitCount(1)
     }
 
-  }, [auth, submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem])
+  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem])
   
   // form effects
   const onChange = (e) => {
+    console.log("ADDRESS: OnChange")
 
     // if it is CSC values you need additional steps
     if(e.target.name === 'country') {
@@ -183,10 +125,12 @@ function Address({setAddrDataToShop, fillData}) {
     }))
   }
   const onFocus = () => {
+    console.log('ADDRESS: onFocus')
     setSubmitCount(0)
     setSubmitPossible(false)
   }
   const onBlur = () => {
+    console.log('ADDRESS: onBlur')
     setSubmitPossible(true)
   }
   
@@ -223,21 +167,6 @@ function Address({setAddrDataToShop, fillData}) {
         />
       </div>
 
-      {/* <div className="mb-3 formm-group">
-        <label htmlFor="city" className="form-label">City</label>
-        <input 
-          type="number" 
-          className="" 
-          id="city" 
-          name="city" 
-          value={city} 
-          placeholder="enter city the shop is in" 
-          onChange={onChange}
-          onFocus={onFocus} 
-          onBlur={onBlur} 
-          autoComplete="new-password" 
-        />
-      </div> */}
       <div className="mb-3 formm-group">
         <label htmlFor="city" className="form-label">City</label>
         <select 
@@ -267,22 +196,7 @@ function Address({setAddrDataToShop, fillData}) {
       </> 
       : <></> }
       
-         
-      {/* <div className="mb-3 formm-group">
-        <label htmlFor="state" className="form-label">State</label>
-        <input 
-          type="number" 
-          className="" 
-          id="state" 
-          name="state" 
-          value={state} 
-          placeholder="choose state" 
-          onChange={onChange}
-          onFocus={onFocus} 
-          onBlur={onBlur} 
-          autoComplete="new-password" 
-        />
-      </div> */}
+
       <div className="mb-3 formm-group">
         <label htmlFor="state" className="form-label">State</label>
         <select 
@@ -312,21 +226,7 @@ function Address({setAddrDataToShop, fillData}) {
       </> 
       : <></> }
       
-      {/* <div className="mb-3 formm-group">
-        <label htmlFor="country" className="form-label">Country</label>
-        <input 
-          type="number" 
-          className="" 
-          id="country" 
-          name="country" 
-          value={country} 
-          placeholder="choose country" 
-          onChange={onChange}
-          onFocus={onFocus} 
-          onBlur={onBlur} 
-          autoComplete="new-password" 
-        />
-      </div> */}
+
       <div className="mb-3 formm-group">
         <label htmlFor="country" className="form-label">Country</label>
         <select 
