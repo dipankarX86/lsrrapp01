@@ -82,19 +82,23 @@ function CreateShop() {
   }
 
   // set address datas from child to current state
-  const setAddrData = (inAddress) => {
+  const setAddrData = (inAddress, initialCallback) => {
     setFormData((previousState) => ({
       ...previousState, 
       'address': inAddress,
     }))
-    setOwnerAddrIsSameAsShop(false)
+    if(!initialCallback) {
+      setOwnerAddrIsSameAsShop(false)
+    }
   }
-  const setOwnerAddrData = (inAddress) => {
+  const setOwnerAddrData = (inAddress, initialCallback) => {
     setFormData((previousState) => ({
       ...previousState, 
       'ownerAddress': inAddress,
     }))
-    setOwnerAddrIsSameAsShop(false)
+    if(!initialCallback) {
+      setOwnerAddrIsSameAsShop(false)
+    }
   }
   // 
 
@@ -167,7 +171,7 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          <Address setAddrDataToShop={setAddrData} />
+          <Address setAddrDataToShop={setAddrData} fillData={address} />
           <br />
 
           <div className="mb-3 formm-group">

@@ -36,28 +36,17 @@ function Login() {
     }
 
     if(isSuccess || auth) {
-      // console.log(auth.user.role)
-      // navigate('/masterAdmin')
-
-      // User role codes: 
-      // 
-      // masterAdmin:1
-      // shopAdmin:2
-      // frontDesk:3
-      // transporter:4
-      // worker:5
-      // homeService:6
-      if (auth.user.role == '1') {
+      if (auth.user.role === '1') {  // masterAdmin:1
         navigate('/masterAdmin')
-      } else if (auth.user.role === '2') {
+      } else if (auth.user.role === '2') {  // shopAdmin:2
         navigate('/shopAdmin')
-      } else if (auth.user.role === '3') {
+      } else if (auth.user.role === '3') {  // frontDesk:3
         navigate('/frontDesk')
-      } else if (auth.user.role === '4') {
+      } else if (auth.user.role === '4') {  // transporter:4
         navigate('/transporter')
-      } else if (auth.user.role === '5') {
+      } else if (auth.user.role === '5') {  // worker:5
         navigate('/worker')
-      } else if (auth.user.role === '6') {
+      } else if (auth.user.role === '6') {  // homeService:6
         navigate('/homeService')
       }
     }
@@ -95,7 +84,6 @@ function Login() {
 
   return (
     <>
-
       <Navbar key={expand} bg={theme} variant={theme} expand={expand} className="mb-3">
         <Container fluid>
           <Navbar.Brand href="#/masterAdmin">
@@ -131,7 +119,6 @@ function Login() {
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
-
 
       <section className="headingg">
         <h1>

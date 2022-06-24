@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react'
 
 function Address({setAddrDataToShop, fillData}) {
 
+  console.log(fillData)
+
   const [addrData, setAddrData] = useState(
-    fillData ? fillData :
-    {
+    (fillData && fillData.city) ? fillData :   // I can also provide the whole comparison 
+    { 
       line1: '',
       line2: '',
-      city: '',
-      state: '',
-      country: '',
+      city: '0',
+      state: '0',
+      country: '0',
       postalCode: '',
     }
   )
@@ -23,10 +25,10 @@ function Address({setAddrDataToShop, fillData}) {
     postalCode,
   } = addrData
 
-  // // whatever the prefil data, there should be a initial return submit
-  // const [initialSubmitCount, setInitialSubmitCount] = useState(0);
-  // // setAddrDataToShop(addrData);  // figure out, why it cannot happen here? 
-  // // may need to learn working on vanilla js soon
+  // whatever the prefil data, there should be a initial return submit
+  const [initialSubmitCount, setInitialSubmitCount] = useState(0);
+  // setAddrDataToShop(addrData);  // figure out, why it cannot happen here? 
+  // may need to learn working on vanilla js soon
 
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
@@ -35,13 +37,13 @@ function Address({setAddrDataToShop, fillData}) {
   // use effect function call
   useEffect(() => {
     
-    // // initial return submit, for possible changes in oener-address data, 
-    // // this needs to happen only once 
-    // if( initialSubmitCount === 0 ) {
-    //   console.log(addrData)
-    //   setAddrDataToShop(addrData);
-    //   setInitialSubmitCount(1)
-    // }
+    // initial return submit, for possible changes in oener-address data, 
+    // this needs to happen only once 
+    if( initialSubmitCount === 0 ) {
+      console.log(addrData)
+      setAddrDataToShop(addrData, true);
+      setInitialSubmitCount(1)
+    }
     
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {
@@ -50,7 +52,7 @@ function Address({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, addrData, setAddrDataToShop])
+  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop])
   
   // form effects
   const onChange = (e) => {

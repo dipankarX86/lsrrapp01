@@ -59,25 +59,13 @@ function CreateAccount() {
         }
       }
       axios.get('/api/roles', config).then((response) => {
-
         setFormPrefill((previousState) => ({
           ...previousState, 
-          ['roles']: response.data,
+          'roles': response.data,
         }))
-
-        console.log(formPrefill.roles)
+        // console.log(formPrefill.roles)  // hise it or it will require formPrefill to be passed to useffect
       });  
     }
-
-    /* setFormData(() => ({
-      ['role']: '2',
-      ['name']: 'Dipankar Saikia',
-      ['username']: 'dipu',
-      ['email']: 'response@data.data',
-      ['phone']: '08899889988',
-      ['password']: '',
-      ['password_confirmation']: '',
-    })) */
 
     if(isSuccess) {
       navigate('/masterAdmin/accounts')
@@ -99,7 +87,6 @@ function CreateAccount() {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    // if(false) {
     if(password !== password_confirmation) {
       toast.error('passwords do not match')
     } else {
@@ -137,15 +124,6 @@ function CreateAccount() {
           
           <div className="mb-3 formm-group">
             <label htmlFor="role" className="form-label">Role</label>
-            {/* <input 
-              type="number" 
-              className="" 
-              id="role" 
-              name="role" 
-              value={role} 
-              placeholder="enter role" 
-              onChange={onChange}
-            /> */}
             <select 
               type="number" 
               className="form-select" 
