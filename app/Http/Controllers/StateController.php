@@ -16,6 +16,11 @@ class StateController extends Controller
     {
         return State::all();
     }
+    // states for a given country
+    public function statesForCountry($id)
+    {
+        return State::where('country', $id)->get();
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -12,9 +12,21 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         return Country::all();
+    }
+    // // coutry with states
+    // public function withStates() {
+    //     return Country::with('states')->get();
+    // }
+    // // coutry with cities
+    // public function withCities() {
+    //     return Country::with('cities')->get();
+    // }
+    // coutry with states and cities
+    public function withStatesAndCities() {
+        // 
     }
 
     /**

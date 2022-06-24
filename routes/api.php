@@ -40,9 +40,12 @@ Route::get('/sanctum/csrf-cookie', function (Request $request) {  // CSRF token 
 Route::middleware(['auth:sanctum', 'role:1'])->get('/roles', [RoleController::class, 'index']);  // retrieving all the roles
 
 // city, state and country lists returning
-Route::get('/cities', [CityController::class, 'index']);
-Route::get('/states', [StateController::class, 'index']);
+Route::middleware(['auth:sanctum', 'role:1'])->get('/countries/2levels/{id}', [CountryController::class, 'index']);
+Route::middleware(['auth:sanctum', 'role:1'])->get('/states/2levels/{id}', [StateController::class, 'statesForCountry']);
+Route::middleware(['auth:sanctum', 'role:1'])->get('/cities/2levels/{id}', [CityController::class, 'citiesForState']);
 Route::get('/countries', [CountryController::class, 'index']);
+Route::get('/states', [StateController::class, 'index']);
+Route::get('/cities', [CityController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'role:1'])->get('/users', [UserController::class, 'index']);  // show all users
 Route::middleware(['auth:sanctum', 'role:1'])->post('/users', [UserController::class, 'store']);  // creates a new user

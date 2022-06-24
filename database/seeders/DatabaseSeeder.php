@@ -60,16 +60,79 @@ class DatabaseSeeder extends Seeder
         Country::create([
             'name' => 'India'
         ]);
+        Country::create([
+            'name' => 'Canada'
+        ]);
+        Country::create([
+            'name' => 'Australia'
+        ]);
+        Country::create([
+            'name' => 'UAE'
+        ]);
+        //
         // Seed State
         State::create([
             'name' => 'Assam',
             'country' => '1'
         ]);
+        State::create([
+            'name' => 'Karnataka',
+            'country' => '1'
+        ]);
+        State::create([
+            'name' => 'Gujrat',
+            'country' => '1'
+        ]);
+        State::create([
+            'name' => 'Meghalaya',
+            'country' => '1'
+        ]);
+        State::create([
+            'name' => 'British Columbia',
+            'country' => '2'
+        ]);
+        State::create([
+            'name' => 'Northern Territory',
+            'country' => '2'
+        ]);
+        State::create([
+            'name' => 'Tasmania',
+            'country' => '3'
+        ]);
+        //
         // Seed City
         City::create([
             'name' => 'Guwahati',
             'state' => '1',
             // 'country' => '1'
+        ]);
+        City::create([
+            'name' => 'Dibrugarh',
+            'state' => '1',
+        ]);
+        City::create([
+            'name' => 'Jorhat',
+            'state' => '1',
+        ]);
+        City::create([
+            'name' => 'Kokrajhar',
+            'state' => '1',
+        ]);
+        City::create([
+            'name' => 'Vancouver',
+            'state' => '5',
+        ]);
+        City::create([
+            'name' => 'Kamloops',
+            'state' => '5',
+        ]);
+        City::create([
+            'name' => 'Kelowna',
+            'state' => '5',
+        ]);
+        City::create([
+            'name' => 'Squamish',
+            'state' => '5',
         ]);
 
     }

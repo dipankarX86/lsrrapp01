@@ -16,6 +16,11 @@ class CityController extends Controller
     {
         return City::all();
     }
+    // cities for a given state
+    public function citiesForState($id)
+    {
+        return City::where('state', $id)->get();
+    }
 
     /**
      * Store a newly created resource in storage.
