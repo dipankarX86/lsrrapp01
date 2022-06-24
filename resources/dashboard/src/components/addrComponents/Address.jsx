@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
 
-function Address({setAddrDataToShop}) {
+function Address({setAddrDataToShop, fillData}) {
 
-  const [addrData, setAddrData] = useState({
-    line1: '',
-    line2: '',
-    city: '',
-    state: '',
-    country: '',
-    postalCode: '',
-  })
+  const [addrData, setAddrData] = useState(
+    fillData ? fillData :
+    {
+      line1: '',
+      line2: '',
+      city: '',
+      state: '',
+      country: '',
+      postalCode: '',
+    }
+  )
 
   const {
     line1,
@@ -20,12 +23,25 @@ function Address({setAddrDataToShop}) {
     postalCode,
   } = addrData
 
+  // // whatever the prefil data, there should be a initial return submit
+  // const [initialSubmitCount, setInitialSubmitCount] = useState(0);
+  // // setAddrDataToShop(addrData);  // figure out, why it cannot happen here? 
+  // // may need to learn working on vanilla js soon
+
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
   const [submitCount, setSubmitCount] = useState(1);
   //
   // use effect function call
   useEffect(() => {
+    
+    // // initial return submit, for possible changes in oener-address data, 
+    // // this needs to happen only once 
+    // if( initialSubmitCount === 0 ) {
+    //   console.log(addrData)
+    //   setAddrDataToShop(addrData);
+    //   setInitialSubmitCount(1)
+    // }
     
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {

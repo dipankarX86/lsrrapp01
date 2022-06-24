@@ -63,23 +63,6 @@ function CreateShop() {
 
   }, [auth, isError, isSuccess, message, navigate, dispatch])
 
-  // set address datas from child to current state
-  const setAddrData = (inAddress) => {
-    console.log(inAddress)
-    setFormData((previousState) => ({
-      ...previousState, 
-      'address': inAddress,
-    }))
-    console.log(address)
-  }
-  const setOwnerAddrData = (inAddress) => {
-    console.log(inAddress)
-    setFormData((previousState) => ({
-      ...previousState, 
-      'ownerAddress': inAddress,
-    }))
-    console.log(ownerAddress)
-  }
 
   // on change
   const onChange = (e) => {
@@ -89,6 +72,34 @@ function CreateShop() {
     }))
   }
 
+
+  // 
+  const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
+  //
+  // copy shop address details to owner address details
+  const copyShopAddrToOwner = () => {
+    setOwnerAddrIsSameAsShop(true)
+  }
+
+  // set address datas from child to current state
+  const setAddrData = (inAddress) => {
+    setFormData((previousState) => ({
+      ...previousState, 
+      'address': inAddress,
+    }))
+    setOwnerAddrIsSameAsShop(false)
+  }
+  const setOwnerAddrData = (inAddress) => {
+    setFormData((previousState) => ({
+      ...previousState, 
+      'ownerAddress': inAddress,
+    }))
+    setOwnerAddrIsSameAsShop(false)
+  }
+  // 
+
+
+  // Final submission of the form to the server
   const onSubmit = (e) => {
     e.preventDefault()
 
@@ -258,8 +269,14 @@ function CreateShop() {
           <br />
 
           <h4>Owner Address Details</h4>
-          <br />
-          <Address  setAddrDataToShop={setOwnerAddrData}/>
+          { ownerAddrIsSameAsShop ? 
+            <Address setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
+            : <>
+              <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
+              <br />
+              <br />
+              <Address setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
+            </> }
           
           <div className="mb-3 formm-group">
             <button type="submit" className="btnn btnn-block">Submit</button>
