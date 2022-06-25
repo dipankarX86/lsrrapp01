@@ -64,7 +64,8 @@ function Address({setAddrDataToShop, fillData}) {
       // 
       axios.get(apiPath, config).then((response) => {
         //console.log(response.data)
-        console.log(item)                                  ////////////////
+        console.log('ADDRESS: Loading Item: ')
+        console.log(item)
         setFormPrefill((previousState) => ({
           ...previousState, 
           [item]: response.data,
@@ -79,7 +80,7 @@ function Address({setAddrDataToShop, fillData}) {
     // initial return submit, for possible changes in oener-address data, 
     // this needs to happen only once 
     if( initialSubmitCount === 0 ) {
-      console.log("ADDRESS: UseEffect - 1")                ////////////////
+      console.log("ADDRESS: UseEffect - 1: Setting Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
 
       loadItem('countries', 0)  // taking the opportunity to load the drop down before anything happens
@@ -87,11 +88,11 @@ function Address({setAddrDataToShop, fillData}) {
       // if the data is passed through props, it may have state and city in it
       // if so, it will need the dropdown list
       if(fillData && fillData.state) {
-        console.log("ADDRESS: UseEffect - 1A") 
+        console.log("ADDRESS: UseEffect - 1A: Start Loading States") 
         loadItem('states', fillData.country)
       } 
       if(fillData && fillData.city) {
-        console.log("ADDRESS: UseEffect - 1B") 
+        console.log("ADDRESS: UseEffect - 1B: Start Loading Cities") 
         loadItem('cities', fillData.state)
       }
 
@@ -101,7 +102,7 @@ function Address({setAddrDataToShop, fillData}) {
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {
       // console.log(addrData)
-      console.log("ADDRESS: UseEffect - 2") 
+      console.log("ADDRESS: UseEffect -[ 2 ]: Setting Addr data bk to Shop") 
       setAddrDataToShop(addrData);
       setSubmitCount(1)
     }
@@ -268,3 +269,4 @@ function Address({setAddrDataToShop, fillData}) {
 }
 
 export default Address
+
