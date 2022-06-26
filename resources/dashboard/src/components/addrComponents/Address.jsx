@@ -52,36 +52,46 @@ function Address({setAddrDataToShop, fillData}) {
   const dispatch = useDispatch()
   
   // load items from api
-  const loadItem = useCallback((item, id) => {  // useCallback dont seem to do anything, as the returned memorised value is not being used, try removing it later
+  const loadItem = (item, countryId, stateId) => {  // useCallback dont seem to do anything, as the returned memorised value 
+                                                    // is not being used, try removing it later
     if(!auth) {
       console.log('Access of Country, State and City list are unauthorized!')
     } 
     else {
-      /* const token = JSON.parse(localStorage.getItem('auth')).token
-      const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      }
-      const apiPath = '/api/'+item+'/2levels/'+id
-      // 
-      axios.get(apiPath, config).then((response) => {
-        //console.log(response.data)
-        console.log('ADDRESS: Loading Item: ')
-        console.log(item)
+      if(item === 'countries') {  // Returns COUNTRIES to Dropdown
         setFormPrefill((previousState) => ({
           ...previousState, 
-          [item]: response.data,
+          'countries': csc,
         }))
-      }); */
-
-      // if csc value exists in redux store, for current item and parent id filter and set value to formPrefill -- 
-      //  -- (if value for current item and parent id are not already set into formPrefill)
-      // if csc value is null or very old(older then a day), call dispatch(getCsc)
-      console.log('TRYING TO LOAD(filter) ITEMS ---->')   //// issues solved. loadItem will only filter data it will never call dispatch, 
-        // that will be done by useEffect directly
+      } else if(item === 'states') {  // Returns STATES to Dropdown
+        for (let i = 0; i < csc.length; i++) {
+          if(countryId === csc[i].id) {                                     // BUT WHY COUNTRY-ID AND STATE -ID ARE STRING IN THE FIRST PLACE?
+            setFormPrefill((previousState) => ({
+              ...previousState, 
+              'states': csc[i].states,
+            }))
+          }
+        }
+      } else if(item === 'cities') {  // Returns CITIES to Dropdown
+        console.log('SETTING CITIES')
+        //
+        let countryIndex = 0;  // we need country index, instead of id in csc array
+        for (let i = 0; i < csc.length; i++) {
+          if(countryId === csc[i].id) {
+            countryIndex = i
+          }
+        }
+        for (let i = 0; i < csc[countryIndex].states.length; i++) {
+          if(stateId === csc[countryIndex].states[i].id) {
+            setFormPrefill((previousState) => ({
+              ...previousState, 
+              'cities': csc[countryIndex].states[i].cities,
+            }))
+          }
+        }
+      }
     }
-  }, [auth])
+  }
 
   // use effect function call
   useEffect(() => {
@@ -97,17 +107,17 @@ function Address({setAddrDataToShop, fillData}) {
       console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
 
-      loadItem('countries', 0)  // taking the opportunity to load the drop down before anything happens
+      loadItem('countries', 0, 0)  // taking the opportunity to load the drop down before anything happens
       
       // if the data is passed through props, it may have state and city in it
       // if so, it will need the dropdown list
       if(fillData && fillData.state) {
         console.log("ADDRESS: UseEffect - 1A: Start Loading States") 
-        loadItem('states', fillData.country)
+        loadItem('states', parseInt(fillData.country), 0)
       } 
       if(fillData && fillData.city) {
         console.log("ADDRESS: UseEffect - 1B: Start Loading Cities") 
-        loadItem('cities', fillData.state)
+        loadItem('cities', parseInt(fillData.country), parseInt(fillData.state))
       }
 
       setInitialSubmitCount(1)
@@ -129,9 +139,9 @@ function Address({setAddrDataToShop, fillData}) {
 
     // if it is CSC values you need additional steps
     if(e.target.name === 'country') {
-      loadItem('states', e.target.value)
+      loadItem('states', parseInt(e.target.value), 0)
     } else if(e.target.name === 'state') {
-      loadItem('cities', e.target.value)
+      loadItem('cities', parseInt(country), parseInt(e.target.value))
     }
 
     setAddrData((previousState) => ({
