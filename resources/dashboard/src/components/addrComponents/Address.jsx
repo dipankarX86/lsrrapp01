@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from 'react'
-import {useSelector} from 'react-redux'
-import axios from 'axios'
+import {useSelector, useDispatch} from 'react-redux'
+// import axios from 'axios'
+import {getCsc} from '../../features/addresses/addressSlice'
 
 function Address({setAddrDataToShop, fillData}) {
 
@@ -46,15 +47,17 @@ function Address({setAddrDataToShop, fillData}) {
   //
   // to access anything that needs authorization
   const {auth} = useSelector((state) => state.auth)
+  const {csc} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
 
+  const dispatch = useDispatch()
+  
   // load items from api
-
-  const loadItem = useCallback((item, id) => {
+  const loadItem = useCallback((item, id) => {  // useCallback dont seem to do anything, as the returned memorised value is not being used, try removing it later
     if(!auth) {
       console.log('Access of Country, State and City list are unauthorized!')
     } 
     else {
-      const token = JSON.parse(localStorage.getItem('auth')).token
+      /* const token = JSON.parse(localStorage.getItem('auth')).token
       const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -70,17 +73,28 @@ function Address({setAddrDataToShop, fillData}) {
           ...previousState, 
           [item]: response.data,
         }))
-      });  
+      }); */
+
+      // if csc value exists in redux store, for current item and parent id filter and set value to formPrefill -- 
+      //  -- (if value for current item and parent id are not already set into formPrefill)
+      // if csc value is null or very old(older then a day), call dispatch(getCsc)
+      console.log('TRYING TO LOAD(filter) ITEMS ---->')   //// issues solved. loadItem will only filter data it will never call dispatch, 
+        // that will be done by useEffect directly
     }
   }, [auth])
 
   // use effect function call
   useEffect(() => {
-    
+    // if city, state and country are empty in redux store we need them loaded first
+    if ( !csc ) {
+      console.log('CSC API CALL')
+      dispatch(getCsc())
+    } 
+
     // initial return submit, for possible changes in oener-address data, 
     // this needs to happen only once 
-    if( initialSubmitCount === 0 ) {
-      console.log("ADDRESS: UseEffect - 1: Setting Addr data bk to Shop")
+    if( csc && initialSubmitCount === 0 ) {
+      console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
 
       loadItem('countries', 0)  // taking the opportunity to load the drop down before anything happens
@@ -107,7 +121,7 @@ function Address({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem])
+  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc])  // States must be passed, as it is not JSX
   
   // form effects
   const onChange = (e) => {

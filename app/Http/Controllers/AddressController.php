@@ -114,4 +114,35 @@ class AddressController extends Controller
         return $address->id;
     }
 
+
+    // return the whole hierarchy of countries, states and cities
+    public function csc()
+    {
+        // call all the countries, states and cities
+        $rawCountries = Country::all();
+        $rawStates = State::all();
+        $rawCities = City::all();
+
+        $countries =  json_decode(json_encode($rawCountries));
+        $states =  json_decode(json_encode($rawStates));
+        $cities =  json_decode(json_encode($rawCities));
+
+        // now create the hierarchy
+        for($i=0 ; $i < sizeof($countries) ; $i++) {
+            $countries[$i]->states = [];
+            for($j=0 ; $j < sizeof($states) ; $j++) {
+                $states[$j]->cities = [];
+                for($k=0 ; $k < sizeof($cities) ; $k++) {
+                    if($cities[$k]->state == $states[$j]->id ) {
+                        array_push( $states[$j]->cities, $cities[$k] );
+                    }
+                }
+                if($states[$j]->country == $countries[$i]->id ) {
+                    array_push( $countries[$i]->states, $states[$j] );
+                }
+            }
+        }
+        return $countries;
+    }
+
 }

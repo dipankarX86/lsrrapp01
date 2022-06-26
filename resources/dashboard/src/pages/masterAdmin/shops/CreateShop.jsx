@@ -71,7 +71,7 @@ function CreateShop() {
 
   // on change
   const onChange = (e) => {
-    console.log("CREATE-SHOP: onChange")
+    console.log("CREATE-SHOP: Non Address Form-Fields onChange")
     setFormData((previousState) => ({
       ...previousState, 
       [e.target.name]: e.target.value,
@@ -84,13 +84,13 @@ function CreateShop() {
   //
   // copy shop address details to owner address details
   const copyShopAddrToOwner = () => {
-    console.log("CREATE-SHOP: copyShopAddrToOwner")
+    console.log("CREATE-SHOP: copyShopAddrToOwner Status Change")
     setOwnerAddrIsSameAsShop(true)
   }
 
   // set address datas from child to current state
   const setAddrData = (inAddress, initialCallback) => {
-    console.log("CREATE-SHOP: setAddrData")
+    console.log("CREATE-SHOP: setAddrData from Child")
     setFormData((previousState) => ({
       ...previousState, 
       'address': inAddress,
@@ -100,7 +100,7 @@ function CreateShop() {
     }
   }
   const setOwnerAddrData = (inAddress, initialCallback) => {
-    console.log("CREATE-SHOP: setOwnerAddrData")
+    console.log("CREATE-SHOP: setOwnerAddrData from Child")
     setFormData((previousState) => ({
       ...previousState, 
       'ownerAddress': inAddress,
