@@ -1,6 +1,6 @@
 <h1>How to start the project in local Machine?</h1>
 <ul>
-    <li>Install and run <a href="https://wampserver.aviatechno.net/?lang=en&prerequis=afficher">wamp server</a> with these: <a href="https://www.wampserver.com/">Files and Addons</a>. Or install <a href="https://www.apachefriends.org/">Xampp Server.</a></li>
+    <li>Install and run <a href="https://www.wampserver.com/">wamp server</a> with these: <a href="https://wampserver.aviatechno.net/?lang=en&prerequis=afficher">Files and Addons</a>. Or install <a href="https://www.apachefriends.org/">Xampp Server.</a></li>
     <li>Add <strong>PHP</strong> in the Windows Environment-Variable Path.</li>
     <li>Install <a href="https://getcomposer.org/download/">Composer</a> Globally.</li>
     <li>Clone the project to the <strong>Wamp server</strong> : <strong>www</strong> folder.</li>
