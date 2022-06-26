@@ -1,3 +1,41 @@
+<h1>How to start the project after cloning?</h1>
+<ul>
+    <li>Install and run <a href="https://wampserver.aviatechno.net/?lang=en&prerequis=afficher">wamp server</a> withe these: <a href="https://www.wampserver.com/">Files and Addons</a>. Or install <a href="https://www.apachefriends.org/">Xampp Server.</a></li>
+    <li>have PHP in the path.</li>
+    <li>Install <a href="https://getcomposer.org/download/">Composer</a> Globally.</li>
+    <li>Clone the project to the wamp server <strong>www</strong> folder.</li>
+    <li>now run: <strong>composer install</strong> if PHP is in path and composer installed globally. If php is not in path and composer installed in www folder run:  something like: <strong>C:/wamp64/bin/php/php7.4.26/php.exe composer.phar install</strong> from the project's base folder.</li>
+    <li>Run <strong>npm install</strong> in the the project's base folder.</li>
+    <li>Run <strong>npm install</strong> in the the <strong>/resources/dashboard</strong> folder.</li>
+    <li>Go to the PhpMyadmin/MySql-workbench and create an empty database with a User-Id and Password</li>
+    <li>Go to the base/root folder of the project, copy .env.example file, rename it to .env and change the credentials for MySql database in lines 14, 15, 16</li>
+    <li>In the package.json file of <strong>/resources/dashboard</strong> folder, change the proxy server at line 4, and homepage at line 48</li>
+    <li><strong>php artisan migrate</strong> from root folder.</li>
+    <li><strong>exe artisan db:seed</strong> from root folder.</li>
+    <li><strong>import the linked .mysql file to the user table, in phpMyAdmin</strong></li>
+</ul>
+<h1>How to run it?</h1>
+<ul>
+    <li>For frontend in development: <strong>npm run client</strong> from base folder, or <strong>npm start</strong> from '/resources/dashboard'/</li>
+    <li>For backend run <strong>php artisan serve</strong></li>
+</ul>
+<h1>Other useful commonds for backend:</h1>
+<ul>
+    <li>composer --version</li>
+    <li>php artisan route :list</li>
+    <li>php artisan make:migration ModelName</li>
+    <li>php artisan migrate</li>
+    <li>php artisan migrate:refresh</li>
+    <li>php artisan migrate:refresh --seed</li>
+    <li>php artisan make:controller ControllerName</li>
+    <li>php artisan make:controller ProductController --api</li>
+    <li>php artisan tinker</li>
+    <li>php artisan route:list</li>
+</ul>
+    
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
