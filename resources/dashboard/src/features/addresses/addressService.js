@@ -4,7 +4,7 @@ const API_URL = '/api/addresses'
 
 // Get CSC
 const getCsc = async (token) => {
-  console.log('ADDRESS_SERVICE')
+  // console.log('ADDRESS_SERVICE')
   const config = {
       headers: {
           Authorization: `Bearer ${token}`

@@ -50,17 +50,17 @@ function CreateShop() {
   // use effect function call
   useEffect(() => {
     if(isError) {
-      console.log("CREATE-SHOP: UseEffect - 1")
+      // console.log("CREATE-SHOP: UseEffect - 1")
       toast.error(message)
     }
 
     if(!auth) {
-      console.log("CREATE-SHOP: UseEffect - 2")
+      // console.log("CREATE-SHOP: UseEffect - 2")
       toast.error('Create-Shop access is Unauthorized')
     }
 
     if(isSuccess) {
-      console.log("CREATE-SHOP: UseEffect - 3")
+      // console.log("CREATE-SHOP: UseEffect - 3")
       navigate('/masterAdmin/shops')
     }
 
@@ -71,7 +71,7 @@ function CreateShop() {
 
   // on change
   const onChange = (e) => {
-    console.log("CREATE-SHOP: Non Address Form-Fields onChange")
+    // console.log("CREATE-SHOP: Non Address Form-Fields onChange")
     setFormData((previousState) => ({
       ...previousState, 
       [e.target.name]: e.target.value,
@@ -84,7 +84,7 @@ function CreateShop() {
   //
   // copy shop address details to owner address details
   const copyShopAddrToOwner = () => {
-    console.log("CREATE-SHOP: copyShopAddrToOwner Status Change")
+    // console.log("CREATE-SHOP: copyShopAddrToOwner Status Change")
     setOwnerAddrIsSameAsShop(true)
   }
 
@@ -114,7 +114,7 @@ function CreateShop() {
 
   // Final submission of the form to the server
   const onSubmit = (e) => {
-    console.log("CREATE-SHOP: onSubmit")
+    // console.log("CREATE-SHOP: onSubmit")
     e.preventDefault()
 
     const shopData = {

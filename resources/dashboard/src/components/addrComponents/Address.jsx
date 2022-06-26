@@ -1,13 +1,10 @@
-import { useCallback, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-// import axios from 'axios'
-import {getCsc} from '../../features/addresses/addressSlice'
+import {getCsc, gotCsc} from '../../features/addresses/addressSlice'
 
 function Address({setAddrDataToShop, fillData}) {
 
-  // console.log(fillData)
   console.log("ADDRESS: Entered")
-  // if fill data has state and city in it, we need cities and states loaded
   
   // Form prefill datas
   const [formPrefill, setFormPrefill] = useState({
@@ -16,9 +13,9 @@ function Address({setAddrDataToShop, fillData}) {
     countries: [],
   })
 
-
   const [addrData, setAddrData] = useState(
     (fillData && fillData.city) ? fillData :   // I can also provide the whole comparison 
+    // if fill data has state and city in it, we need cities and states loaded
     { 
       line1: '',
       line2: '',
@@ -47,7 +44,7 @@ function Address({setAddrDataToShop, fillData}) {
   //
   // to access anything that needs authorization
   const {auth} = useSelector((state) => state.auth)
-  const {csc} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
+  const {csc, apiCallCount} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
 
   const dispatch = useDispatch()
   
@@ -73,7 +70,7 @@ function Address({setAddrDataToShop, fillData}) {
           }
         }
       } else if(item === 'cities') {  // Returns CITIES to Dropdown
-        console.log('SETTING CITIES')
+        // console.log('SETTING CITIES')
         //
         let countryIndex = 0;  // we need country index, instead of id in csc array
         for (let i = 0; i < csc.length; i++) {
@@ -96,15 +93,17 @@ function Address({setAddrDataToShop, fillData}) {
   // use effect function call
   useEffect(() => {
     // if city, state and country are empty in redux store we need them loaded first
-    if ( !csc ) {
-      console.log('CSC API CALL')
+    if ( !csc && apiCallCount === 0) {
+      // console.log('CSC API CALL')
       dispatch(getCsc())
+      dispatch(gotCsc())
     } 
 
     // initial return submit, for possible changes in oener-address data, 
     // this needs to happen only once 
     if( csc && initialSubmitCount === 0 ) {
-      console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
+      // console.log(apiCallCount)
+      // console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
 
       loadItem('countries', 0, 0)  // taking the opportunity to load the drop down before anything happens
@@ -112,11 +111,11 @@ function Address({setAddrDataToShop, fillData}) {
       // if the data is passed through props, it may have state and city in it
       // if so, it will need the dropdown list
       if(fillData && fillData.state) {
-        console.log("ADDRESS: UseEffect - 1A: Start Loading States") 
+        // console.log("ADDRESS: UseEffect - 1A: Start Loading States") 
         loadItem('states', parseInt(fillData.country), 0)
       } 
       if(fillData && fillData.city) {
-        console.log("ADDRESS: UseEffect - 1B: Start Loading Cities") 
+        // console.log("ADDRESS: UseEffect - 1B: Start Loading Cities") 
         loadItem('cities', parseInt(fillData.country), parseInt(fillData.state))
       }
 
@@ -126,16 +125,16 @@ function Address({setAddrDataToShop, fillData}) {
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {
       // console.log(addrData)
-      console.log("ADDRESS: UseEffect -[ 2 ]: Setting Addr data bk to Shop") 
+      // console.log("ADDRESS: UseEffect -[ 2 ]: Setting Addr data bk to Shop") 
       setAddrDataToShop(addrData);
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc])  // States must be passed, as it is not JSX
+  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, apiCallCount])  // States must be passed, as it is not JSX
   
   // form effects
   const onChange = (e) => {
-    console.log("ADDRESS: OnChange")
+    // console.log("ADDRESS: OnChange")
 
     // if it is CSC values you need additional steps
     if(e.target.name === 'country') {
@@ -150,12 +149,12 @@ function Address({setAddrDataToShop, fillData}) {
     }))
   }
   const onFocus = () => {
-    console.log('ADDRESS: onFocus')
+    // console.log('ADDRESS: onFocus')
     setSubmitCount(0)
     setSubmitPossible(false)
   }
   const onBlur = () => {
-    console.log('ADDRESS: onBlur')
+    // console.log('ADDRESS: onBlur')
     setSubmitPossible(true)
   }
   
