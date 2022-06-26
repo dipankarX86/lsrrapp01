@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CountryController;
 
 /*
@@ -40,6 +41,8 @@ Route::get('/sanctum/csrf-cookie', function (Request $request) {  // CSRF token 
 Route::middleware(['auth:sanctum', 'role:1'])->get('/roles', [RoleController::class, 'index']);  // retrieving all the roles
 
 // city, state and country lists returning
+Route::middleware(['auth:sanctum', 'role:1'])->get('/addresses/CSC', [AddressController::class, 'csc']);
+//
 Route::middleware(['auth:sanctum', 'role:1'])->get('/countries/2levels/{id}', [CountryController::class, 'index']);
 Route::middleware(['auth:sanctum', 'role:1'])->get('/states/2levels/{id}', [StateController::class, 'statesForCountry']);
 Route::middleware(['auth:sanctum', 'role:1'])->get('/cities/2levels/{id}', [CityController::class, 'citiesForState']);
