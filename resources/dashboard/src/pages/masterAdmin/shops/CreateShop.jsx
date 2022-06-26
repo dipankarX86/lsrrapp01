@@ -7,9 +7,7 @@ import {createShop, reset} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 import Address from '../../../components/addrComponents/Address'
 
-
 function CreateShop() {
-
   console.log("CREATE-SHOP: Entered")
 
   const [formData, setFormData] = useState({
@@ -44,7 +42,6 @@ function CreateShop() {
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  // const {shops, isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
   const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
 
   // use effect function call
@@ -65,9 +62,7 @@ function CreateShop() {
     }
 
     dispatch(reset())
-
   }, [auth, isError, isSuccess, message, navigate, dispatch])
-
 
   // on change
   const onChange = (e) => {
@@ -78,8 +73,6 @@ function CreateShop() {
     }))
   }
 
-
-  // 
   const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
   //
   // copy shop address details to owner address details
@@ -109,8 +102,6 @@ function CreateShop() {
       setOwnerAddrIsSameAsShop(false)
     }
   }
-  // 
-
 
   // Final submission of the form to the server
   const onSubmit = (e) => {

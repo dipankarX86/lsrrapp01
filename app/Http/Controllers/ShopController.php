@@ -28,6 +28,12 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+        
+        /* $myfile = fopen("TEST.txt", "w") or die("Unable to open file!");
+        $txt = $request->address->state;
+        fwrite($myfile, $txt);
+        fclose($myfile); */
+
         // error message
         $fields = $request->validate([
             'email' => 'required|string|unique:shops,email',

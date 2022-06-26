@@ -126,7 +126,7 @@ function Address({setAddrDataToShop, fillData}) {
     if( submitPossible && submitCount === 0 ) {
       // console.log(addrData)
       // console.log("ADDRESS: UseEffect -[ 2 ]: Setting Addr data bk to Shop") 
-      setAddrDataToShop(addrData);
+      setAddrDataToShop(addrData, false);
       setSubmitCount(1)
     }
 
