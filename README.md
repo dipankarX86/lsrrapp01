@@ -1,17 +1,17 @@
-<h1>How to start the project after cloning?</h1>
+<h1>How to start the project in local Machine?</h1>
 <ul>
-    <li>Install and run <a href="https://wampserver.aviatechno.net/?lang=en&prerequis=afficher">wamp server</a> withe these: <a href="https://www.wampserver.com/">Files and Addons</a>. Or install <a href="https://www.apachefriends.org/">Xampp Server.</a></li>
-    <li>have PHP in the path.</li>
+    <li>Install and run <a href="https://wampserver.aviatechno.net/?lang=en&prerequis=afficher">wamp server</a> with these: <a href="https://www.wampserver.com/">Files and Addons</a>. Or install <a href="https://www.apachefriends.org/">Xampp Server.</a></li>
+    <li>Add <strong>PHP</strong> in the Windows Environment-Variable Path.</li>
     <li>Install <a href="https://getcomposer.org/download/">Composer</a> Globally.</li>
-    <li>Clone the project to the wamp server <strong>www</strong> folder.</li>
-    <li>now run: <strong>composer install</strong> if PHP is in path and composer installed globally. If php is not in path and composer installed in www folder run:  something like: <strong>C:/wamp64/bin/php/php7.4.26/php.exe composer.phar install</strong> from the project's base folder.</li>
+    <li>Clone the project to the <strong>Wamp server</strong> : <strong>www</strong> folder.</li>
+    <li>now run: <strong>composer install</strong> (if PHP is in path, and composer installed globally). If php is not in path, and composer installed in www folder run:  something like: <strong>C:/wamp64/bin/php/php7.4.26/php.exe composer.phar install</strong> from the project's base folder.</li>
     <li>Run <strong>npm install</strong> in the the project's base folder.</li>
     <li>Run <strong>npm install</strong> in the the <strong>/resources/dashboard</strong> folder.</li>
-    <li>Go to the PhpMyadmin/MySql-workbench and create an empty database with a User-Id and Password</li>
+    <li>Go to the PhpMyadmin/MySql-workbench and create an empty database with a User-Id and Password of your choice</li>
     <li>Go to the base/root folder of the project, copy .env.example file, rename it to .env and change the credentials for MySql database in lines 14, 15, 16</li>
     <li>In the package.json file of <strong>/resources/dashboard</strong> folder, change the proxy server at line 4, and homepage at line 48</li>
-    <li><strong>php artisan migrate</strong> from root folder.</li>
-    <li><strong>exe artisan db:seed</strong> from root folder.</li>
+    <li>Run <strong>php artisan migrate</strong> from root folder.</li>
+    <li>Run <strong>exe artisan db:seed</strong> from root folder.</li>
     <li><strong>import the linked .mysql file to the user table, in phpMyAdmin</strong></li>
 </ul>
 <h1>How to run it?</h1>
