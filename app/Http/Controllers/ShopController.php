@@ -16,7 +16,17 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return Shop::all();
+        // call all the shops first
+        // return Shop::latest()->filter(request(['tag', 'search']))->simplePaginate(2)
+        $rawShops = Shop::latest()->paginate(6);
+        $shops =  json_decode(json_encode($rawShops));
+
+        // now create the hierarchy
+        for($i=0 ; $i < sizeof($shops->data) ; $i++) {
+            $shops->data[$i]->address = Address::where('id', $shops->data[$i]->address)->first();
+            // $shops->data[$i]->owner_address = Address::where('id', $shops->data[$i]->owner_address)->first();
+        }
+        return $shops;
     }
 
 

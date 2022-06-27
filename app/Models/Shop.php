@@ -25,7 +25,27 @@ class Shop extends Model
         'owner_address',
     ];
 
+
+    /* // the filter function for tag and search filters
+    public function scopeFilter($query, array $filters) {
+        if($filters['tag'] ?? false) {
+            $query->where('tags', 'like', '%' . request('tag') . '%');
+        }
+
+        if($filters['search'] ?? false) {
+            $query->where('title', 'like', '%' . request('search') . '%')
+                ->orWhere('description', 'like', '%' . request('search') . '%')
+                ->orWhere('tags', 'like', '%' . request('search') . '%');
+        }
+    }
+
+    // get address for the user
+    public function scopeGetByAddress($query, $asddressId)
+    {
+        return $query->where('address', $asddressId);
+    } */
     
+
     // Relationship to Address
     public function address()
     {
@@ -35,6 +55,7 @@ class Shop extends Model
     {
         return $this->belongsTo(Address::class, 'owner_address');
     }
+    
     
     // Relationship to user
     // public function users()
