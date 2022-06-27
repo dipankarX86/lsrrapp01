@@ -61,7 +61,6 @@ function CreateAccount() {
     if(isErrorRoles) {
       console.log(messageRoles);
     }
-
     if(isError) {
       console.log(message);
     }

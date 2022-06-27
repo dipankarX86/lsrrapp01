@@ -44,7 +44,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
   //
   // to access anything that needs authorization
   const {auth} = useSelector((state) => state.auth)
-  const {csc, apiCallCount} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
+  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
 
   const dispatch = useDispatch()
   
@@ -93,7 +93,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
   // use effect function call
   useEffect(() => {
     // if city, state and country are empty in redux store we need them loaded first
-    if ( !csc && apiCallCount === 0) {
+    if ( !csc && cscApiCallCount === 0) {
       // console.log('CSC API CALL')
       dispatch(getCsc())
       dispatch(gotCsc())
@@ -102,7 +102,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
     // initial return submit, for possible changes in oener-address data, 
     // this needs to happen only once 
     if( csc && initialSubmitCount === 0 ) {
-      // console.log(apiCallCount)
+      // console.log(cscApiCallCount)
       // console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
 
@@ -130,7 +130,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, apiCallCount])  
+  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, cscApiCallCount])  
       // States must be passed, as it is not JSX
   
   // form effects

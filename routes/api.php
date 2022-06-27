@@ -41,7 +41,7 @@ Route::get('/sanctum/csrf-cookie', function (Request $request) {  // CSRF token 
 Route::middleware(['auth:sanctum', 'role:1'])->get('/roles', [RoleController::class, 'index']);  // retrieving all the roles
 
 // city, state and country lists returning
-Route::middleware(['auth:sanctum', 'role:1'])->get('/addresses/CSC', [AddressController::class, 'csc']);
+Route::middleware(['auth:sanctum', 'role:1'])->get('/addresses/csc', [AddressController::class, 'csc']);
 //
 Route::middleware(['auth:sanctum', 'role:1'])->get('/countries/2levels/{id}', [CountryController::class, 'index']);
 Route::middleware(['auth:sanctum', 'role:1'])->get('/states/2levels/{id}', [StateController::class, 'statesForCountry']);
