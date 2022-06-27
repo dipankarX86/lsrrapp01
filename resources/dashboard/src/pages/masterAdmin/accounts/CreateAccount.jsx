@@ -39,7 +39,7 @@ function CreateAccount() {
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  const {roles, rolesApiCallCount,  isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
+  const {roles, isLoadingRoles, isErrorRoles, messageRoles, rolesApiCallCount,  isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
   // use effect function call
   useEffect(() => {
@@ -58,6 +58,10 @@ function CreateAccount() {
       }))
     }
 
+    if(isErrorRoles) {
+      console.log(messageRoles);
+    }
+
     if(isError) {
       console.log(message);
     }
@@ -70,8 +74,9 @@ function CreateAccount() {
       navigate('/masterAdmin/accounts')
     }
 
-    dispatch(reset())
-  }, [auth, isError, isSuccess, message, navigate, dispatch, roles, formPrefill])
+    dispatch(reset())    // THIS MAY BE DANGEROUS, NEED TO KNOW WHY IT IS REQUIRED AND WHAT IT IS EXACTLY DOING
+
+  }, [auth, isError, isSuccess, message, navigate, dispatch, roles, isErrorRoles, messageRoles, rolesApiCallCount, formPrefill])
 
   // on change (what is it???)
   const onChange = (e) => {
@@ -101,7 +106,7 @@ function CreateAccount() {
     }
   }
 
-  if(isLoading) {
+  if(isLoading || isLoadingRoles) {
     return <Spinner />
   }
 

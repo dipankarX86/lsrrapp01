@@ -2,13 +2,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import userService from './userService'
 
 const initialState = {
-  roles: [],
-  rolesApiCallCount: 0,  // 
   users: [],
   isLoading: false,
   isSuccess: false,
   isError: false,
-  message: ''
+  message: '',
+  
+  roles: [],
+  rolesApiCallCount: 0,
+  isLoadingRoles: false,
+  isSuccessRoles: false,
+  isErrorRoles: false,
+  messageRoles: ''
 }
 
 // Get roles for users
@@ -75,15 +80,17 @@ export const userSlice = createSlice({
     builder
 
     .addCase(getRoles.pending, (state) => {
-        state.isLoading = true
+        state.isLoadingRoles = true
     })
     .addCase(getRoles.fulfilled, (state, action) => {
+        state.isLoadingRoles = false
+        state.isSuccessRoles = true
         state.roles = action.payload
     })
     .addCase(getRoles.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoadingRoles = false
+        state.isErrorRoles = true
+        state.messageRoles = action.payload
     })
 
     .addCase(createUser.pending, (state) => {
