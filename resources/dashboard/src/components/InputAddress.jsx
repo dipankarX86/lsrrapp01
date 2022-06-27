@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {getCsc, gotCsc} from '../../features/addresses/addressSlice'
+import {getCsc, gotCsc} from '../features/addresses/addressSlice'
 
-function Address({setAddrDataToShop, fillData}) {
+function InputAddress({setAddrDataToShop, fillData}) {
 
   console.log("ADDRESS: Entered")
   
@@ -130,7 +130,8 @@ function Address({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, apiCallCount])  // States must be passed, as it is not JSX
+  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, apiCallCount])  
+      // States must be passed, as it is not JSX
   
   // form effects
   const onChange = (e) => {
@@ -291,5 +292,5 @@ function Address({setAddrDataToShop, fillData}) {
   )
 }
 
-export default Address
+export default InputAddress
 

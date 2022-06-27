@@ -9,6 +9,7 @@ import Spinner from '../../../components/Spinner'
 import axios from 'axios'
 
 function CreateAccount() {
+  console.log("CREATE-ACCOUNT: Entered")
 
   // Form prefill datas
   const [formPrefill, setFormPrefill] = useState({
@@ -59,6 +60,7 @@ function CreateAccount() {
         }
       }
       axios.get('/api/roles', config).then((response) => {
+        console.log("CREATE-ACCOUNT: ROLE CALLED FROM THE API")
         setFormPrefill((previousState) => ({
           ...previousState, 
           'roles': response.data,

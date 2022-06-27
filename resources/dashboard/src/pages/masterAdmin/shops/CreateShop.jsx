@@ -5,7 +5,7 @@ import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
 import {createShop, reset} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
-import Address from '../../../components/addrComponents/Address'
+import InputAddress from '../../../components/InputAddress'
 
 function CreateShop() {
   console.log("CREATE-SHOP: Entered")
@@ -172,7 +172,7 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          <Address setAddrDataToShop={setAddrData} fillData={address} />
+          <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
           <br />
 
           <div className="mb-3 formm-group">
@@ -275,12 +275,12 @@ function CreateShop() {
 
           <h4>Owner Address Details</h4>
           { ownerAddrIsSameAsShop ? 
-            <Address setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
+            <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
             : <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
               <br />
-              <Address setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
             </> }
           
           <div className="mb-3 formm-group">
