@@ -3,10 +3,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
-import {createUser, reset} from '../../../features/users/userSlice'
+import {getRoles, gotRoles, createUser, reset} from '../../../features/users/userSlice'
 import Spinner from '../../../components/Spinner'
-
-import axios from 'axios'
 
 function CreateAccount() {
   console.log("CREATE-ACCOUNT: Entered")
@@ -41,32 +39,31 @@ function CreateAccount() {
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
-
+  const {roles, rolesApiCallCount,  isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
   // use effect function call
   useEffect(() => {
+
+    // if roles are empty in redux store we need them loaded first
+    if ( roles.length === 0 && rolesApiCallCount === 0) {
+      console.log('ROLES API CALL')
+      dispatch(getRoles())
+      dispatch(gotRoles())
+    } 
+
+    if(roles.length > 0 && formPrefill.roles.length === 0) {
+      setFormPrefill((previousState) => ({
+        ...previousState, 
+        'roles': roles,
+      }))
+    }
+
     if(isError) {
       console.log(message);
     }
 
     if(!auth) {
       toast.error('Create-Account access is unauthorized')
-    } else {
-      const token = JSON.parse(localStorage.getItem('auth')).token
-      const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      }
-      axios.get('/api/roles', config).then((response) => {
-        console.log("CREATE-ACCOUNT: ROLE CALLED FROM THE API")
-        setFormPrefill((previousState) => ({
-          ...previousState, 
-          'roles': response.data,
-        }))
-        // console.log(formPrefill.roles)  // hide it or it will require formPrefill to be passed to useffect
-      });  
     }
 
     if(isSuccess) {
@@ -74,8 +71,7 @@ function CreateAccount() {
     }
 
     dispatch(reset())
-  }, [auth, isError, isSuccess, message, navigate, dispatch])
-
+  }, [auth, isError, isSuccess, message, navigate, dispatch, roles, formPrefill])
 
   // on change (what is it???)
   const onChange = (e) => {
@@ -84,7 +80,6 @@ function CreateAccount() {
       [e.target.name]: e.target.value,
     }))
   }
-
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -106,14 +101,12 @@ function CreateAccount() {
     }
   }
 
-
   if(isLoading) {
     return <Spinner />
   }
 
   return (
     <>
-
       <section className="headingg">
         <h1>
           <FaUser /> Account Creation
@@ -233,3 +226,4 @@ function CreateAccount() {
 }
 
 export default CreateAccount
+

@@ -3,6 +3,20 @@ import applyCaseMiddleware from 'axios-case-converter';
 
 const API_URL = '/api/users'
 
+
+// Get roles
+const getRoles = async (token) => {
+  const config = {
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+  }
+  const response = await axios.get('/api/roles', config)  // later replace it with API_URL+'/roles' like csc
+  console.log(response.data)
+  return response.data
+}
+
+
 // Create user
 const createUser = async (userData, token) => {
   console.log(userData) //
@@ -22,6 +36,7 @@ const createUser = async (userData, token) => {
   const response = await client.post(API_URL, userData, config)
   
   console.log(response.data) //
+
   return response.data
 }
 
@@ -50,6 +65,7 @@ const deleteUser = async (userId, token) => {
 }
 
 const userService = {
+    getRoles,
     createUser,
     getUsers,
     deleteUser
