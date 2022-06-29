@@ -60,13 +60,16 @@ function InputAddress({setAddrDataToShop, fillData}) {
       if(item === 'countries') {  // Returns COUNTRIES to Dropdown
 
         // first flush the previous values of country, state and city from addrData
-        setAddrData((previousState) => ({
-          ...previousState, 
-          'city': '0',
-          'state': '0',
-          'country': '0',
-        }))
+        /* if(initialSubmitCount === 1){
+          setAddrData((previousState) => ({
+            ...previousState, 
+            'city': '0',
+            'state': '0',
+            'country': '0',
+          }))
+        } */
 
+        // Now set the drop down list with new values
         setFormPrefill((previousState) => ({
           ...previousState, 
           'countries': csc,  // country is always loaded at the initial render. so, reset of states and cities lists are not needed here
@@ -88,11 +91,13 @@ function InputAddress({setAddrDataToShop, fillData}) {
       } else if(item === 'states') {  // Returns STATES to Dropdown
         
         // first flush the previous values of state and city from addrData
-        setAddrData((previousState) => ({
-          ...previousState, 
-          'city': '0',
-          'state': '0',
-        }))
+        if(initialSubmitCount === 1){
+          setAddrData((previousState) => ({
+            ...previousState, 
+            'city': '0',
+            'state': '0',
+          }))
+        }
 
         for (let i = 0; i < csc.length; i++) {
           if(countryId === csc[i].id) {                                     // BUT WHY COUNTRY-ID AND STATE -ID ARE STRING IN THE FIRST PLACE?
@@ -121,10 +126,12 @@ function InputAddress({setAddrDataToShop, fillData}) {
         // console.log('SETTING CITIES')
         
         // first flush the previous values of city from addrData
-        setAddrData((previousState) => ({
-          ...previousState, 
-          'city': '0',
-        }))
+        if(initialSubmitCount === 1){
+          setAddrData((previousState) => ({
+            ...previousState, 
+            'city': '0',
+          }))
+        }
 
         let countryIndex = 0;  // we need country index, instead of id in csc array
         for (let i = 0; i < csc.length; i++) {
