@@ -3,7 +3,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
-import {getShops, gotShops, reset} from '../../../features/shops/shopSlice'
+import {getShops, gotShops, resetShops} from '../../../features/shops/shopSlice'
+import Spinner from '../../../components/Spinner'
 
 function Shops() {
   
@@ -13,12 +14,12 @@ function Shops() {
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  const {shops, shopsApiCallCount, isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
+  const {shops, shopsApiCallCount, isLoadingShops, isErrorShops, messageShops} = useSelector((state) => state.shops)
 
   // use effect function call
   useEffect(() => {
-    if(isError) {
-      toast.error(message)
+    if(isErrorShops) {
+      toast.error(messageShops)
     }
 
     if(!auth) {
@@ -32,9 +33,13 @@ function Shops() {
       dispatch(gotShops())
     } 
 
-    // dispatch(reset())
+    dispatch(resetShops())
 
-  }, [auth, isError, message, navigate, dispatch, shops])
+  }, [auth, isErrorShops, messageShops, navigate, dispatch, shops])
+
+  if(isLoadingShops) {
+    return <Spinner />
+  }
 
   return (
     <>
@@ -49,21 +54,19 @@ function Shops() {
         </thead>
         <tbody>
           
-          {
-            shops && shops.data ? 
+          { shops && shops.data ? 
             shops.data.map((val, key) => {
               return (
                 <tr key={key}>
+                  <td>{ (val.address ? (val.address.city  + ', ' + val.address.state  + ', ' + val.address.country) : '') }</td>
                   <td>{val.id}</td>
                   <td>{val.id}</td>
                   <td>{val.id}</td>
                 </tr>
               )
-            })
-            : <tr>
+            }) : (<tr>
               <td>Loading...</td>
-            </tr>
-          }
+            </tr>) }
 
         </tbody>
       </Table>
