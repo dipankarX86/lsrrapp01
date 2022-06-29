@@ -58,10 +58,18 @@ function InputAddress({setAddrDataToShop, fillData}) {
     } 
     else {
       if(item === 'countries') {  // Returns COUNTRIES to Dropdown
+
+        // first flush the previous values of country, state and city from addrData
+        setAddrData((previousState) => ({
+          ...previousState, 
+          'city': '0',
+          'state': '0',
+          'country': '0',
+        }))
+
         setFormPrefill((previousState) => ({
           ...previousState, 
-          // 'cities': [{id: 0, name: 'none', state: 0}],  // need to empty the cities array
-          'countries': csc,
+          'countries': csc,  // country is always loaded at the initial render. so, reset of states and cities lists are not needed here
         }))
 
         // 
@@ -78,10 +86,19 @@ function InputAddress({setAddrDataToShop, fillData}) {
         // 
 
       } else if(item === 'states') {  // Returns STATES to Dropdown
+        
+        // first flush the previous values of state and city from addrData
+        setAddrData((previousState) => ({
+          ...previousState, 
+          'city': '0',
+          'state': '0',
+        }))
+
         for (let i = 0; i < csc.length; i++) {
           if(countryId === csc[i].id) {                                     // BUT WHY COUNTRY-ID AND STATE -ID ARE STRING IN THE FIRST PLACE?
             setFormPrefill((previousState) => ({
               ...previousState, 
+              'cities': [],  // need to empty the cities array
               'states': csc[i].states,
             }))
             
@@ -102,7 +119,13 @@ function InputAddress({setAddrDataToShop, fillData}) {
         }
       } else if(item === 'cities') {  // Returns CITIES to Dropdown
         // console.log('SETTING CITIES')
-        //
+        
+        // first flush the previous values of city from addrData
+        setAddrData((previousState) => ({
+          ...previousState, 
+          'city': '0',
+        }))
+
         let countryIndex = 0;  // we need country index, instead of id in csc array
         for (let i = 0; i < csc.length; i++) {
           if(countryId === csc[i].id) {
