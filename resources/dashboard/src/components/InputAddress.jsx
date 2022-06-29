@@ -37,6 +37,8 @@ function InputAddress({setAddrDataToShop, fillData}) {
 
   // whatever the prefil data, there should be a initial return submit
   const [initialSubmitCount, setInitialSubmitCount] = useState(0);
+  const [formPrefillLoaded, setFormPrefillLoaded] = useState(1);  // this is required to set set form data back to shop -- 
+    // if changes in default data happens, because of existance of single country, state or city 
 
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
@@ -60,6 +62,20 @@ function InputAddress({setAddrDataToShop, fillData}) {
           ...previousState, 
           'countries': csc,
         }))
+
+        // 
+        // if only one country exists, keep the country selected at component render
+        if(csc.length === 1) {
+          setAddrData((previousState) => ({
+            ...previousState, 
+            'country': csc[0].id.toString(),
+          }))
+          setFormPrefillLoaded(0)
+          // now call itself to load the states
+          loadItem('states', csc[0].id, 0)
+        }
+        // 
+
       } else if(item === 'states') {  // Returns STATES to Dropdown
         for (let i = 0; i < csc.length; i++) {
           if(countryId === csc[i].id) {                                     // BUT WHY COUNTRY-ID AND STATE -ID ARE STRING IN THE FIRST PLACE?
@@ -67,6 +83,20 @@ function InputAddress({setAddrDataToShop, fillData}) {
               ...previousState, 
               'states': csc[i].states,
             }))
+            
+            // 
+            // if only one state exists, keep the state selected at component render
+            if(csc[i].states.length === 1) {
+              setAddrData((previousState) => ({
+                ...previousState, 
+                'state': csc[i].states[0].id.toString(),
+              }))
+              setFormPrefillLoaded(0)
+              // now call itself to load the states
+              loadItem('cities', csc[i].id, csc[i].states[0].id)
+            }
+            // 
+
           }
         }
       } else if(item === 'cities') {  // Returns CITIES to Dropdown
@@ -84,6 +114,18 @@ function InputAddress({setAddrDataToShop, fillData}) {
               ...previousState, 
               'cities': csc[countryIndex].states[i].cities,
             }))
+            
+            // 
+            // if only one city exists, keep the city selected at component render
+            if(csc[countryIndex].states[i].cities.length === 1) {
+              setAddrData((previousState) => ({
+                ...previousState, 
+                'city': csc[countryIndex].states[i].cities[0].id.toString(),
+              }))
+              setFormPrefillLoaded(0)
+            }
+            // 
+
           }
         }
       }
@@ -121,6 +163,12 @@ function InputAddress({setAddrDataToShop, fillData}) {
 
       setInitialSubmitCount(1)
     }
+
+    // if only one country, or only one state, or only one city present: the parent data needs to be updated as address data will change
+    if(formPrefillLoaded === 0) {
+      setAddrDataToShop(addrData, false);
+      setFormPrefillLoaded(1)
+    }
     
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {
@@ -130,7 +178,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, initialSubmitCount, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, cscApiCallCount])  
+  }, [submitPossible, submitCount, initialSubmitCount, formPrefillLoaded, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, cscApiCallCount])  
       // States must be passed, as it is not JSX
   
   // form effects
