@@ -60,6 +60,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
       if(item === 'countries') {  // Returns COUNTRIES to Dropdown
         setFormPrefill((previousState) => ({
           ...previousState, 
+          // 'cities': [{id: 0, name: 'none', state: 0}],  // need to empty the cities array
           'countries': csc,
         }))
 
@@ -253,7 +254,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
           onBlur={onBlur} 
           autoComplete="new-password" 
           aria-label="cities"
-          disabled={state==='0'}
+          disabled={state==='0' || formPrefill.cities.length === 0}
         >
           <option key={0} value={0}>Select a City</option>
           {formPrefill.cities.map(city => (
@@ -283,7 +284,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
           onBlur={onBlur} 
           autoComplete="new-password" 
           aria-label="states"
-          disabled={country==='0'}
+          disabled={country==='0' || formPrefill.states.length === 0}
         >
           <option key={0} value={0}>Select a State</option>
           {formPrefill.states.map(state => (
@@ -313,6 +314,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
           onBlur={onBlur} 
           autoComplete="new-password" 
           aria-label="countris"
+          disabled={formPrefill.countries.length === 0}
         >
           <option key={0} value={0}>Select a Country</option>
           {formPrefill.countries.map(country => (
