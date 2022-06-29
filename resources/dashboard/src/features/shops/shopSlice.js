@@ -3,6 +3,7 @@ import shopService from './shopService'
 
 const initialState = {
   shops: [],
+  shopsApiCallCount: 0, //
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -47,7 +48,10 @@ export const shopSlice = createSlice({
   name: 'shop',
   initialState,
   reducers: {
-    reset: (state) => initialState
+    reset: (state) => initialState,
+    gotShops: (state) => {
+      state.shopsApiCallCount++
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -95,5 +99,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset} = shopSlice.actions
+export const {reset, gotShops} = shopSlice.actions
 export default shopSlice.reducer
