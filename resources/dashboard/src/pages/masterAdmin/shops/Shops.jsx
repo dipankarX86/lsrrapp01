@@ -7,6 +7,11 @@ import {getPagedShops, reset} from '../../../features/shops/shopSlice'  // getSh
 import Spinner from '../../../components/Spinner'
 import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
 
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 function Shops() {
   
   console.log("SHOPS: Entered")
@@ -88,7 +93,17 @@ function Shops() {
                     <a href={'tel:'+val.phone}>{val.phone}</a> and <a href={'tel:'+val.owner_phone}>{val.owner_phone}</a>
                     {/* {val.phone+' & '+val.owner_phone} */}
                   </td>
-                  <td></td>
+                  <td>
+
+                    <ButtonGroup className="">
+                      <Button>View</Button>
+                      <DropdownButton as={ButtonGroup} title="More" id="bg-nested-dropdown">
+                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+                      </DropdownButton>
+                    </ButtonGroup>
+
+                  </td>
                 </tr>
               )
             }) : (<tr>
