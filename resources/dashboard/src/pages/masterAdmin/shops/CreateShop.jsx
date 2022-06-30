@@ -16,9 +16,6 @@ function CreateShop() {
   const {auth} = useSelector((state) => state.auth)
   const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
 
-  dispatch(reset())  // this may give problems later, specially when trying to edit the shop etc, 
-  // so make sure what it is resetting and how many times
-
   const [formData, setFormData] = useState({
     email: '',
     phone: '',
@@ -36,7 +33,7 @@ function CreateShop() {
   const {
     email, 
     phone, 
-    address, //
+    address,
     latLon, 
     pan, 
     gst, 
@@ -44,10 +41,12 @@ function CreateShop() {
     ownerName, 
     ownerEmail, 
     ownerPhone, 
-    ownerAddress, //
+    ownerAddress,
   } = formData
 
-  // 
+  const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
+  const [shopSubmitted, setShopSubmitted] = useState(false);
+  
   // on change
   const onChange = (e) => {
     // console.log("CREATE-SHOP: Non Address Form-Fields onChange")
@@ -57,8 +56,6 @@ function CreateShop() {
     }))
   }
 
-  const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
-  //
   // copy shop address details to owner address details
   const copyShopAddrToOwner = () => {
     // console.log("CREATE-SHOP: copyShopAddrToOwner Status Change")
@@ -87,15 +84,16 @@ function CreateShop() {
     }
   }
 
-  // Final submission of the form to the server
-  const onSubmit = (e) => {
+  // 
+  const onSubmit = (e) => {  // Final submission of the form to the server
+    // 
     // console.log("CREATE-SHOP: onSubmit")
     e.preventDefault()
-
+    // 
     const shopData = {
       email, 
       phone, 
-      address, //
+      address,
       latLon, 
       pan, 
       gst, 
@@ -103,14 +101,13 @@ function CreateShop() {
       ownerName, 
       ownerEmail, 
       ownerPhone, 
-      ownerAddress, //
+      ownerAddress,
     }
-
     // console.log(shopData)
     dispatch(createShop(shopData))
+    setShopSubmitted(true)
     toast.success('form submitted!!!!')
   }
-
 
   // 
   // use effect function call
@@ -125,13 +122,13 @@ function CreateShop() {
       toast.error('Create-Shop access is Unauthorized')
     }
 
-    if(isSuccess) {
+    if(shopSubmitted && isSuccess) {  // This needs to run after submit button is pressed
       // console.log("CREATE-SHOP: UseEffect - 3")
       navigate('/masterAdmin/shops')
     }
 
     dispatch(reset())
-  }, [auth, isError, isSuccess, message, navigate, dispatch])
+  }, [auth, isError, isSuccess, message, navigate, dispatch, shopSubmitted])
 
 
   // 

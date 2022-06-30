@@ -6,23 +6,14 @@ function InputAddress({setAddrDataToShop, fillData}) {
 
   console.log("ADDRESS: Entered")
   
-  // to access anything that needs authorization
-  // const {auth} = useSelector((state) => state.auth)
-  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
+  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)   
+    // Now use csc, : csc can be used to load items
 
   const dispatch = useDispatch()
 
   // will clear the old store data first
   // dispatch(reset())
   
-  // 
-  // Form prefill datas
-  const [formPrefill, setFormPrefill] = useState({
-    cities: [],
-    states: [],
-    countries: [],
-  })
-
   const [addrData, setAddrData] = useState(
     (fillData && fillData.city) ? fillData :   // I can also provide the whole comparison 
     // if fill data has state and city in it, we need cities and states loaded
@@ -45,6 +36,14 @@ function InputAddress({setAddrDataToShop, fillData}) {
     postalCode,
   } = addrData
 
+  // 
+  // Form prefill datas
+  const [formPrefill, setFormPrefill] = useState({
+    cities: [],
+    states: [],
+    countries: [],
+  })
+
   // whatever the prefil data, there should be a initial return submit
   const [initialSubmitCount, setInitialSubmitCount] = useState(0);
   const [formPrefillLoaded, setFormPrefillLoaded] = useState(1);  // this is required to set set form data back to shop -- 
@@ -53,34 +52,6 @@ function InputAddress({setAddrDataToShop, fillData}) {
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
   const [submitCount, setSubmitCount] = useState(1);
-
-
-  // form effects
-  const onChange = (e) => {
-    // console.log("ADDRESS: OnChange")
-
-    // if it is CSC values you need additional steps
-    if(e.target.name === 'country') {
-      loadItem('states', parseInt(e.target.value), 0)
-    } else if(e.target.name === 'state') {
-      loadItem('cities', parseInt(country), parseInt(e.target.value))
-    }
-
-    setAddrData((previousState) => ({
-      ...previousState, 
-      [e.target.name]: e.target.value,
-    }))
-  }
-  const onFocus = () => {
-    // console.log('ADDRESS: onFocus')
-    setSubmitCount(0)
-    setSubmitPossible(false)
-  }
-  const onBlur = () => {
-    // console.log('ADDRESS: onBlur')
-    setSubmitPossible(true)
-  }
-  
 
   /* #### #### #### #### */
   // FILTER REQUIRED DATA FROM CSC AND SET TO FORM-PREFILL
@@ -180,6 +151,33 @@ function InputAddress({setAddrDataToShop, fillData}) {
   /* #### #### #### ####  */
 
 
+  // form effects
+  const onChange = (e) => {
+    // console.log("ADDRESS: OnChange")
+
+    // if it is CSC values you need additional steps
+    if(e.target.name === 'country') {
+      loadItem('states', parseInt(e.target.value), 0)
+    } else if(e.target.name === 'state') {
+      loadItem('cities', parseInt(country), parseInt(e.target.value))
+    }
+
+    setAddrData((previousState) => ({
+      ...previousState, 
+      [e.target.name]: e.target.value,
+    }))
+  }
+  const onFocus = () => {
+    // console.log('ADDRESS: onFocus')
+    setSubmitCount(0)
+    setSubmitPossible(false)
+  }
+  const onBlur = () => {
+    // console.log('ADDRESS: onBlur')
+    setSubmitPossible(true)
+  }
+  
+
   // use effect function call
   useEffect(() => {
     // if city, state and country are empty in redux store we need them loaded first
@@ -192,7 +190,6 @@ function InputAddress({setAddrDataToShop, fillData}) {
     // initial return submit, for possible changes in oener-address data, 
     // this needs to happen only once 
     if( csc && initialSubmitCount === 0 ) {
-      // console.log(cscApiCallCount)
       // console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
 
@@ -220,14 +217,14 @@ function InputAddress({setAddrDataToShop, fillData}) {
     
     // if submit is possible, submit it once and increase submit count to 1
     if( submitPossible && submitCount === 0 ) {
-      // console.log(addrData)
       // console.log("ADDRESS: UseEffect -[ 2 ]: Setting Addr data bk to Shop") 
       setAddrDataToShop(addrData, false);
       setSubmitCount(1)
     }
 
-  }, [submitPossible, submitCount, initialSubmitCount, formPrefillLoaded, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, cscApiCallCount])  
-      // States must be passed, as it is not JSX
+  }, [csc, cscApiCallCount, initialSubmitCount, addrData, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])  
+      // States must be passed, as it is not JSX. "fillData" and "setAddrDataToShop" are excluded from dependency, as they are used only once
+      // despite of they being prop elements
 
   return (
     <>
