@@ -20,8 +20,9 @@ export const createShop = createAsyncThunk('shops/create', async (shopData, thun
   }
 })
 
+
 // Get shops
-export const getShops = createAsyncThunk('shops/getAll', async (_, thunkAPI) => {
+/* export const getShops = createAsyncThunk('shops/getAll', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.auth.token
     return await shopService.getShops(token)
@@ -29,7 +30,18 @@ export const getShops = createAsyncThunk('shops/getAll', async (_, thunkAPI) => 
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)
   }
+}) */
+// Get PAGED Shops
+export const getPagedShops = createAsyncThunk('shops/getPaged', async (page, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.auth.token
+    return await shopService.getPagedShops(token, page)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
 })
+
 
 // Delete shop
 export const deleteShop = createAsyncThunk('shops/delete', async (id, thunkAPI) => {
@@ -65,7 +77,7 @@ export const shopSlice = createSlice({
       state.message = action.payload
     })
 
-    .addCase(getShops.pending, (state) => {
+    /* .addCase(getShops.pending, (state) => {
         state.isLoading = true
     })
     .addCase(getShops.fulfilled, (state, action) => {
@@ -74,6 +86,20 @@ export const shopSlice = createSlice({
         state.shops = action.payload
     })
     .addCase(getShops.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+    }) */
+
+    .addCase(getPagedShops.pending, (state) => {
+      state.isLoading = true
+    })
+    .addCase(getPagedShops.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.shops = action.payload
+    })
+    .addCase(getPagedShops.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

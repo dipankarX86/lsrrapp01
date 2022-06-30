@@ -3,9 +3,9 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
-import {getShops, reset} from '../../../features/shops/shopSlice'
+import {getPagedShops, reset} from '../../../features/shops/shopSlice'  // getShops is removed
 import Spinner from '../../../components/Spinner'
-// import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
+import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
 
 function Shops() {
   
@@ -17,6 +17,28 @@ function Shops() {
   const {auth} = useSelector((state) => state.auth)
   const {shops, isLoading, isError, message} = useSelector((state) => state.shops)
 
+  // 
+  const loadPage = (event, param) => {
+    // console.log(event);
+    console.log(param);
+
+    // if current page is > 1 , and prev page, then load data for pageNumber = cp-1
+    // if cp < max page, and next page, then load data for pageNumber = cp+1
+    if (param === 'prev') {
+      if (shops.current_page > 1) {
+        dispatch(getPagedShops(shops.current_page - 1))
+      } else {
+        toast.error('You are in 1st page')
+      }
+    } else if (param === 'next') {
+      if (shops.current_page < shops.last_page) {
+        dispatch(getPagedShops(shops.current_page + 1))
+      } else {
+        toast.error('You have reached the end')
+      }
+    }
+  };
+
   // Use-Effect Function Call
   useEffect(() => {
     if(isError) {
@@ -26,7 +48,7 @@ function Shops() {
     if(!auth) {
       console.log('Shops access is Unauthorized')
     } else {
-      dispatch(getShops())
+      dispatch(getPagedShops(1))
     }
     
     dispatch(reset())  
@@ -71,24 +93,14 @@ function Shops() {
       
       <div className="container app-footer-dash">
         <div className="row">
-          <div className="col p-2 d-flex justify-content-center">
-            Column
+          <div className="col p-2 d-flex justify-content-center pointt" onClick={event => loadPage(event, 'prev')}>
+            <FaCaretLeft />
           </div>
           <div className="col p-2 d-flex justify-content-center">
-
-            {/* <nav aria-label="Page navigation">
-              <ul className="pagination">
-                <li className="page-item pointt"><a className="page-link"><FaCaretLeft /></a></li>
-                <li className="page-item pointt"><a className="page-link">1</a></li>
-                <li className="page-item pointt"><a className="page-link">2</a></li>
-                <li className="page-item pointt"><a className="page-link">3</a></li>
-                <li className="page-item pointt"><a className="page-link"><FaCaretRight /></a></li>
-              </ul>
-            </nav> */}
-
+            Future location for numbered pagination
           </div>
-          <div className="col p-2 d-flex justify-content-center">
-            Column
+          <div className="col p-2 d-flex justify-content-center pointt" onClick={event => loadPage(event, 'next')}>
+            <FaCaretRight />
           </div>
         </div>
       </div>

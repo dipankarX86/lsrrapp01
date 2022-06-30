@@ -26,7 +26,7 @@ const createShop = async (shopData, token) => {
 }
 
 // Get shops
-const getShops = async (token) => {
+/* const getShops = async (token) => {
   const config = {
       headers: {
           Authorization: `Bearer ${token}`
@@ -37,7 +37,22 @@ const getShops = async (token) => {
 
   console.log(response.data)
   return response.data
+} */
+// 
+// Get Paged shops
+const getPagedShops = async (token, page) => {
+  const config = {
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+  }
+
+  const response = await axios.get(API_URL+'?page='+page, config)
+
+  console.log(response.data)
+  return response.data
 }
+// 
 
 // Delete shop
 const deleteShop = async (shopId, token) => {
@@ -54,7 +69,7 @@ const deleteShop = async (shopId, token) => {
 
 const shopService = {
   createShop,
-  getShops,
+  getPagedShops,  // getShops is removed
   deleteShop
 }
 
