@@ -24,10 +24,10 @@ function Shops() {
     }
 
     if(!auth) {
-      toast.error('Create-Shop access is Unauthorized')
+      console.log('Shops access is Unauthorized')
+    } else {
+      dispatch(getShops())
     }
-
-    dispatch(getShops())
     
     dispatch(reset())  
       // always note, does resetting removes something which is useEffect is dependent on? if so, is it reloading it? 

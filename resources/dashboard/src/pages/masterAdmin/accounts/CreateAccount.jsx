@@ -9,6 +9,12 @@ import Spinner from '../../../components/Spinner'
 function CreateAccount() {
   console.log("CREATE-ACCOUNT: Entered")
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  // const {auth} = useSelector((state) => state.auth)
+  const {roles, isLoadingRoles, isErrorRoles, messageRoles, rolesApiCallCount,  isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
+
   // Form prefill datas
   const [formPrefill, setFormPrefill] = useState({
     roles: []
@@ -35,48 +41,6 @@ function CreateAccount() {
     password_confirmation
   } = formData
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  const {auth} = useSelector((state) => state.auth)
-  const {roles, isLoadingRoles, isErrorRoles, messageRoles, rolesApiCallCount,  isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
-
-  // use effect function call
-  useEffect(() => {
-
-    // if roles are empty in redux store we need them loaded first
-    if ( roles.length === 0 && rolesApiCallCount === 0) {
-      console.log('ROLES API CALL')
-      dispatch(getRoles())
-      dispatch(gotRoles())
-    } 
-
-    if(roles.length > 0 && formPrefill.roles.length === 0) {
-      setFormPrefill((previousState) => ({
-        ...previousState, 
-        'roles': roles,
-      }))
-    }
-
-    if(isErrorRoles) {
-      console.log(messageRoles);
-    }
-    if(isError) {
-      console.log(message);
-    }
-
-    if(!auth) {
-      toast.error('Create-Account access is unauthorized')
-    }
-
-    if(isSuccess) {
-      navigate('/masterAdmin/accounts')
-    }
-
-    dispatch(reset())    // THIS MAY BE DANGEROUS, NEED TO KNOW WHY IT IS REQUIRED AND WHAT IT IS EXACTLY DOING
-
-  }, [auth, isError, isSuccess, message, navigate, dispatch, roles, isErrorRoles, messageRoles, rolesApiCallCount, formPrefill])
-
   // on change (what is it???)
   const onChange = (e) => {
     setFormData((previousState) => ({
@@ -102,8 +66,47 @@ function CreateAccount() {
       }
 
       dispatch(createUser(userData))
+      toast.success('form submitted!!!!')
     }
   }
+
+
+  // use effect function call
+  useEffect(() => {
+
+    // if roles are empty in redux store we need them loaded first
+    if ( roles.length === 0 && rolesApiCallCount === 0) {
+      console.log('ROLES API CALL')
+      dispatch(getRoles())
+      dispatch(gotRoles())
+    } 
+
+    if(roles.length > 0 && formPrefill.roles.length === 0) {
+      setFormPrefill((previousState) => ({
+        ...previousState, 
+        'roles': roles,
+      }))
+    }
+
+    if(isErrorRoles) {
+      console.log(messageRoles);
+    }
+    if(isError) {
+      toast.error(message);
+    }
+
+    /* if(!auth) {
+      toast.error('Create-Account access is unauthorized')
+    } */
+
+    if(isSuccess) {
+      navigate('/masterAdmin/accounts')
+    }
+
+    dispatch(reset())    // THIS MAY BE DANGEROUS, NEED TO KNOW WHY IT IS REQUIRED AND WHAT IT IS EXACTLY DOING
+
+  }, [isError, isSuccess, message, navigate, dispatch, roles, isErrorRoles, messageRoles, rolesApiCallCount, formPrefill])
+
 
   if(isLoading || isLoadingRoles) {
     return <Spinner />

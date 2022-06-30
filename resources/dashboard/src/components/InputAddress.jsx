@@ -14,6 +14,14 @@ function InputAddress({setAddrDataToShop, fillData}) {
   // will clear the old store data first
   // dispatch(reset())
   
+  // 
+  // Form prefill datas
+  const [formPrefill, setFormPrefill] = useState({
+    cities: [],
+    states: [],
+    countries: [],
+  })
+
   const [addrData, setAddrData] = useState(
     (fillData && fillData.city) ? fillData :   // I can also provide the whole comparison 
     // if fill data has state and city in it, we need cities and states loaded
@@ -35,14 +43,6 @@ function InputAddress({setAddrDataToShop, fillData}) {
     country,
     postalCode,
   } = addrData
-
-  // 
-  // Form prefill datas
-  const [formPrefill, setFormPrefill] = useState({
-    cities: [],
-    states: [],
-    countries: [],
-  })
 
   // whatever the prefil data, there should be a initial return submit
   const [initialSubmitCount, setInitialSubmitCount] = useState(0);

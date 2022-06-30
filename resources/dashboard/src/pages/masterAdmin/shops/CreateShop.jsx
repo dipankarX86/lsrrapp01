@@ -13,7 +13,7 @@ function CreateShop() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {auth} = useSelector((state) => state.auth)
+  // const {auth} = useSelector((state) => state.auth)
   const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
 
   const [formData, setFormData] = useState({
@@ -117,10 +117,10 @@ function CreateShop() {
       toast.error(message)
     }
 
-    if(!auth) {
+    /* if(!auth) {
       // console.log("CREATE-SHOP: UseEffect - 2")
       toast.error('Create-Shop access is Unauthorized')
-    }
+    } */
 
     if(shopSubmitted && isSuccess) {  // This needs to run after submit button is pressed
       // console.log("CREATE-SHOP: UseEffect - 3")
@@ -128,7 +128,7 @@ function CreateShop() {
     }
 
     dispatch(reset())
-  }, [auth, isError, isSuccess, message, navigate, dispatch, shopSubmitted])
+  }, [isError, isSuccess, message, navigate, dispatch, shopSubmitted])
 
 
   // 
