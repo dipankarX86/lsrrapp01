@@ -20,6 +20,7 @@ class AddressFactory extends Factory
             'state' => '1',
             'country' => '1',
             'postal_code' =>  $this->faker->postcode(),
+            'country' => 'Vancouver, British-Columbia, Canada',
         ];
     }
 }

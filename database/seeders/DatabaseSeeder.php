@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 
 
         // Seed shops
-        Shop::factory(10)->create();
+        Shop::factory(16)->create();
         Address::factory(20)->create();
 
 
