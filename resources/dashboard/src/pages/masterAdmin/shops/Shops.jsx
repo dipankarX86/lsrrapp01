@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
-import {getShops, gotShops, resetShops} from '../../../features/shops/shopSlice'
+import {getShops, reset} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
-import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
+// import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
 
 function Shops() {
   
@@ -15,31 +15,27 @@ function Shops() {
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  const {shops, shopsApiCallCount, isLoadingShops, isErrorShops, messageShops} = useSelector((state) => state.shops)
+  const {shops, isLoading, isError, message} = useSelector((state) => state.shops)
 
-  // use effect function call
+  // Use-Effect Function Call
   useEffect(() => {
-    if(isErrorShops) {
-      toast.error(messageShops)
+    if(isError) {
+      toast.error(message)
     }
 
     if(!auth) {
       toast.error('Create-Shop access is Unauthorized')
     }
 
-    // call shops to display
-    /* if ( shops.length === 0 && shopsApiCallCount === 0) {
-      // console.log('SHOPS API CALL')
-      dispatch(getShops())
-      dispatch(gotShops())
-    }  */
     dispatch(getShops())
     
-    dispatch(resetShops())
+    dispatch(reset())  
+      // always note, does resetting removes something which is useEffect is dependent on? if so, is it reloading it? 
 
-  }, [auth, isErrorShops, messageShops, navigate, dispatch, shops])
+  }, [auth, isError, message, navigate, dispatch])  
+    // removed dependency of shops to avoid infinite loop
 
-  if(isLoadingShops) {
+  if(isLoading) {
     return <Spinner />
   }
 
@@ -80,7 +76,7 @@ function Shops() {
           </div>
           <div className="col p-2 d-flex justify-content-center">
 
-            <nav aria-label="Page navigation">
+            {/* <nav aria-label="Page navigation">
               <ul className="pagination">
                 <li className="page-item pointt"><a className="page-link"><FaCaretLeft /></a></li>
                 <li className="page-item pointt"><a className="page-link">1</a></li>
@@ -88,7 +84,7 @@ function Shops() {
                 <li className="page-item pointt"><a className="page-link">3</a></li>
                 <li className="page-item pointt"><a className="page-link"><FaCaretRight /></a></li>
               </ul>
-            </nav>
+            </nav> */}
 
           </div>
           <div className="col p-2 d-flex justify-content-center">

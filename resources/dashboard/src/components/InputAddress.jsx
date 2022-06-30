@@ -6,6 +6,16 @@ function InputAddress({setAddrDataToShop, fillData}) {
 
   console.log("ADDRESS: Entered")
   
+  // to access anything that needs authorization
+  // const {auth} = useSelector((state) => state.auth)
+  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
+
+  const dispatch = useDispatch()
+
+  // will clear the old store data first
+  // dispatch(reset())
+  
+  // 
   // Form prefill datas
   const [formPrefill, setFormPrefill] = useState({
     cities: [],
@@ -43,125 +53,132 @@ function InputAddress({setAddrDataToShop, fillData}) {
   // needed to check if all the field data entered is updated to state
   const [submitPossible, setSubmitPossible] = useState(true);
   const [submitCount, setSubmitCount] = useState(1);
-  //
-  // to access anything that needs authorization
-  const {auth} = useSelector((state) => state.auth)
-  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)   // Now use csc, : csc csn be used to load items
 
-  const dispatch = useDispatch()
+
+  // form effects
+  const onChange = (e) => {
+    // console.log("ADDRESS: OnChange")
+
+    // if it is CSC values you need additional steps
+    if(e.target.name === 'country') {
+      loadItem('states', parseInt(e.target.value), 0)
+    } else if(e.target.name === 'state') {
+      loadItem('cities', parseInt(country), parseInt(e.target.value))
+    }
+
+    setAddrData((previousState) => ({
+      ...previousState, 
+      [e.target.name]: e.target.value,
+    }))
+  }
+  const onFocus = () => {
+    // console.log('ADDRESS: onFocus')
+    setSubmitCount(0)
+    setSubmitPossible(false)
+  }
+  const onBlur = () => {
+    // console.log('ADDRESS: onBlur')
+    setSubmitPossible(true)
+  }
   
-  // load items from api
-  const loadItem = (item, countryId, stateId) => {  // useCallback dont seem to do anything, as the returned memorised value 
-                                                    // is not being used, try removing it later
-    if(!auth) {
-      console.log('Access of Country, State and City list are unauthorized!')
-    } 
-    else {
-      if(item === 'countries') {  // Returns COUNTRIES to Dropdown
 
-        // first flush the previous values of country, state and city from addrData
-        /* if(initialSubmitCount === 1){
-          setAddrData((previousState) => ({
-            ...previousState, 
-            'city': '0',
-            'state': '0',
-            'country': '0',
-          }))
-        } */
+  /* #### #### #### #### */
+  // FILTER REQUIRED DATA FROM CSC AND SET TO FORM-PREFILL
+  const loadItem = (item, countryId, stateId) => {
+    
+    if(item === 'countries') {
+      // country is always loaded at the initial render. 
+      // so, reset of states and cities lists are not needed here
 
-        // Now set the drop down list with new values
-        setFormPrefill((previousState) => ({
+      setFormPrefill((previousState) => ({  // SETTING COUNTRIES
+        ...previousState, 
+        'countries': csc,
+      }))
+
+      // if only one country exists, keep the country selected at component render
+      if(csc.length === 1) {
+        setAddrData((previousState) => ({  // SETTING COUNTRY TO FORM (If only 1 exists)
           ...previousState, 
-          'countries': csc,  // country is always loaded at the initial render. so, reset of states and cities lists are not needed here
+          'country': csc[0].id.toString(),
         }))
+        setFormPrefillLoaded(0)  // this is to transfer form-csc data to parent
 
-        // 
-        // if only one country exists, keep the country selected at component render
-        if(csc.length === 1) {
-          setAddrData((previousState) => ({
+        // now call itself to load the states
+        loadItem('states', csc[0].id, 0)
+      }
+    } 
+
+    else if(item === 'states') {
+      // first flush the previous values of state and city from addrData
+      if(initialSubmitCount === 1){
+        setAddrData((previousState) => ({  // RESETTING CSC VALUES
+          ...previousState, 
+          'city': '0',
+          'state': '0',
+        }))
+      }
+
+      for (let i = 0; i < csc.length; i++) {
+        if(countryId === csc[i].id) {
+          
+          setFormPrefill((previousState) => ({  // SETTING STATES
             ...previousState, 
-            'country': csc[0].id.toString(),
+            'cities': [],  // need to empty the cities array
+            'states': csc[i].states,
           }))
-          setFormPrefillLoaded(0)
-          // now call itself to load the states
-          loadItem('states', csc[0].id, 0)
-        }
-        // 
-
-      } else if(item === 'states') {  // Returns STATES to Dropdown
-        
-        // first flush the previous values of state and city from addrData
-        if(initialSubmitCount === 1){
-          setAddrData((previousState) => ({
-            ...previousState, 
-            'city': '0',
-            'state': '0',
-          }))
-        }
-
-        for (let i = 0; i < csc.length; i++) {
-          if(countryId === csc[i].id) {                                     // BUT WHY COUNTRY-ID AND STATE -ID ARE STRING IN THE FIRST PLACE?
-            setFormPrefill((previousState) => ({
+          
+          // if only one state exists, keep the state selected at component render
+          if(csc[i].states.length === 1) {
+            setAddrData((previousState) => ({  // SETTING STATE TO FORM (If only 1 exists)
               ...previousState, 
-              'cities': [],  // need to empty the cities array
-              'states': csc[i].states,
+              'state': csc[i].states[0].id.toString(),
             }))
-            
-            // 
-            // if only one state exists, keep the state selected at component render
-            if(csc[i].states.length === 1) {
-              setAddrData((previousState) => ({
-                ...previousState, 
-                'state': csc[i].states[0].id.toString(),
-              }))
-              setFormPrefillLoaded(0)
-              // now call itself to load the states
-              loadItem('cities', csc[i].id, csc[i].states[0].id)
-            }
-            // 
+            setFormPrefillLoaded(0)  // this is to transfer form-csc data to parent
 
+            // now call itself to load the states
+            loadItem('cities', csc[i].id, csc[i].states[0].id)
           }
         }
-      } else if(item === 'cities') {  // Returns CITIES to Dropdown
-        // console.log('SETTING CITIES')
-        
-        // first flush the previous values of city from addrData
-        if(initialSubmitCount === 1){
-          setAddrData((previousState) => ({
+      }
+    } 
+
+    else if(item === 'cities') {
+      // first flush the previous values of city from addrData
+      if(initialSubmitCount === 1){
+        setAddrData((previousState) => ({  // RESETTING CSC VALUES
+          ...previousState, 
+          'city': '0',
+        }))
+      }
+
+      let countryIndex = 0;  // we need country index, instead of id in csc array
+      for (let i = 0; i < csc.length; i++) {
+        if(countryId === csc[i].id) {
+          countryIndex = i
+        }
+      }
+      for (let i = 0; i < csc[countryIndex].states.length; i++) {
+        if(stateId === csc[countryIndex].states[i].id) {
+
+          setFormPrefill((previousState) => ({  // SETTING CITIES
             ...previousState, 
-            'city': '0',
+            'cities': csc[countryIndex].states[i].cities,
           }))
-        }
-
-        let countryIndex = 0;  // we need country index, instead of id in csc array
-        for (let i = 0; i < csc.length; i++) {
-          if(countryId === csc[i].id) {
-            countryIndex = i
-          }
-        }
-        for (let i = 0; i < csc[countryIndex].states.length; i++) {
-          if(stateId === csc[countryIndex].states[i].id) {
-            setFormPrefill((previousState) => ({
+          
+          // if only one city exists, keep the city selected at component render
+          if(csc[countryIndex].states[i].cities.length === 1) {
+            setAddrData((previousState) => ({  // SETTING CITY TO FORM (If only 1 exists)
               ...previousState, 
-              'cities': csc[countryIndex].states[i].cities,
+              'city': csc[countryIndex].states[i].cities[0].id.toString(),
             }))
-            
-            // 
-            // if only one city exists, keep the city selected at component render
-            if(csc[countryIndex].states[i].cities.length === 1) {
-              setAddrData((previousState) => ({
-                ...previousState, 
-                'city': csc[countryIndex].states[i].cities[0].id.toString(),
-              }))
-              setFormPrefillLoaded(0)
-            }
-            // 
-
+            setFormPrefillLoaded(0)  // this is to transfer form-csc data to parent
           }
         }
       }
     }
   }
+  /* #### #### #### ####  */
+
 
   // use effect function call
   useEffect(() => {
@@ -211,33 +228,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
 
   }, [submitPossible, submitCount, initialSubmitCount, formPrefillLoaded, addrData, setAddrDataToShop, fillData, loadItem, dispatch, csc, cscApiCallCount])  
       // States must be passed, as it is not JSX
-  
-  // form effects
-  const onChange = (e) => {
-    // console.log("ADDRESS: OnChange")
 
-    // if it is CSC values you need additional steps
-    if(e.target.name === 'country') {
-      loadItem('states', parseInt(e.target.value), 0)
-    } else if(e.target.name === 'state') {
-      loadItem('cities', parseInt(country), parseInt(e.target.value))
-    }
-
-    setAddrData((previousState) => ({
-      ...previousState, 
-      [e.target.name]: e.target.value,
-    }))
-  }
-  const onFocus = () => {
-    // console.log('ADDRESS: onFocus')
-    setSubmitCount(0)
-    setSubmitPossible(false)
-  }
-  const onBlur = () => {
-    // console.log('ADDRESS: onBlur')
-    setSubmitPossible(true)
-  }
-  
   return (
     <>
       <div className="mb-3 formm-group">

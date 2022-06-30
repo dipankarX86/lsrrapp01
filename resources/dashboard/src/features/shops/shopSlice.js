@@ -2,17 +2,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import shopService from './shopService'
 
 const initialState = {
+  shops: [],
   isLoading: false,
   isSuccess: false,
   isError: false,
   message: '',
-  
-  shops: [],
-  shopsApiCallCount: 0, //
-  isLoadingShops: false,
-  isSuccessShops: false,
-  isErrorShops: false,
-  messageShops: ''
 }
 
 // Create shop
@@ -54,17 +48,6 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
-
-    resetShops: (state) => {  // not sure if it is needed, but it is temporary replacement for reset()
-      state.isLoadingShops = false
-      state.isSuccessShops = false
-      state.isErrorShops = false
-      state.messageShops = ''
-    },
-
-    gotShops: (state) => {
-      state.shopsApiCallCount++
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -74,7 +57,7 @@ export const shopSlice = createSlice({
     .addCase(createShop.fulfilled, (state, action) => {
       state.isLoading = false
       state.isSuccess = true
-      state.shops.push(action.payload)
+      // state.shops.push(action.payload)  // need to make sure if this is required, ad shops is unlikely to survive form exit
     })
     .addCase(createShop.rejected, (state, action) => {
       state.isLoading = false
@@ -83,17 +66,17 @@ export const shopSlice = createSlice({
     })
 
     .addCase(getShops.pending, (state) => {
-        state.isLoadingShops = true
+        state.isLoading = true
     })
     .addCase(getShops.fulfilled, (state, action) => {
-        state.isLoadingShops = false
-        state.isSuccessShops = true
+        state.isLoading = false
+        state.isSuccess = true
         state.shops = action.payload
     })
     .addCase(getShops.rejected, (state, action) => {
-        state.isLoadingShops = false
-        state.isErrorShops = true
-        state.messageShops = action.payload
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
     })
 
     .addCase(deleteShop.pending, (state) => {
@@ -112,5 +95,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, resetShops, gotShops} = shopSlice.actions
+export const {reset, gotShops} = shopSlice.actions
 export default shopSlice.reducer

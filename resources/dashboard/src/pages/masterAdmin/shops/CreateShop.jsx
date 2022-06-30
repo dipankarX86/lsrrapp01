@@ -9,6 +9,15 @@ import InputAddress from '../../../components/InputAddress'
 
 function CreateShop() {
   console.log("CREATE-SHOP: Entered")
+  
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {auth} = useSelector((state) => state.auth)
+  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
+
+  dispatch(reset())  // this may give problems later, specially when trying to edit the shop etc, 
+  // so make sure what it is resetting and how many times
 
   const [formData, setFormData] = useState({
     email: '',
@@ -38,32 +47,7 @@ function CreateShop() {
     ownerAddress, //
   } = formData
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  const {auth} = useSelector((state) => state.auth)
-  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
-
-  // use effect function call
-  useEffect(() => {
-    if(isError) {
-      // console.log("CREATE-SHOP: UseEffect - 1")
-      toast.error(message)
-    }
-
-    if(!auth) {
-      // console.log("CREATE-SHOP: UseEffect - 2")
-      toast.error('Create-Shop access is Unauthorized')
-    }
-
-    if(isSuccess) {
-      // console.log("CREATE-SHOP: UseEffect - 3")
-      navigate('/masterAdmin/shops')
-    }
-
-    dispatch(reset())
-  }, [auth, isError, isSuccess, message, navigate, dispatch])
-
+  // 
   // on change
   const onChange = (e) => {
     // console.log("CREATE-SHOP: Non Address Form-Fields onChange")
@@ -127,6 +111,30 @@ function CreateShop() {
     toast.success('form submitted!!!!')
   }
 
+
+  // 
+  // use effect function call
+  useEffect(() => {
+    if(isError) {
+      // console.log("CREATE-SHOP: UseEffect - 1")
+      toast.error(message)
+    }
+
+    if(!auth) {
+      // console.log("CREATE-SHOP: UseEffect - 2")
+      toast.error('Create-Shop access is Unauthorized')
+    }
+
+    if(isSuccess) {
+      // console.log("CREATE-SHOP: UseEffect - 3")
+      navigate('/masterAdmin/shops')
+    }
+
+    dispatch(reset())
+  }, [auth, isError, isSuccess, message, navigate, dispatch])
+
+
+  // 
   if(isLoading) {
     return <Spinner />
   }
