@@ -113,13 +113,13 @@ function App() {
       
       <div className="container app-footer">
         <div className="row">
-          <div className="col p-2">
+          <div className="col p-2 d-flex justify-content-center">
             Column
           </div>
-          <div className="col p-2">
-            This is from App.js
+          <div className="col p-2 d-flex justify-content-center">
+            From - App.js
           </div>
-          <div className="col p-2">
+          <div className="col p-2 d-flex justify-content-center">
             Column
           </div>
         </div>

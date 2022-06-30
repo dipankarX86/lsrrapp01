@@ -122,14 +122,14 @@ function MasterAdminDashboard() {
       
       <div className="container app-footer-dash">
         <div className="row">
-          <div className="col p-2">
+          <div className="col p-2 d-flex justify-content-center">
             Column
             {/* <Button variant="outline-primary" onClick={logUserOut}>Logout</Button>{' '} */}
           </div>
-          <div className="col p-2">
-            This is from: MasterAdminDashboard.js
+          <div className="col p-2 d-flex justify-content-center">
+            From - MasterAdminDashboard.js
           </div>
-          <div className="col p-2">
+          <div className="col p-2 d-flex justify-content-center">
             Column
           </div>
         </div>
