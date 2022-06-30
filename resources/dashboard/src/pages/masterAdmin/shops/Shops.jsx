@@ -66,10 +66,12 @@ function Shops() {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>Id</th>
+            <th>Location</th>
+            {/* <th>Map Location</th> */}
+            <th>Owner Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -78,10 +80,15 @@ function Shops() {
             shops.data.map((val, key) => {
               return (
                 <tr key={key}>
-                  <td>{ (val.address ? (val.address.city  + ', ' + val.address.state  + ', ' + val.address.country) : '') }</td>
                   <td>{val.id}</td>
-                  <td>{val.id}</td>
-                  <td>{val.id}</td>
+                  <td>{ (val.address ? (val.address.csc) : '') }</td>
+                  {/* <td>{val.lat_lon}</td> */}
+                  <td>{val.owner_name}</td>
+                  <td>
+                    <a href={'tel:'+val.phone}>{val.phone}</a> and <a href={'tel:'+val.owner_phone}>{val.owner_phone}</a>
+                    {/* {val.phone+' & '+val.owner_phone} */}
+                  </td>
+                  <td></td>
                 </tr>
               )
             }) : (<tr>
@@ -93,13 +100,13 @@ function Shops() {
       
       <div className="container app-footer-dash">
         <div className="row">
-          <div className="col p-2 d-flex justify-content-center pointt" onClick={event => loadPage(event, 'prev')}>
+          <div className="col p-2 d-flex justify-content-center pointt greyy" onClick={event => loadPage(event, 'prev')}>
             <FaCaretLeft />
           </div>
           <div className="col p-2 d-flex justify-content-center">
-            Future location for numbered pagination
+            Shops-Navigation
           </div>
-          <div className="col p-2 d-flex justify-content-center pointt" onClick={event => loadPage(event, 'next')}>
+          <div className="col p-2 d-flex justify-content-center pointt greyy" onClick={event => loadPage(event, 'next')}>
             <FaCaretRight />
           </div>
         </div>
