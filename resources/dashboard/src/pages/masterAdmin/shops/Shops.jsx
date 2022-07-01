@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
-import {getPagedShops, reset} from '../../../features/shops/shopSlice'  // getShops is removed
+import {getPagedShops, stopShopsTry, resetShops} from '../../../features/shops/shopSlice'  // getShops is removed
 import Spinner from '../../../components/Spinner'
 import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
 
@@ -20,29 +20,73 @@ function Shops() {
   const dispatch = useDispatch()
 
   const {auth} = useSelector((state) => state.auth)
-  const {shops, isLoading, isError, message} = useSelector((state) => state.shops)
+  const {shops, shopsLoadTried, isLoading, isError, message} = useSelector((state) => state.shops)
 
-  // 
+  // Search form parameters
+  const [searchParams, setSearchParams] = useState({
+    srchString: '',
+    srchSort: '',
+  })
+  const {
+    srchString,
+    srchSort,
+  } = searchParams
+
+  // on change in Search
+  const onSearchChange = (e) => {
+    // console.log("CREATE-SHOP: Non Address Form-Fields onChange")
+    setSearchParams((previousState) => ({
+      ...previousState, 
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // load page from search
+  const loadSearchedShops = (e) => {
+    e.preventDefault()
+    // 
+    const loadParams = { // now srch data needs to be sent to the api, through slice
+      srchString,
+      srchSort,
+      'scrhPage': 1,
+    }
+    console.log(loadParams)
+    dispatch(getPagedShops(loadParams))  // page 1 of searched results
+  }
+
+  // Function to call pages with current search parameters
   const loadPage = (event, param) => {
     // console.log(event);
-    console.log(param);
-
+    // console.log(param);
+    let srchPage = 0
+    // 
     // if current page is > 1 , and prev page, then load data for pageNumber = cp-1
     // if cp < max page, and next page, then load data for pageNumber = cp+1
     if (param === 'prev') {
       if (shops.current_page > 1) {
-        dispatch(getPagedShops(shops.current_page - 1))
+        srchPage = shops.current_page - 1
       } else {
         toast.error('You are in 1st page')
+        return  // will it exit rest of the code? will see 
       }
     } else if (param === 'next') {
       if (shops.current_page < shops.last_page) {
-        dispatch(getPagedShops(shops.current_page + 1))
+        srchPage = shops.current_page + 1
       } else {
         toast.error('You have reached the end')
+        return  // to exit rest of the code 
       }
     }
+    // 
+    const loadParams = { // to the api, through slice
+      srchString,
+      srchSort,
+      'scrhPage': srchPage,
+    }
+    console.log(loadParams)
+    dispatch(getPagedShops(loadParams))
   };
+
 
   // Use-Effect Function Call
   useEffect(() => {
@@ -52,14 +96,24 @@ function Shops() {
 
     if(!auth) {
       console.log('Shops access is Unauthorized')
-    } else {
-      dispatch(getPagedShops(1))
+    } else if(shopsLoadTried === 0) {
+      // dispatch(getPagedShops(1))  // this is to be changed to new format supporting search
+      const loadParams = { // to the api, through slice
+        srchString,
+        srchSort,
+        'scrhPage': 1,
+      }
+      console.log(loadParams)
+      dispatch(stopShopsTry())
+      dispatch(getPagedShops(loadParams))    // THIS GOES TO INF LOOP IF THE SERVER IS DOWN, SET LIMITS FOR MAX CALL COUNT
     }
     
-    dispatch(reset())  
+    dispatch(resetShops())  
       // always note, does resetting removes something which is useEffect is dependent on? if so, is it reloading it? 
+      // Use complete - reset() in pages where shops is not required, so when coming to shops page from another shop page shops will be clear already
+      // HOW WILL I CLEAR FIRST TIME????
 
-  }, [auth, isError, message, navigate, dispatch])  
+  }, [auth, shopsLoadTried, isError, message, navigate, dispatch])  
     // removed dependency of shops to avoid infinite loop
 
   if(isLoading) {
@@ -68,57 +122,25 @@ function Shops() {
 
   return (
     <>
-
-      <div class="container-1">
-        <div class="box-1">
-          <h3>Box One</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <form onSubmit={loadSearchedShops}>
+        <div className="container-1">
+          <div className="box-1">
+            <input 
+              type="text" 
+              className="" 
+              id="srchString" 
+              name="srchString" 
+              value={srchString} 
+              placeholder="Search by id, location, phone number or email" 
+              onChange={onSearchChange}
+            />
+          </div>
+          {/* <div class="box-2"></div> */}
+          <div className="box-3">
+            <button type="submit" className="">Submit</button>
+          </div>
         </div>
-        <div class="box-2">
-          <h3>Box Two</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <div class="box-3">
-          <h3>Box Three</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-      </div>
-
-
-      <div class="container-2">
-        <div class="container-2-box">
-          <h3>Box Four</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec elit urna. Suspendisse a erat a nibh imperdiet fermentum. In eleifend ultricies massa, id pretium purus convallis nec. </p>
-        </div>
-        <div class="container-2-box">
-          <h3>Box Five</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec elit urna. Suspendisse a erat a nibh imperdiet fermentum. In eleifend ultricies massa, id pretium purus convallis nec. </p>
-        </div>
-        <div class="container-2-box">
-          <h3>Box Six</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec elit urna. Suspendisse a erat a nibh imperdiet fermentum. In eleifend ultricies massa, id pretium purus convallis nec. </p>
-        </div>
-      </div>
-
-
-      <div className="cont-flex">
-        <form onSubmit={loadPage}>
-
-          <input 
-            type="text" 
-            className="" 
-            id="username" 
-            name="username" 
-            value={null} 
-            placeholder="Search by id, location, phone number or email" 
-            onChange={null}
-          />
-          <button type="submit" className="">Submit</button>
-
-        </form>
-      </div>
-
-
+      </form>
 
       <Table striped bordered hover>
         <thead>

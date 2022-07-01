@@ -24,7 +24,6 @@ class ShopController extends Controller
         // now create the hierarchy
         for($i=0 ; $i < sizeof($shops->data) ; $i++) {
             $shops->data[$i]->address = Address::where('id', $shops->data[$i]->address)->first();
-            // $shops->data[$i]->owner_address = Address::where('id', $shops->data[$i]->owner_address)->first();
         }
         return $shops;
     }

@@ -3,6 +3,7 @@ import shopService from './shopService'
 
 const initialState = {
   shops: [],
+  shopsLoadTried: 0,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -32,10 +33,10 @@ export const createShop = createAsyncThunk('shops/create', async (shopData, thun
   }
 }) */
 // Get PAGED Shops
-export const getPagedShops = createAsyncThunk('shops/getPaged', async (page, thunkAPI) => {
+export const getPagedShops = createAsyncThunk('shops/getPaged', async (loadParams, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.auth.token
-    return await shopService.getPagedShops(token, page)
+    return await shopService.getPagedShops(token, loadParams)
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)
@@ -60,6 +61,17 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
+
+    resetShops: (state) => {
+      state.isLoading = false
+      state.isSuccess = false
+      state.isError = false
+      state.message = ''
+    },
+    stopShopsTry: (state) => {
+      state.shopsLoadTried++
+    }
+
   },
   extraReducers: (builder) => {
     builder
@@ -121,5 +133,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, gotShops} = shopSlice.actions
+export const {reset, resetShops, stopShopsTry} = shopSlice.actions
 export default shopSlice.reducer
