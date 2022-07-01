@@ -96,7 +96,9 @@ function Shops() {
 
     if(!auth) {
       console.log('Shops access is Unauthorized')
-    } else if(shopsLoadTried === 0) {
+    } 
+    
+    if(shopsLoadTried === 0) {
       // dispatch(getPagedShops(1))  // this is to be changed to new format supporting search
       const loadParams = { // to the api, through slice
         srchString,

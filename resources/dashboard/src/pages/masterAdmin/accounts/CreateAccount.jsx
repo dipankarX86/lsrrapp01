@@ -75,7 +75,7 @@ function CreateAccount() {
   useEffect(() => {
 
     // if roles are empty in redux store we need them loaded first
-    if ( roles.length === 0 && rolesApiCallCount === 0) {
+    if ( roles.length === 0 && rolesApiCallCount === 0) {  // roles reset is never called, thats why: infinite loop not formed at reset
       console.log('ROLES API CALL')
       dispatch(getRoles())
       dispatch(gotRoles())
