@@ -16,9 +16,19 @@ class ShopController extends Controller
      */
     public function index()
     {
-        // call all the shops first
-        // return Shop::latest()->filter(request(['tag', 'search']))->simplePaginate(2)
-        $rawShops = Shop::latest()->paginate(6);
+        // The request parameters may not be always present. So, before using them it is required to test their presence
+        /* $srch_string = '';
+        $sort_by = '';
+        if(isset($_GET['srch_string'])) {  // cannot be used directly without testing if present or not.
+            $srch_string = $_GET['srch_string'];
+        }
+        if(isset($_GET['sort_by'])) {
+            $sort_by = $_GET['sort_by'];
+        } */
+
+        // call all the shops first, [simplePaginate has some problems( it dont have a next page)]
+        // $rawShops = Shop::latest()->paginate(6);
+        $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
         $shops =  json_decode(json_encode($rawShops));
 
         // now create the hierarchy

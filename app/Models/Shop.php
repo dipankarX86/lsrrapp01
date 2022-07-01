@@ -26,20 +26,28 @@ class Shop extends Model
     ];
 
 
-    /* // the filter function for tag and search filters
+    // the filter function for tag and search filters
     public function scopeFilter($query, array $filters) {
-        if($filters['tag'] ?? false) {
-            $query->where('tags', 'like', '%' . request('tag') . '%');
-        }
+        // if($filters['tag'] ?? false) {
+        //     $query->where('tags', 'like', '%' . request('tag') . '%');
+        // }
 
-        if($filters['search'] ?? false) {
-            $query->where('title', 'like', '%' . request('search') . '%')
-                ->orWhere('description', 'like', '%' . request('search') . '%')
-                ->orWhere('tags', 'like', '%' . request('search') . '%');
+        if($filters['srch_string'] ?? false) {
+            $query->where('email', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('phone', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('pan', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('gst', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('trade_license', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('owner_name', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('owner_email', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('owner_phone', 'like', '%' . request('srch_string') . '%');
+                
+                // ->orWhere('csc', 'like', '%' . request('srch_string') . '%');
+                // next job is to include city state and country name as well as address sections
         }
     }
 
-    // get address for the user
+    /* // get address for the user
     public function scopeGetByAddress($query, $asddressId)
     {
         return $query->where('address', $asddressId);
