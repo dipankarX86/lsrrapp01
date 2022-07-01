@@ -144,14 +144,14 @@ function Login() {
           </div>
 
           <div className="mb-3 formm-group">
-            <label htmlFor="password" className="form-label">Choose a Password</label>
+            <label htmlFor="password" className="form-label">Enter Your Password</label>
             <input 
               type="password" 
               className="" 
               id="password" 
               name="password" 
               value={password} 
-              placeholder="choose a password" 
+              placeholder="enter password" 
               onChange={onChange}
             />
           </div>

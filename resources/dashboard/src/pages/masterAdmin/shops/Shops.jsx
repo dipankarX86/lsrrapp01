@@ -68,6 +68,58 @@ function Shops() {
 
   return (
     <>
+
+      <div class="container-1">
+        <div class="box-1">
+          <h3>Box One</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="box-2">
+          <h3>Box Two</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="box-3">
+          <h3>Box Three</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+
+
+      <div class="container-2">
+        <div class="container-2-box">
+          <h3>Box Four</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec elit urna. Suspendisse a erat a nibh imperdiet fermentum. In eleifend ultricies massa, id pretium purus convallis nec. </p>
+        </div>
+        <div class="container-2-box">
+          <h3>Box Five</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec elit urna. Suspendisse a erat a nibh imperdiet fermentum. In eleifend ultricies massa, id pretium purus convallis nec. </p>
+        </div>
+        <div class="container-2-box">
+          <h3>Box Six</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec elit urna. Suspendisse a erat a nibh imperdiet fermentum. In eleifend ultricies massa, id pretium purus convallis nec. </p>
+        </div>
+      </div>
+
+
+      <div className="cont-flex">
+        <form onSubmit={loadPage}>
+
+          <input 
+            type="text" 
+            className="" 
+            id="username" 
+            name="username" 
+            value={null} 
+            placeholder="Search by id, location, phone number or email" 
+            onChange={null}
+          />
+          <button type="submit" className="">Submit</button>
+
+        </form>
+      </div>
+
+
+
       <Table striped bordered hover>
         <thead>
           <tr>
