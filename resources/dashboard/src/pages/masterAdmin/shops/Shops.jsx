@@ -76,13 +76,30 @@ function Shops() {
         toast.error('You have reached the end')
         return  // to exit rest of the code 
       }
+    } else if (param === 'reset') {
+      setSearchParams((previousState) => ({
+        ...previousState, 
+        'srchString': '',
+        'srchSort': '',
+      }))
+      srchPage = 1
     }
     // 
-    const loadParams = { // to the api, through slice
-      srchString,
-      srchSort,
-      'scrhPage': srchPage,
+    let loadParams = {}
+    if (param === 'reset') {
+      loadParams = { // THIS EXTRA STEM IS REQUIRES BECAUSE, SET-STATE IS ASYNCHROUNOUS(TAKES MORE TIME THE IT TAKES TO RUN DISPATCH)
+        'srchString': '',
+        'srchSort': '',
+        'scrhPage': srchPage,
+      }
+    } else {
+      loadParams = { // to the api, through slice; const removed & used let
+        srchString,
+        srchSort,
+        'scrhPage': srchPage,
+      }
     }
+
     console.log(loadParams)
     dispatch(getPagedShops(loadParams))
   };
@@ -125,6 +142,7 @@ function Shops() {
   return (
     <>
       <form className="formm-search" onSubmit={loadSearchedShops}>
+
         <div className="container-1">
           <div className="box-1 formm-group">
             <input 
@@ -142,6 +160,44 @@ function Shops() {
             <button type="submit" className="btn btn-outline-primary">Submit</button>
           </div>
         </div>
+
+        <div className="radio-btn-container">
+          <div
+            className="radio-btn"
+            onClick={() => {
+              setSearchParams((prevState) => ({
+                ...prevState, 
+                'srchSort': 'DESC_CREATED',
+              }))
+            }}
+          >
+            <input
+              type="radio"
+              value={srchSort}
+              name="srchSort"
+              checked={srchSort == "DESC_CREATED"}
+            />
+            Newest
+          </div>
+          <div
+            className="radio-btn"
+            onClick={() => {
+              setSearchParams((prevState) => ({
+                ...prevState, 
+                'srchSort': 'ASC_CREATED',
+              }))
+            }}
+          >
+            <input
+              type="radio"
+              value={srchSort}
+              name="srchSort"
+              checked={srchSort == "ASC_CREATED"}
+            />
+            Oldest
+          </div>
+        </div>
+        
       </form>
 
       <Table striped bordered hover>
@@ -195,7 +251,7 @@ function Shops() {
             <FaCaretLeft />
           </div>
           <div className="col p-2 d-flex justify-content-center">
-            Shops-Navigation
+            <button type="button" className="btn btn-outline-warning" onClick={event => loadPage(event, 'reset')}>Reset</button>
           </div>
           <div className="col p-2 d-flex justify-content-center pointt greyy" onClick={event => loadPage(event, 'next')}>
             <FaCaretRight />
