@@ -124,9 +124,9 @@ function Shops() {
 
   return (
     <>
-      <form onSubmit={loadSearchedShops}>
+      <form className="formm-search" onSubmit={loadSearchedShops}>
         <div className="container-1">
-          <div className="box-1">
+          <div className="box-1 formm-group">
             <input 
               type="text" 
               className="" 
@@ -139,7 +139,7 @@ function Shops() {
           </div>
           {/* <div class="box-2"></div> */}
           <div className="box-3">
-            <button type="submit" className="">Submit</button>
+            <button type="submit" className="btn btn-outline-primary">Submit</button>
           </div>
         </div>
       </form>
