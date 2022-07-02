@@ -16,37 +16,20 @@ class ShopController extends Controller
      */
     public function index()
     {
-        // The request parameters may not be always present. So, before using them it is required to test their presence
-        /* $srch_string = '';
-        $sort_by = '';
-        if(isset($_GET['srch_string'])) {  // cannot be used directly without testing if present or not.
-            $srch_string = $_GET['srch_string'];
-        }
-        if(isset($_GET['sort_by'])) {
-            $sort_by = $_GET['sort_by'];
-        } */
-
         // call all the shops first, [simplePaginate has some problems( it dont have a next page)]
         // $rawShops = Shop::latest()->paginate(6);
         $rawShops = null;
 
-        if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'DESC_CREATED') {
+        /* if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'DESC_CREATED') {
             $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
-        } else if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'ASC_CREATED') {
+        } else  */
+        if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'ASC_CREATED') {
             $rawShops = Shop::oldest()->filter(request(['srch_string']))->paginate(6);
         } else {
-            $rawShops = Shop::oldest()->filter(request(['srch_string']))->paginate(6);
+            $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
         }
         
         $shops =  json_decode(json_encode($rawShops));
-
-        // 
-        // $myfile = fopen("TEST.txt", "w") or die("Unable to open file!");
-        // $txt = $shops;
-        // fwrite($myfile, $txt);
-        // fclose($myfile);
-        // dd($shops);
-        // 
 
         // now create the hierarchy
         for($i=0 ; $i < sizeof($shops->data) ; $i++) {

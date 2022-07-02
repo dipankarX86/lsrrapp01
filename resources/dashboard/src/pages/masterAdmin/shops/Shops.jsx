@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
 import {getPagedShops, stopShopsTry, resetShops} from '../../../features/shops/shopSlice'  // getShops is removed
 import Spinner from '../../../components/Spinner'
-import {FaCaretLeft, FaCaretRight} from 'react-icons/fa'
+import {FaCaretLeft, FaCaretRight, FaSearch, FaPlus, FaSync} from 'react-icons/fa'
 
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
@@ -25,7 +25,7 @@ function Shops() {
   // Search form parameters
   const [searchParams, setSearchParams] = useState({
     srchString: '',
-    srchSort: '',
+    srchSort: 'DESC_CREATED',
   })
   const {
     srchString,
@@ -80,7 +80,7 @@ function Shops() {
       setSearchParams((previousState) => ({
         ...previousState, 
         'srchString': '',
-        'srchSort': '',
+        'srchSort': 'DESC_CREATED',
       }))
       srchPage = 1
     }
@@ -151,53 +151,54 @@ function Shops() {
               id="srchString" 
               name="srchString" 
               value={srchString} 
-              placeholder="Search by id, location, phone number or email" 
+              placeholder="Type in: id, location, phone number or email then press search .." 
               onChange={onSearchChange}
             />
           </div>
-          {/* <div class="box-2"></div> */}
+
+          <div class="box-2 radio-btn-container">
+            <div
+              className="radio-btn"
+              onClick={() => {
+                setSearchParams((prevState) => ({
+                  ...prevState, 
+                  'srchSort': 'DESC_CREATED',
+                }))
+              }}
+            >
+              <input
+                type="radio"
+                value={srchSort}
+                name="srchSort"
+                checked={srchSort == "DESC_CREATED"}
+              />
+              &nbsp;Newest
+            </div>
+            <div
+              className="radio-btn"
+              onClick={() => {
+                setSearchParams((prevState) => ({
+                  ...prevState, 
+                  'srchSort': 'ASC_CREATED',
+                }))
+              }}
+            >
+              <input
+                type="radio"
+                value={srchSort}
+                name="srchSort"
+                checked={srchSort == "ASC_CREATED"}
+              />
+              &nbsp;Oldest
+            </div>
+          </div>
+
           <div className="box-3">
-            <button type="submit" className="btn btn-outline-primary">Submit</button>
+            <button type="submit" className="btn btn-outline-primary ms-1 mt-1"><FaSearch /> Search</button>
+            <a type="button" className="btn btn-outline-primary ms-1 mt-1" href="#/masterAdmin/shops/create"><FaPlus /> New Shop</a>
           </div>
         </div>
 
-        <div className="radio-btn-container">
-          <div
-            className="radio-btn"
-            onClick={() => {
-              setSearchParams((prevState) => ({
-                ...prevState, 
-                'srchSort': 'DESC_CREATED',
-              }))
-            }}
-          >
-            <input
-              type="radio"
-              value={srchSort}
-              name="srchSort"
-              checked={srchSort == "DESC_CREATED"}
-            />
-            Newest
-          </div>
-          <div
-            className="radio-btn"
-            onClick={() => {
-              setSearchParams((prevState) => ({
-                ...prevState, 
-                'srchSort': 'ASC_CREATED',
-              }))
-            }}
-          >
-            <input
-              type="radio"
-              value={srchSort}
-              name="srchSort"
-              checked={srchSort == "ASC_CREATED"}
-            />
-            Oldest
-          </div>
-        </div>
-        
       </form>
 
       <Table striped bordered hover>
@@ -247,14 +248,14 @@ function Shops() {
       
       <div className="container app-footer-dash">
         <div className="row">
-          <div className="col p-2 d-flex justify-content-center pointt greyy" onClick={event => loadPage(event, 'prev')}>
-            <FaCaretLeft />
+          <div className="col p-2 d-flex justify-content-start" >
+            <button type="button" className="btn btn-outline-info" onClick={event => loadPage(event, 'prev')}><FaCaretLeft /> Previous</button>
           </div>
           <div className="col p-2 d-flex justify-content-center">
-            <button type="button" className="btn btn-outline-warning" onClick={event => loadPage(event, 'reset')}>Reset</button>
+            <button type="button" className="btn btn-outline-warning" onClick={event => loadPage(event, 'reset')}><FaSync /> Reset</button>
           </div>
-          <div className="col p-2 d-flex justify-content-center pointt greyy" onClick={event => loadPage(event, 'next')}>
-            <FaCaretRight />
+          <div className="col p-2 d-flex justify-content-end">
+            <button type="button" className="btn btn-outline-info" onClick={event => loadPage(event, 'next')}>Next <FaCaretRight /></button>
           </div>
         </div>
       </div>
