@@ -156,7 +156,7 @@ function Shops() {
             />
           </div>
 
-          <div class="box-2 radio-btn-container">
+          <div className="box-2 radio-btn-container">
             <div
               className="radio-btn"
               onClick={() => {
@@ -219,7 +219,7 @@ function Shops() {
               return (
                 <tr key={key}>
                   <td>{val.id}</td>
-                  <td>{ (val.address ? (val.address.csc) : '') }</td>
+                  <td>{ (val.address ? (val.address.csc + ' ('+val.address.line1+', '+val.address.line2+')') : '') }</td>
                   {/* <td>{val.lat_lon}</td> */}
                   <td>{val.owner_name}</td>
                   <td>
@@ -228,11 +228,11 @@ function Shops() {
                   </td>
                   <td>
 
-                    <ButtonGroup className="">
-                      <Button>View</Button>
-                      <DropdownButton as={ButtonGroup} title="More" id="bg-nested-dropdown">
-                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+                    <ButtonGroup>
+                      <Button variant="outline-primary" onClick={() => {navigate('/masterAdmin/shops/1')}}>View</Button>
+                      <DropdownButton variant="outline-primary" as={ButtonGroup} title="More" id="bg-nested-dropdown">
+                        <Dropdown.Item eventKey="1" onClick={() => {navigate('/masterAdmin/shops/edit/1')}}>Edit</Dropdown.Item>
+                        <Dropdown.Item eventKey="2" onClick={() => {console.log('Delete Pressed!!')}}>Delete</Dropdown.Item>
                       </DropdownButton>
                     </ButtonGroup>
 

@@ -36,7 +36,7 @@ class Shop extends Model
             $query
                 ->join('addresses', 'shops.address', '=', 'addresses.id')
                 ->select('shops.address', 'shops.owner_name', 'shops.phone', 'shops.owner_phone', 'shops.id', 'shops.created_at')
-                
+
                 ->where('email', 'like', '%' . request('srch_string') . '%')
                 ->orWhere('phone', 'like', '%' . request('srch_string') . '%')
                 ->orWhere('pan', 'like', '%' . request('srch_string') . '%')
@@ -46,7 +46,9 @@ class Shop extends Model
                 ->orWhere('owner_email', 'like', '%' . request('srch_string') . '%')
                 ->orWhere('owner_phone', 'like', '%' . request('srch_string') . '%')
                 
-                ->orWhere('addresses.csc', 'like', '%' . request('srch_string') . '%');
+                ->orWhere('addresses.csc', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('addresses.line1', 'like', '%' . request('srch_string') . '%')
+                ->orWhere('addresses.line2', 'like', '%' . request('srch_string') . '%');
                 // next job is to include city state and country name as well as address sections
         }
     }
