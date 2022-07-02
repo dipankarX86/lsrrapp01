@@ -229,9 +229,9 @@ function Shops() {
                   <td>
 
                     <ButtonGroup>
-                      <Button variant="outline-primary" onClick={() => {navigate('/masterAdmin/shops/1')}}>View</Button>
+                      <Button variant="outline-primary" onClick={() => {navigate('/masterAdmin/shops/'+val.id)}}>View</Button>
                       <DropdownButton variant="outline-primary" as={ButtonGroup} title="More" id="bg-nested-dropdown">
-                        <Dropdown.Item eventKey="1" onClick={() => {navigate('/masterAdmin/shops/edit/1')}}>Edit</Dropdown.Item>
+                        <Dropdown.Item eventKey="1" onClick={() => {navigate('/masterAdmin/shops/edit/'+val.id)}}>Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2" onClick={() => {console.log('Delete Pressed!!')}}>Delete</Dropdown.Item>
                       </DropdownButton>
                     </ButtonGroup>

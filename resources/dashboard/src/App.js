@@ -62,14 +62,16 @@ function App() {
             <Route path='/masterAdmin' element={<MasterAdminHome />} />
 
             <Route path='/masterAdmin/shops' element={<Shops />} />
-            <Route path='/masterAdmin/shops/1' element={<Shop />} />
+            <Route path='/masterAdmin/shops/:id' element={<Shop />} />
             <Route path='/masterAdmin/shops/create' element={<CreateShop />} />
-            <Route path='/masterAdmin/shops/edit/1' element={<EditShop />} />
+            {/* <Route path='/masterAdmin/shops/edit/:id' element={<EditShop />} /> */}
+            <Route path='/masterAdmin/shops/edit/:id' element={<CreateShop />} />
             
             <Route path='/masterAdmin/accounts' element={<Accounts />} />
             <Route path='/masterAdmin/accounts/1' element={<Account />} />
             <Route path='/masterAdmin/accounts/create' element={<CreateAccount />} />
-            <Route path='/masterAdmin/accounts/edit/1' element={<EditAccount />} />
+            {/* <Route path='/masterAdmin/accounts/edit/1' element={<EditAccount />} /> */}
+            <Route path='/masterAdmin/accounts/edit/1' element={<CreateAccount />} />
             
             <Route path='/masterAdmin/categories' element={<Categories />} />
             <Route path='/masterAdmin/categories/1' element={<Category />} />
