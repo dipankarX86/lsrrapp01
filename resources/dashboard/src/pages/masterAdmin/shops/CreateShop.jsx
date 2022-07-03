@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
+import { useParams, useLocation } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-import {createShop, reset} from '../../../features/shops/shopSlice'
+import {createShop, reset, getShop, gotShop, resetExceptShop} from '../../../features/shops/shopSlice'
+// import {createShop, reset, getShop, gotShop, resetExceptShop, toggleAddressRender} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 import InputAddress from '../../../components/InputAddress'
 
@@ -14,7 +16,13 @@ function CreateShop() {
   const dispatch = useDispatch()
 
   // const {auth} = useSelector((state) => state.auth)
-  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
+  const {isLoading, isError, isSuccess, message, shop, shopApiCallCount} = useSelector((state) => state.shops)
+  // const {isLoading, isError, isSuccess, message, shop, shopApiCallCount, renderPending} = useSelector((state) => state.shops)
+
+  // is parameter passed? then surely it is edit form
+  const { id } = useParams();
+  const routeLocation = useLocation();
+  // console.log(routeLocation)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -112,6 +120,35 @@ function CreateShop() {
   // 
   // use effect function call
   useEffect(() => {
+
+    // if the form is edit form(known from the link name and the parameter passed), 
+    // I need to load the shop details
+    if ( id && !shop && shopApiCallCount === 0) {  //////
+      dispatch(getShop(id))
+      dispatch(gotShop())
+    } 
+    // if shop is received
+    if(shop) {
+    // if(shop && !renderPending) {
+      // now set the formData, 
+      setFormData((previousState) => ({  //////
+        ...previousState, 
+        'email': shop.email,
+        'phone': shop.phone,
+        'address': shop.address,
+        'latLon': shop.lat_lon,
+        'pan': shop.pan,
+        'gst': shop.gst,
+        'tradeLicense': shop.trade_license,
+        'ownerName': shop.owner_name,
+        'ownerEmail': shop.owner_email,
+        'ownerPhone': shop.owner_phone,
+        'ownerAddress': shop.owner_address,
+      }))
+
+      // dispatch(toggleAddressRender())
+    }
+
     if(isError) {
       // console.log("CREATE-SHOP: UseEffect - 1")
       toast.error(message)
@@ -127,8 +164,17 @@ function CreateShop() {
       navigate('/masterAdmin/shops')
     }
 
-    dispatch(reset())
-  }, [isError, isSuccess, message, navigate, dispatch, shopSubmitted])
+    if (routeLocation.pathname === '/masterAdmin/shops/create') {  //////
+      dispatch(reset())
+    } else {  // i.e. /masterAdmin/shops/edit/17 etc
+      dispatch(resetExceptShop())
+    }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shop, isError, message, isSuccess, dispatch, navigate, shopSubmitted])
+    // [id, routeLocation, shop, shopApiCallCount, isError, message, isSuccess, dispatch, navigate, shopSubmitted])  // add renderPending if required
+    // id, shop and shopApiCallCount needs default values for create shop to work
+    // that can be done in shopSlice. 
 
 
   // 

@@ -136,8 +136,6 @@ class ShopController extends Controller
     }
 
 
-
-
     /**
      * Display the specified resource.
      *
@@ -146,8 +144,15 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        $shop = Shop::where('id', $id)->first();
-        
+        $rawShop = Shop::where('id', $id)->first();
+
+        $shop =  json_decode(json_encode($rawShop));
+
+        if($shop->address) {  // to test if address is is present, if not, then no need to bother the database
+            $shop->address = Address::where('id', $shop->address)->first();
+            $shop->owner_address = Address::where('id', $shop->owner_address)->first();
+        }
+
         // response
         $response = [
             'shop' => $shop,
@@ -156,9 +161,7 @@ class ShopController extends Controller
         // return what is needed
         return response($response, 201);
     }
-
-
-
+    // 
 
     /**
      * Update the specified resource in storage.

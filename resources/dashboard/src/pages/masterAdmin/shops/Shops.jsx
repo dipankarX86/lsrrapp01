@@ -19,7 +19,7 @@ function Shops() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {auth} = useSelector((state) => state.auth)
+  // const {auth} = useSelector((state) => state.auth)
   const {shops, shopsLoadTried, isLoading, isError, message} = useSelector((state) => state.shops)
 
   // Search form parameters
@@ -111,9 +111,9 @@ function Shops() {
       toast.error(message)
     }
 
-    if(!auth) {
+    /* if(!auth) {
       console.log('Shops access is Unauthorized')
-    } 
+    } */ 
     
     if(shopsLoadTried === 0) {
       // dispatch(getPagedShops(1))  // this is to be changed to new format supporting search
@@ -132,7 +132,9 @@ function Shops() {
       // Use complete - reset() in pages where shops is not required, so when coming to shops page from another shop page shops will be clear already
       // HOW WILL I CLEAR FIRST TIME????
 
-  }, [auth, shopsLoadTried, isError, message, navigate, dispatch])  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shopsLoadTried, isError, message, navigate, dispatch])  
+  // }, [shopsLoadTried, isError, message, srchSort, srchString, navigate, dispatch])  
     // removed dependency of shops to avoid infinite loop
 
   if(isLoading) {
@@ -162,7 +164,7 @@ function Shops() {
                 type="radio"
                 value={srchSort}
                 name="srchSort"
-                checked={srchSort == "DESC_CREATED"}
+                checked={srchSort === "DESC_CREATED"}
                 onChange={() => {
                   setSearchParams((prevState) => ({
                     ...prevState, 
@@ -177,7 +179,7 @@ function Shops() {
                 type="radio"
                 value={srchSort}
                 name="srchSort"
-                checked={srchSort == "ASC_CREATED"}
+                checked={srchSort === "ASC_CREATED"}
                 onChange={() => {
                   setSearchParams((prevState) => ({
                     ...prevState, 

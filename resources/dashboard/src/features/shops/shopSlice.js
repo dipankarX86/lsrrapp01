@@ -8,6 +8,11 @@ const initialState = {
   isSuccess: false,
   isError: false,
   message: '',
+  
+  shop: null,
+  shopApiCallCount: 0,
+
+  // renderPending: false
 }
 
 // Create shop
@@ -43,6 +48,17 @@ export const getPagedShops = createAsyncThunk('shops/getPaged', async (loadParam
   }
 })
 
+// Get Shop
+export const getShop = createAsyncThunk('shops/getOne', async (shopId, thunkAPI) => {
+  console.log(shopId)
+  try {
+    const token = thunkAPI.getState().auth.auth.token
+    return await shopService.getShop(token, shopId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 
 // Delete shop
 export const deleteShop = createAsyncThunk('shops/delete', async (id, thunkAPI) => {
@@ -61,7 +77,7 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
-
+    
     resetShops: (state) => {
       state.isLoading = false
       state.isSuccess = false
@@ -70,8 +86,23 @@ export const shopSlice = createSlice({
     },
     stopShopsTry: (state) => {
       state.shopsLoadTried++
-    }
+    },
 
+    gotShop: (state) => {
+      state.shopsLoadTried++
+    },
+    resetExceptShop: (state) => {
+      state.shops = []
+      state.shopsLoadTried = 0
+      state.isLoading = false
+      state.isSuccess = false
+      state.isError = false
+      state.message = ''
+    },
+    
+    /* toggleAddressRender: (state) => {
+      state.renderPending = !state.renderPending
+    }, */
   },
   extraReducers: (builder) => {
     builder
@@ -102,7 +133,6 @@ export const shopSlice = createSlice({
         state.isError = true
         state.message = action.payload
     }) */
-
     .addCase(getPagedShops.pending, (state) => {
       state.isLoading = true
     })
@@ -116,6 +146,21 @@ export const shopSlice = createSlice({
         state.isError = true
         state.message = action.payload
     })
+
+
+    // .addCase(getShop.pending, (state) => {
+    //   state.isLoading = true
+    // })
+    .addCase(getShop.fulfilled, (state, action) => {
+        // state.isLoading = false
+        // state.isSuccess = true
+        state.shop = action.payload
+    })
+    // .addCase(getShop.rejected, (state, action) => {
+    //     state.isLoading = false
+    //     state.isError = true
+    //     state.message = action.payload
+    // })
 
     .addCase(deleteShop.pending, (state) => {
         state.isLoading = true
@@ -133,5 +178,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, resetShops, stopShopsTry} = shopSlice.actions
+export const {reset, resetShops, stopShopsTry, gotShop, resetExceptShop} = shopSlice.actions  // add toggleAddressRender if required
 export default shopSlice.reducer

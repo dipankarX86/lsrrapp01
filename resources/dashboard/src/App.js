@@ -12,12 +12,12 @@ import MasterAdminDashboard from './pages/masterAdmin/MasterAdminDashboard';
 import MasterAdminHome from './pages/masterAdmin/MasterAdminHome';
 //
 import CreateShop from './pages/masterAdmin/shops/CreateShop';
-import EditShop from './pages/masterAdmin/shops/EditShop';
+// import EditShop from './pages/masterAdmin/shops/EditShop';
 import Shop from './pages/masterAdmin/shops/Shop';
 import Shops from './pages/masterAdmin/shops/Shops';
 //
 import CreateAccount from './pages/masterAdmin/accounts/CreateAccount';
-import EditAccount from './pages/masterAdmin/accounts/EditAccount';
+// import EditAccount from './pages/masterAdmin/accounts/EditAccount';
 import Account from './pages/masterAdmin/accounts/Account';
 import Accounts from './pages/masterAdmin/accounts/Accounts';
 //

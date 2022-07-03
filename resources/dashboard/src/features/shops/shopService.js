@@ -62,6 +62,19 @@ const getPagedShops = async (token, loadParams) => {
   console.log(response.data)
   return response.data
 }
+
+// 
+// Get shops
+const getShop = async (token, shopId) => {
+  const config = {
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+  }
+  const response = await axios.get(API_URL + '/' + shopId, config)
+  console.log(response.data.shop)
+  return response.data.shop
+}
 // 
 
 // Delete shop
@@ -80,6 +93,7 @@ const deleteShop = async (shopId, token) => {
 const shopService = {
   createShop,
   getPagedShops,  // getShops is removed
+  getShop,
   deleteShop
 }
 

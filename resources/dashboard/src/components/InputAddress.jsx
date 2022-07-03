@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getCsc, gotCsc} from '../features/addresses/addressSlice'
+// import {toggleAddressRender} from '../features/shops/shopSlice'
 
 function InputAddress({setAddrDataToShop, fillData}) {
 
   console.log("ADDRESS: Entered")
   
-  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)   
+  const {csc, cscApiCallCount} = useSelector((state) => state.addresses)
+  // const {renderPending} = useSelector((state) => state.shops)
     // Now use csc, : csc can be used to load items
 
   const dispatch = useDispatch()
@@ -222,7 +224,14 @@ function InputAddress({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
-  }, [csc, cscApiCallCount, initialSubmitCount, addrData, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])  
+    // if(renderPending) {
+    //   console.log('RENDER TOGGLE ------------ ------------ ------------')
+    //   dispatch(toggleAddressRender())
+    // }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [csc, cscApiCallCount, initialSubmitCount, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])  
+  // }, [csc, cscApiCallCount, initialSubmitCount, addrData, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])  // add renderPending if required
       // States must be passed, as it is not JSX. "fillData" and "setAddrDataToShop" are excluded from dependency, as they are used only once
       // despite of they being prop elements
 
