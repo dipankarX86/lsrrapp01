@@ -157,37 +157,33 @@ function Shops() {
           </div>
 
           <div className="box-2 radio-btn-container">
-            <div
-              className="radio-btn"
-              onClick={() => {
-                setSearchParams((prevState) => ({
-                  ...prevState, 
-                  'srchSort': 'DESC_CREATED',
-                }))
-              }}
-            >
+            <div className="radio-btn">
               <input
                 type="radio"
                 value={srchSort}
                 name="srchSort"
                 checked={srchSort == "DESC_CREATED"}
+                onChange={() => {
+                  setSearchParams((prevState) => ({
+                    ...prevState, 
+                    'srchSort': 'DESC_CREATED',
+                  }))
+                }}
               />
               &nbsp;Newest
             </div>
-            <div
-              className="radio-btn"
-              onClick={() => {
-                setSearchParams((prevState) => ({
-                  ...prevState, 
-                  'srchSort': 'ASC_CREATED',
-                }))
-              }}
-            >
+            <div className="radio-btn">
               <input
                 type="radio"
                 value={srchSort}
                 name="srchSort"
                 checked={srchSort == "ASC_CREATED"}
+                onChange={() => {
+                  setSearchParams((prevState) => ({
+                    ...prevState, 
+                    'srchSort': 'ASC_CREATED',
+                  }))
+                }}
               />
               &nbsp;Oldest
             </div>
