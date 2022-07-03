@@ -17,9 +17,9 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->string('line1')->nullable();
             $table->string('line2')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('country')->nullable();
+            $table->foreignId('city')->nullable();
+            $table->foreignId('state')->nullable();
+            $table->foreignId('country')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('csc')->nullable();
             $table->timestamps();

@@ -21,7 +21,7 @@ class RoleAuthorityCheck
         // use:  in_array("23", $people, TRUE)
 
         // here we need currently logged in user role, and also the role the current route belongs to
-        if ( $request->user()->role !== $role ) {
+        if ( $request->user()->role !== (int)$role ) {
             return response('This method is not allowed', 401);
         }
 

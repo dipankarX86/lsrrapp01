@@ -58,4 +58,5 @@ Route::middleware('auth:sanctum')->post('/users/logout', [UserController::class,
 // Route::get('/shops', [ShopController::class, 'index']);  // show all the shops available
 Route::middleware(['auth:sanctum', 'role:1'])->post('/shops', [ShopController::class, 'store']);  // creates a new shop
 Route::middleware(['auth:sanctum', 'role:1'])->get('/shops', [ShopController::class, 'index']);  // delivers a list of shops with sorting, filter and pagination
+Route::middleware(['auth:sanctum', 'role:1'])->get('/shops/{id}', [ShopController::class, 'show']);
 

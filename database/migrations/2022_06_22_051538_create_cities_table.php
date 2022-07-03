@@ -16,7 +16,8 @@ class CreateCitiesTable extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('state');
+            // $table->string('state');
+            $table->foreignId('state')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

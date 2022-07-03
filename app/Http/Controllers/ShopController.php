@@ -33,7 +33,9 @@ class ShopController extends Controller
 
         // now create the hierarchy
         for($i=0 ; $i < sizeof($shops->data) ; $i++) {
-            $shops->data[$i]->address = Address::where('id', $shops->data[$i]->address)->first();
+            if($shops->data[$i]->address) {  // to test if address is is present, if not, then no need to bother the database
+                $shops->data[$i]->address = Address::where('id', $shops->data[$i]->address)->first();
+            }
         }
         return $shops;
     }
@@ -134,6 +136,8 @@ class ShopController extends Controller
     }
 
 
+
+
     /**
      * Display the specified resource.
      *
@@ -142,8 +146,19 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        //
+        $shop = Shop::where('id', $id)->first();
+        
+        // response
+        $response = [
+            'shop' => $shop,
+        ];
+
+        // return what is needed
+        return response($response, 201);
     }
+
+
+
 
     /**
      * Update the specified resource in storage.

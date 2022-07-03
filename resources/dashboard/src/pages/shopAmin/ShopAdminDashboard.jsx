@@ -31,7 +31,7 @@ function ShopAdminDashboard() {
       toast.error(message)
     }
 
-    if(!auth || auth.user.role !== '2') {
+    if(!auth || auth.user.role !== 2) {
       // console.log(auth.user.role)  // this cannot be done on logout, as auth will become null after deleting the local storage data
       navigate('/')
     }
