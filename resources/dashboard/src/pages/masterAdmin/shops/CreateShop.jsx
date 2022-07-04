@@ -127,7 +127,6 @@ function CreateShop() {
     } 
     // if shop is received
     if(shop) {
-    // if(shop && !renderPending) {
       // now set the formData, 
       setFormData((previousState) => ({  //////
         ...previousState, 
@@ -143,8 +142,6 @@ function CreateShop() {
         'ownerPhone': shop.owner_phone,
         'ownerAddress': shop.owner_address,
       }))
-
-      // dispatch(toggleAddressRender())
     }
 
     if(isError) {
