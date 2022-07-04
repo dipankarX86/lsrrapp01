@@ -3,7 +3,7 @@ import shopService from './shopService'
 
 const initialState = {
   shops: [],
-  shopsLoadTried: 0,
+  shopsApiCallCount: 0,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -11,8 +11,6 @@ const initialState = {
   
   shop: null,
   shopApiCallCount: 0,
-
-  // renderPending: false
 }
 
 // Create shop
@@ -77,32 +75,26 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
-    
     resetShops: (state) => {
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
       state.message = ''
     },
-    stopShopsTry: (state) => {
-      state.shopsLoadTried++
+    gotShops: (state) => {
+      state.shopsApiCallCount++
     },
-
     gotShop: (state) => {
-      state.shopsLoadTried++
+      state.shopApiCallCount++
     },
     resetExceptShop: (state) => {
       state.shops = []
-      state.shopsLoadTried = 0
+      state.shopsApiCallCount = 0
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
       state.message = ''
-    },
-    
-    /* toggleAddressRender: (state) => {
-      state.renderPending = !state.renderPending
-    }, */
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -148,19 +140,9 @@ export const shopSlice = createSlice({
     })
 
 
-    // .addCase(getShop.pending, (state) => {
-    //   state.isLoading = true
-    // })
     .addCase(getShop.fulfilled, (state, action) => {
-        // state.isLoading = false
-        // state.isSuccess = true
         state.shop = action.payload
     })
-    // .addCase(getShop.rejected, (state, action) => {
-    //     state.isLoading = false
-    //     state.isError = true
-    //     state.message = action.payload
-    // })
 
     .addCase(deleteShop.pending, (state) => {
         state.isLoading = true
@@ -178,5 +160,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, resetShops, stopShopsTry, gotShop, resetExceptShop} = shopSlice.actions  // add toggleAddressRender if required
+export const {reset, resetShops, gotShops, gotShop, resetExceptShop} = shopSlice.actions
 export default shopSlice.reducer

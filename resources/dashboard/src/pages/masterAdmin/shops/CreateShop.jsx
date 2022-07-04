@@ -5,7 +5,6 @@ import { useParams, useLocation } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
 import {createShop, reset, getShop, gotShop, resetExceptShop} from '../../../features/shops/shopSlice'
-// import {createShop, reset, getShop, gotShop, resetExceptShop, toggleAddressRender} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 import InputAddress from '../../../components/InputAddress'
 
@@ -17,7 +16,6 @@ function CreateShop() {
 
   // const {auth} = useSelector((state) => state.auth)
   const {isLoading, isError, isSuccess, message, shop, shopApiCallCount} = useSelector((state) => state.shops)
-  // const {isLoading, isError, isSuccess, message, shop, shopApiCallCount, renderPending} = useSelector((state) => state.shops)
 
   // is parameter passed? then surely it is edit form
   const { id } = useParams();

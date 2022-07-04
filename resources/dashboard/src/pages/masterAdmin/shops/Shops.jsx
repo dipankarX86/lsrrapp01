@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
-import {getPagedShops, stopShopsTry, resetShops} from '../../../features/shops/shopSlice'  // getShops is removed
+import {getPagedShops, gotShops, resetShops} from '../../../features/shops/shopSlice'  // getShops is removed
 import Spinner from '../../../components/Spinner'
 import {FaCaretLeft, FaCaretRight, FaSearch, FaPlus, FaSync} from 'react-icons/fa'
 
@@ -20,7 +20,7 @@ function Shops() {
   const dispatch = useDispatch()
 
   // const {auth} = useSelector((state) => state.auth)
-  const {shops, shopsLoadTried, isLoading, isError, message} = useSelector((state) => state.shops)
+  const {shops, shopsApiCallCount, isLoading, isError, message} = useSelector((state) => state.shops)
 
   // Search form parameters
   const [searchParams, setSearchParams] = useState({
@@ -115,7 +115,7 @@ function Shops() {
       console.log('Shops access is Unauthorized')
     } */ 
     
-    if(shopsLoadTried === 0) {
+    if(shopsApiCallCount === 0) {
       // dispatch(getPagedShops(1))  // this is to be changed to new format supporting search
       const loadParams = { // to the api, through slice
         srchString,
@@ -123,7 +123,7 @@ function Shops() {
         'scrhPage': 1,
       }
       console.log(loadParams)
-      dispatch(stopShopsTry())
+      dispatch(gotShops())
       dispatch(getPagedShops(loadParams))    // THIS GOES TO INF LOOP IF THE SERVER IS DOWN, SET LIMITS FOR MAX CALL COUNT
     }
     
@@ -133,8 +133,8 @@ function Shops() {
       // HOW WILL I CLEAR FIRST TIME????
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shopsLoadTried, isError, message, navigate, dispatch])  
-  // }, [shopsLoadTried, isError, message, srchSort, srchString, navigate, dispatch])  
+  }, [shopsApiCallCount, isError, message, navigate, dispatch])  
+  // }, [shopsApiCallCount, isError, message, srchSort, srchString, navigate, dispatch])  
     // removed dependency of shops to avoid infinite loop
 
   if(isLoading) {
