@@ -4,8 +4,9 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import {toast} from 'react-toastify'
 import {logout, reset} from '../../features/auth/authSlice'
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 // import Spinner from '../../components/Spinner'
+import {FaUser} from 'react-icons/fa' //
 
 import { Outlet } from "react-router-dom"
 
@@ -29,7 +30,7 @@ function MasterAdminDashboard() {
       toast.error(message)
     }
 
-    if(!auth || auth.user.role !== '1') {
+    if(!auth || auth.user.role !== 1) {
       navigate('/')
     }
 
@@ -74,33 +75,40 @@ function MasterAdminDashboard() {
                 <NavDropdown title="Shops" id={`offcanvasNavbarDropdown-expand-${expand}`}>
                   <NavDropdown.Item href="#/masterAdmin/shops">Shops</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#/masterAdmin/shops/1">Shop</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#/masterAdmin/shops/1">Shop</NavDropdown.Item> */}
                   <NavDropdown.Item href="#/masterAdmin/shops/create">Add Shop</NavDropdown.Item>
-                  <NavDropdown.Item href="#/masterAdmin/shops/edit/1">Edit Shop</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#/masterAdmin/shops/edit/1">Edit Shop</NavDropdown.Item> */}
                 </NavDropdown>
 
                   <NavDropdown title="Accounts" id={`offcanvasNavbarDropdown-expand-${expand}`}>
                     <NavDropdown.Item href="#/masterAdmin/accounts">Accounts</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#/masterAdmin/accounts/1">Account</NavDropdown.Item>
+                    {/* <NavDropdown.Item href="#/masterAdmin/accounts/1">Account</NavDropdown.Item> */}
                     <NavDropdown.Item href="#/masterAdmin/accounts/create">Add Account</NavDropdown.Item>
-                    <NavDropdown.Item href="#/masterAdmin/accounts/edit/1">Edit Account</NavDropdown.Item>
+                    {/* <NavDropdown.Item href="#/masterAdmin/accounts/edit/1">Edit Account</NavDropdown.Item> */}
                   </NavDropdown>
 
                 <NavDropdown title="Categories" id={`offcanvasNavbarDropdown-expand-${expand}`}>
                   <NavDropdown.Item href="#/masterAdmin/categories">Categories</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#/masterAdmin/categories/1">Category</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#/masterAdmin/categories/1">Category</NavDropdown.Item> */}
                   <NavDropdown.Item href="#/masterAdmin/categories/create">Add Category</NavDropdown.Item>
-                  <NavDropdown.Item href="#/masterAdmin/categories/edit/1">Edit Category</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#/masterAdmin/categories/edit/1">Edit Category</NavDropdown.Item> */}
                 </NavDropdown>
 
                 <NavDropdown align="end" title="Services" id={`offcanvasNavbarDropdown-expand-${expand}`}>
                   <NavDropdown.Item href="#/masterAdmin/services">Services</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#/masterAdmin/services/1">Service</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#/masterAdmin/services/1">Service</NavDropdown.Item> */}
                   <NavDropdown.Item href="#/masterAdmin/services/create">Add Service</NavDropdown.Item>
-                  <NavDropdown.Item href="#/masterAdmin/services/edit/1">Edit Shop Service</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#/masterAdmin/services/edit/1">Edit Shop Service</NavDropdown.Item> */}
+                </NavDropdown>
+
+                <NavDropdown align="end" title={<div style={{display: "inline-block"}}><FaUser /> </div>} id={`offcanvasNavbarDropdown-expand-${expand}`}>
+                  <NavDropdown.Item href="#/">My Profile</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#/">Change Password</NavDropdown.Item>
+                  <NavDropdown.Item  onClick={logUserOut} href="#/">Logout</NavDropdown.Item>
                 </NavDropdown>
 
               </Nav>
@@ -114,13 +122,14 @@ function MasterAdminDashboard() {
       
       <div className="container app-footer-dash">
         <div className="row">
-          <div className="col p-2">
-            <Button variant="outline-primary" onClick={logUserOut}>Logout</Button>{' '}
+          <div className="col p-2 d-flex justify-content-center">
+            Column
+            {/* <Button variant="outline-primary" onClick={logUserOut}>Logout</Button>{' '} */}
           </div>
-          <div className="col p-2">
-            This is from: MasterAdminDashboard.js
+          <div className="col p-2 d-flex justify-content-center">
+            From - MasterAdminDashboard.js
           </div>
-          <div className="col p-2">
+          <div className="col p-2 d-flex justify-content-center">
             Column
           </div>
         </div>

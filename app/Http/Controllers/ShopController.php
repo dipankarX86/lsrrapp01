@@ -16,7 +16,28 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return Shop::all();
+        // call all the shops first, [simplePaginate has some problems( it dont have a next page)]
+        // $rawShops = Shop::latest()->paginate(6);
+        $rawShops = null;
+
+        /* if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'DESC_CREATED') {
+            $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
+        } else  */
+        if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'ASC_CREATED') {
+            $rawShops = Shop::oldest()->filter(request(['srch_string']))->paginate(6);
+        } else {
+            $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
+        }
+        
+        $shops =  json_decode(json_encode($rawShops));
+
+        // now create the hierarchy
+        for($i=0 ; $i < sizeof($shops->data) ; $i++) {
+            if($shops->data[$i]->address) {  // to test if address is is present, if not, then no need to bother the database
+                $shops->data[$i]->address = Address::where('id', $shops->data[$i]->address)->first();
+            }
+        }
+        return $shops;
     }
 
 
@@ -28,6 +49,12 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+        
+        /* $myfile = fopen("TEST.txt", "w") or die("Unable to open file!");
+        $txt = $request->address->state;
+        fwrite($myfile, $txt);
+        fclose($myfile); */
+
         // error message
         $fields = $request->validate([
             'email' => 'required|string|unique:shops,email',
@@ -117,8 +144,24 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        //
+        $rawShop = Shop::where('id', $id)->first();
+
+        $shop =  json_decode(json_encode($rawShop));
+
+        if($shop->address) {  // to test if address is is present, if not, then no need to bother the database
+            $shop->address = Address::where('id', $shop->address)->first();
+            $shop->owner_address = Address::where('id', $shop->owner_address)->first();
+        }
+
+        // response
+        $response = [
+            'shop' => $shop,
+        ];
+
+        // return what is needed
+        return response($response, 201);
     }
+    // 
 
     /**
      * Update the specified resource in storage.

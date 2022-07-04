@@ -32,7 +32,7 @@ function FrontDeskDashboard() {
       toast.error(message)
     }
 
-    if(!auth || auth.user.role !== '3') {
+    if(!auth || auth.user.role !== 3) {
       navigate('/')
     }
 

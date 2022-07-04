@@ -3,10 +3,14 @@ import shopService from './shopService'
 
 const initialState = {
   shops: [],
+  shopsApiCallCount: 0,
   isLoading: false,
   isSuccess: false,
   isError: false,
-  message: ''
+  message: '',
+  
+  shop: null,
+  shopApiCallCount: 0,
 }
 
 // Create shop
@@ -20,11 +24,34 @@ export const createShop = createAsyncThunk('shops/create', async (shopData, thun
   }
 })
 
+
 // Get shops
-export const getShops = createAsyncThunk('shops/getAll', async (_, thunkAPI) => {
+/* export const getShops = createAsyncThunk('shops/getAll', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.auth.token
     return await shopService.getShops(token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+}) */
+// Get PAGED Shops
+export const getPagedShops = createAsyncThunk('shops/getPaged', async (loadParams, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.auth.token
+    return await shopService.getPagedShops(token, loadParams)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+// Get Shop
+export const getShop = createAsyncThunk('shops/getOne', async (shopId, thunkAPI) => {
+  console.log(shopId)
+  try {
+    const token = thunkAPI.getState().auth.auth.token
+    return await shopService.getShop(token, shopId)
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)
@@ -47,7 +74,27 @@ export const shopSlice = createSlice({
   name: 'shop',
   initialState,
   reducers: {
-    reset: (state) => initialState
+    reset: (state) => initialState,
+    resetShops: (state) => {
+      state.isLoading = false
+      state.isSuccess = false
+      state.isError = false
+      state.message = ''
+    },
+    gotShops: (state) => {
+      state.shopsApiCallCount++
+    },
+    gotShop: (state) => {
+      state.shopApiCallCount++
+    },
+    resetExceptShop: (state) => {
+      state.shops = []
+      state.shopsApiCallCount = 0
+      state.isLoading = false
+      state.isSuccess = false
+      state.isError = false
+      state.message = ''
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -57,7 +104,7 @@ export const shopSlice = createSlice({
     .addCase(createShop.fulfilled, (state, action) => {
       state.isLoading = false
       state.isSuccess = true
-      state.shops.push(action.payload)
+      // state.shops.push(action.payload)  // need to make sure if this is required, ad shops is unlikely to survive form exit
     })
     .addCase(createShop.rejected, (state, action) => {
       state.isLoading = false
@@ -65,7 +112,7 @@ export const shopSlice = createSlice({
       state.message = action.payload
     })
 
-    .addCase(getShops.pending, (state) => {
+    /* .addCase(getShops.pending, (state) => {
         state.isLoading = true
     })
     .addCase(getShops.fulfilled, (state, action) => {
@@ -77,6 +124,24 @@ export const shopSlice = createSlice({
         state.isLoading = false
         state.isError = true
         state.message = action.payload
+    }) */
+    .addCase(getPagedShops.pending, (state) => {
+      state.isLoading = true
+    })
+    .addCase(getPagedShops.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.shops = action.payload
+    })
+    .addCase(getPagedShops.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+    })
+
+
+    .addCase(getShop.fulfilled, (state, action) => {
+        state.shop = action.payload
     })
 
     .addCase(deleteShop.pending, (state) => {
@@ -95,5 +160,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset} = shopSlice.actions
+export const {reset, resetShops, gotShops, gotShop, resetExceptShop} = shopSlice.actions
 export default shopSlice.reducer

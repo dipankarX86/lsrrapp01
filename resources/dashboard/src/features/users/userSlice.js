@@ -6,8 +6,26 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
-  message: ''
+  message: '',
+  
+  roles: [],
+  rolesApiCallCount: 0,
+  isLoadingRoles: false,
+  isSuccessRoles: false,
+  isErrorRoles: false,
+  messageRoles: ''
 }
+
+// Get roles for users
+export const getRoles = createAsyncThunk('roles/getAll', async (_, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.auth.token
+    return await userService.getRoles(token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 
 // Create user
 export const createUser = createAsyncThunk('users/create', async (userData, thunkAPI) => {
@@ -53,10 +71,28 @@ export const userSlice = createSlice({
           state.isSuccess = false
           state.isError = false
           state.message = ''
+      },
+      gotRoles: (state) => {
+          state.rolesApiCallCount++
       }
   },
   extraReducers: (builder) => {
     builder
+
+    .addCase(getRoles.pending, (state) => {
+        state.isLoadingRoles = true
+    })
+    .addCase(getRoles.fulfilled, (state, action) => {
+        state.isLoadingRoles = false
+        state.isSuccessRoles = true
+        state.roles = action.payload
+    })
+    .addCase(getRoles.rejected, (state, action) => {
+        state.isLoadingRoles = false
+        state.isErrorRoles = true
+        state.messageRoles = action.payload
+    })
+
     .addCase(createUser.pending, (state) => {
         state.isLoading = true
     })
@@ -101,5 +137,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const {reset} = userSlice.actions
+export const {reset, gotRoles} = userSlice.actions
 export default userSlice.reducer

@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
+import { useParams, useLocation } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-import {createShop, reset} from '../../../features/shops/shopSlice'
+import {createShop, reset, getShop, gotShop, resetExceptShop} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
-import Address from '../../../components/addrComponents/Address'
-
+import InputAddress from '../../../components/InputAddress'
 
 function CreateShop() {
-
   console.log("CREATE-SHOP: Entered")
+  
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  // const {auth} = useSelector((state) => state.auth)
+  const {isLoading, isError, isSuccess, message, shop, shopApiCallCount} = useSelector((state) => state.shops)
+
+  // is parameter passed? then surely it is edit form
+  const { id } = useParams();
+  const routeLocation = useLocation();
+  // console.log(routeLocation)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -29,7 +39,7 @@ function CreateShop() {
   const {
     email, 
     phone, 
-    address, //
+    address,
     latLon, 
     pan, 
     gst, 
@@ -37,38 +47,12 @@ function CreateShop() {
     ownerName, 
     ownerEmail, 
     ownerPhone, 
-    ownerAddress, //
+    ownerAddress,
   } = formData
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  const {auth} = useSelector((state) => state.auth)
-  // const {shops, isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
-  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.shops)
-
-  // use effect function call
-  useEffect(() => {
-    if(isError) {
-      // console.log("CREATE-SHOP: UseEffect - 1")
-      toast.error(message)
-    }
-
-    if(!auth) {
-      // console.log("CREATE-SHOP: UseEffect - 2")
-      toast.error('Create-Shop access is Unauthorized')
-    }
-
-    if(isSuccess) {
-      // console.log("CREATE-SHOP: UseEffect - 3")
-      navigate('/masterAdmin/shops')
-    }
-
-    dispatch(reset())
-
-  }, [auth, isError, isSuccess, message, navigate, dispatch])
-
-
+  const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
+  const [shopSubmitted, setShopSubmitted] = useState(false);
+  
   // on change
   const onChange = (e) => {
     // console.log("CREATE-SHOP: Non Address Form-Fields onChange")
@@ -78,10 +62,6 @@ function CreateShop() {
     }))
   }
 
-
-  // 
-  const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
-  //
   // copy shop address details to owner address details
   const copyShopAddrToOwner = () => {
     // console.log("CREATE-SHOP: copyShopAddrToOwner Status Change")
@@ -109,18 +89,17 @@ function CreateShop() {
       setOwnerAddrIsSameAsShop(false)
     }
   }
+
   // 
-
-
-  // Final submission of the form to the server
-  const onSubmit = (e) => {
+  const onSubmit = (e) => {  // Final submission of the form to the server
+    // 
     // console.log("CREATE-SHOP: onSubmit")
     e.preventDefault()
-
+    // 
     const shopData = {
       email, 
       phone, 
-      address, //
+      address,
       latLon, 
       pan, 
       gst, 
@@ -128,14 +107,72 @@ function CreateShop() {
       ownerName, 
       ownerEmail, 
       ownerPhone, 
-      ownerAddress, //
+      ownerAddress,
     }
-
     // console.log(shopData)
     dispatch(createShop(shopData))
+    setShopSubmitted(true)
     toast.success('form submitted!!!!')
   }
 
+  // 
+  // use effect function call
+  useEffect(() => {
+
+    // if the form is edit form(known from the link name and the parameter passed), 
+    // I need to load the shop details
+    if ( id && !shop && shopApiCallCount === 0) {  //////
+      dispatch(getShop(id))
+      dispatch(gotShop())
+    } 
+    // if shop is received
+    if(shop) {
+      // now set the formData, 
+      setFormData((previousState) => ({  //////
+        ...previousState, 
+        'email': shop.email,
+        'phone': shop.phone,
+        'address': shop.address,
+        'latLon': shop.lat_lon,
+        'pan': shop.pan,
+        'gst': shop.gst,
+        'tradeLicense': shop.trade_license,
+        'ownerName': shop.owner_name,
+        'ownerEmail': shop.owner_email,
+        'ownerPhone': shop.owner_phone,
+        'ownerAddress': shop.owner_address,
+      }))
+    }
+
+    if(isError) {
+      // console.log("CREATE-SHOP: UseEffect - 1")
+      toast.error(message)
+    }
+
+    /* if(!auth) {
+      // console.log("CREATE-SHOP: UseEffect - 2")
+      toast.error('Create-Shop access is Unauthorized')
+    } */
+
+    if(shopSubmitted && isSuccess) {  // This needs to run after submit button is pressed
+      // console.log("CREATE-SHOP: UseEffect - 3")
+      navigate('/masterAdmin/shops')
+    }
+
+    if (routeLocation.pathname === '/masterAdmin/shops/create') {  //////
+      dispatch(reset())
+    } else {  // i.e. /masterAdmin/shops/edit/17 etc
+      dispatch(resetExceptShop())
+    }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shop, isError, message, isSuccess, dispatch, navigate, shopSubmitted])
+    // [id, routeLocation, shop, shopApiCallCount, isError, message, isSuccess, dispatch, navigate, shopSubmitted])  // add renderPending if required
+    // id, shop and shopApiCallCount needs default values for create shop to work
+    // that can be done in shopSlice. 
+
+
+  // 
   if(isLoading) {
     return <Spinner />
   }
@@ -181,7 +218,7 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          <Address setAddrDataToShop={setAddrData} fillData={address} />
+          <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
           <br />
 
           <div className="mb-3 formm-group">
@@ -284,12 +321,12 @@ function CreateShop() {
 
           <h4>Owner Address Details</h4>
           { ownerAddrIsSameAsShop ? 
-            <Address setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
+            <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
             : <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
               <br />
-              <Address setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
             </> }
           
           <div className="mb-3 formm-group">

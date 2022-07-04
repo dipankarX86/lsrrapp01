@@ -3,8 +3,8 @@ import addressService from './addressService'
 
 const initialState = {
   csc: null,  // make it one, in the backend, will fetch them as one api call
-  apiCallCount: 0,
-  // lastFetched:'',  // will fetch again if older then say 1hr
+  cscApiCallCount: 0,
+  
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -29,23 +29,13 @@ export const addressSlice = createSlice({
   reducers: {
     reset: (state) => initialState,
     gotCsc: (state) => {
-      state.apiCallCount++
+      state.cscApiCallCount++
     }
   },
   extraReducers: (builder) => {
     builder
-    .addCase(getCsc.pending, (state) => {
-        state.isLoading = true
-    })
     .addCase(getCsc.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
         state.csc = action.payload
-    })
-    .addCase(getCsc.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
     })
   }
 })

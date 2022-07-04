@@ -32,7 +32,7 @@ function TransporterDashboard() {
       toast.error(message)
     }
 
-    if(!auth || auth.user.role !== '4') {
+    if(!auth || auth.user.role !== 4) {
       navigate('/')
     }
 

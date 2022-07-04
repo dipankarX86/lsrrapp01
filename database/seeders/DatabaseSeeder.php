@@ -2,14 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-// use App\Models\Shop;
-use App\Models\Service;
-use App\Models\Category;
 use App\Models\City;
-use App\Models\Country;
-use App\Models\Customer;
+use App\Models\Role;
+use App\Models\Shop;
 use App\Models\State;
+use App\Models\Address;
+use App\Models\Country;
+// use App\Models\Service;
+// use App\Models\Category;
+// use App\Models\Customer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,7 +27,8 @@ class DatabaseSeeder extends Seeder
 
 
         // Seed shops
-        // Shop::factory(6)->create();
+        Shop::factory(16)->create();
+        Address::factory(20)->create();
 
 
         // Seed roles

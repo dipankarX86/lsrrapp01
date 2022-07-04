@@ -33,7 +33,7 @@ function HomeServiceDashboard() {
       toast.error(message)
     }
 
-    if(!auth || auth.user.role !== '6') {
+    if(!auth || auth.user.role !== 6) {
       navigate('/')
     }
 

@@ -99,6 +99,8 @@ class AddressController extends Controller
         // the citywe are going to save bellow will be the id returned after saving the new city
         // same for country and state
         // 
+
+        $csc = $city->name.', '.$state->name.', '.$country->name;
         
         // now create the address in table
         $address = Address::create([
@@ -107,7 +109,8 @@ class AddressController extends Controller
             'city' => $fields['city'],
             'state' => $fields['state'],
             'country' => $fields['country'],
-            'postal_code' => $fields['postal_code']
+            'postal_code' => $fields['postal_code'],  // need a separete csc column, also change the id columns to interger
+            'csc' => $csc
         ]);
 
         // return what is needed

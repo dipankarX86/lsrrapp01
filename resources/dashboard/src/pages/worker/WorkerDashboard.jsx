@@ -32,7 +32,7 @@ function WorkerDashboard() {
       toast.error(message)
     }
 
-    if(!auth || auth.user.role !== '5') {
+    if(!auth || auth.user.role !== 5) {
       navigate('/')
     }
 

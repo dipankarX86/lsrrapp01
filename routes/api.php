@@ -41,7 +41,7 @@ Route::get('/sanctum/csrf-cookie', function (Request $request) {  // CSRF token 
 Route::middleware(['auth:sanctum', 'role:1'])->get('/roles', [RoleController::class, 'index']);  // retrieving all the roles
 
 // city, state and country lists returning
-Route::middleware(['auth:sanctum', 'role:1'])->get('/addresses/CSC', [AddressController::class, 'csc']);
+Route::middleware(['auth:sanctum', 'role:1'])->get('/addresses/csc', [AddressController::class, 'csc']);
 //
 Route::middleware(['auth:sanctum', 'role:1'])->get('/countries/2levels/{id}', [CountryController::class, 'index']);
 Route::middleware(['auth:sanctum', 'role:1'])->get('/states/2levels/{id}', [StateController::class, 'statesForCountry']);
@@ -55,6 +55,8 @@ Route::middleware(['auth:sanctum', 'role:1'])->post('/users', [UserController::c
 Route::post('/users/login', [UserController::class, 'login']);  // Logging in, for any admin user
 Route::middleware('auth:sanctum')->post('/users/logout', [UserController::class, 'logout']);  // logs the user out
 
-Route::get('/shops', [ShopController::class, 'index']);  // show all the shops available
+// Route::get('/shops', [ShopController::class, 'index']);  // show all the shops available
 Route::middleware(['auth:sanctum', 'role:1'])->post('/shops', [ShopController::class, 'store']);  // creates a new shop
+Route::middleware(['auth:sanctum', 'role:1'])->get('/shops', [ShopController::class, 'index']);  // delivers a list of shops with sorting, filter and pagination
+Route::middleware(['auth:sanctum', 'role:1'])->get('/shops/{id}', [ShopController::class, 'show']);
 

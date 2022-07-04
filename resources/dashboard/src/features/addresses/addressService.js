@@ -10,7 +10,7 @@ const getCsc = async (token) => {
           Authorization: `Bearer ${token}`
       }
   }
-  const response = await axios.get(API_URL + '/CSC', config)
+  const response = await axios.get(API_URL + '/csc', config)  // replace with csc in both front an bkend
   console.log(response.data)
   return response.data
 }

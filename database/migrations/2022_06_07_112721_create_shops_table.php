@@ -18,7 +18,8 @@ class CreateShopsTable extends Migration
 
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('address')->nullable();
+            // $table->string('address')->nullable();
+            $table->foreignId('address')->nullable();
             $table->string('lat_lon')->nullable();
             $table->string('pan')->nullable();
             $table->string('gst')->nullable();
@@ -26,7 +27,8 @@ class CreateShopsTable extends Migration
             $table->string('owner_name')->nullable();
             $table->string('owner_email')->nullable();
             $table->string('owner_phone')->nullable();
-            $table->string('owner_address')->nullable();
+            // $table->string('owner_address')->nullable();
+            $table->foreignId('owner_address')->nullable();
             // $table->foreignId('initial_details');
             // $table->foreignId('gallery');        // load these separately in another rest call if needed
                                                     // can be easily searched for the shop id, dont link them in the model

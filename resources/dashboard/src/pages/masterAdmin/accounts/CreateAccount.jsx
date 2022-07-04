@@ -3,12 +3,17 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
-import {createUser, reset} from '../../../features/users/userSlice'
+import {getRoles, gotRoles, createUser, reset} from '../../../features/users/userSlice'
 import Spinner from '../../../components/Spinner'
 
-import axios from 'axios'
-
 function CreateAccount() {
+  console.log("CREATE-ACCOUNT: Entered")
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  // const {auth} = useSelector((state) => state.auth)
+  const {roles, isLoadingRoles, isErrorRoles, messageRoles, rolesApiCallCount,  isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
 
   // Form prefill datas
   const [formPrefill, setFormPrefill] = useState({
@@ -36,45 +41,6 @@ function CreateAccount() {
     password_confirmation
   } = formData
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  const {auth} = useSelector((state) => state.auth)
-  const {isLoading, isError, isSuccess, message} = useSelector((state) => state.users)
-
-
-  // use effect function call
-  useEffect(() => {
-    if(isError) {
-      console.log(message);
-    }
-
-    if(!auth) {
-      toast.error('Create-Account access is unauthorized')
-    } else {
-      const token = JSON.parse(localStorage.getItem('auth')).token
-      const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      }
-      axios.get('/api/roles', config).then((response) => {
-        setFormPrefill((previousState) => ({
-          ...previousState, 
-          'roles': response.data,
-        }))
-        // console.log(formPrefill.roles)  // hide it or it will require formPrefill to be passed to useffect
-      });  
-    }
-
-    if(isSuccess) {
-      navigate('/masterAdmin/accounts')
-    }
-
-    dispatch(reset())
-  }, [auth, isError, isSuccess, message, navigate, dispatch])
-
-
   // on change (what is it???)
   const onChange = (e) => {
     setFormData((previousState) => ({
@@ -82,7 +48,6 @@ function CreateAccount() {
       [e.target.name]: e.target.value,
     }))
   }
-
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -101,17 +66,54 @@ function CreateAccount() {
       }
 
       dispatch(createUser(userData))
+      toast.success('form submitted!!!!')
     }
   }
 
 
-  if(isLoading) {
+  // use effect function call
+  useEffect(() => {
+
+    // if roles are empty in redux store we need them loaded first
+    if ( roles.length === 0 && rolesApiCallCount === 0) {  // roles reset is never called, thats why: infinite loop not formed at reset
+      console.log('ROLES API CALL')
+      dispatch(getRoles())
+      dispatch(gotRoles())
+    } 
+
+    if(roles.length > 0 && formPrefill.roles.length === 0) {
+      setFormPrefill((previousState) => ({
+        ...previousState, 
+        'roles': roles,
+      }))
+    }
+
+    if(isErrorRoles) {
+      console.log(messageRoles);
+    }
+    if(isError) {
+      toast.error(message);
+    }
+
+    /* if(!auth) {
+      toast.error('Create-Account access is unauthorized')
+    } */
+
+    if(isSuccess) {
+      navigate('/masterAdmin/accounts')
+    }
+
+    dispatch(reset())    // THIS MAY BE DANGEROUS, NEED TO KNOW WHY IT IS REQUIRED AND WHAT IT IS EXACTLY DOING
+
+  }, [isError, isSuccess, message, navigate, dispatch, roles, isErrorRoles, messageRoles, rolesApiCallCount, formPrefill])
+
+
+  if(isLoading || isLoadingRoles) {
     return <Spinner />
   }
 
   return (
     <>
-
       <section className="headingg">
         <h1>
           <FaUser /> Account Creation
@@ -231,3 +233,4 @@ function CreateAccount() {
 }
 
 export default CreateAccount
+

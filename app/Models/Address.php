@@ -21,6 +21,7 @@ class Address extends Model
         'state',
         'country',
         'postal_code',
+        'csc',
     ];
 
 
