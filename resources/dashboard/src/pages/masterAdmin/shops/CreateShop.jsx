@@ -54,6 +54,7 @@ function CreateShop() {
   const [shopSubmitted, setShopSubmitted] = useState(false);
 
   const [addrAvailable, setAddrAvailable] = useState(false);
+  const [ownerAddrAvailable, setOwnerAddrAvailable] = useState('PRE');
   
   // on change
   const onChange = (e) => {
@@ -132,22 +133,31 @@ function CreateShop() {
       // now set the formData, 
       setFormData((previousState) => ({  //////
         ...previousState, 
-        'email': shop.email,
-        'phone': shop.phone,
-        'address': shop.address,
-        'latLon': shop.lat_lon,
-        'pan': shop.pan,
-        'gst': shop.gst,
-        'tradeLicense': shop.trade_license,
-        'ownerName': shop.owner_name,
-        'ownerEmail': shop.owner_email,
-        'ownerPhone': shop.owner_phone,
-        'ownerAddress': shop.owner_address,
+        'email': shop.email ? shop.email : '',
+        'phone': shop.phone ? shop.phone : '',
+        'address': shop.address ? shop.address : {},
+        'latLon': shop.lat_lon ? shop.lat_lon : '',
+        'pan': shop.pan ? shop.pan: '',
+        'gst': shop.gst ? shop.gst : '',
+        'tradeLicense': shop.trade_license ? shop.trade_license : '',
+        'ownerName': shop.owner_name ? shop.owner_name : '',
+        'ownerEmail': shop.owner_email ? shop.owner_email : '',
+        'ownerPhone': shop.owner_phone ? shop.owner_phone : '',
+        'ownerAddress': shop.owner_address ? shop.owner_address : {},
       }))
 
       if(shop.address && shop.address.city) {
-        console.log(address.city)
-        setAddrAvailable(true)
+        // console.log('REACHED REACHED REACHED  !!!!!!!!!!!!!!!!')
+        setAddrAvailable('AVAIL')
+      } else {
+        setAddrAvailable('UNAVAIL')
+      }
+
+      if(shop.owner_address && shop.owner_address.city) {
+        // console.log('REACHED REACHED REACHED  !!!!!!!!!!!!!!!!')
+        setOwnerAddrAvailable('AVAIL')
+      } else {
+        setOwnerAddrAvailable('UNAVAIL')
       }
     }
 
@@ -166,13 +176,14 @@ function CreateShop() {
       navigate('/masterAdmin/shops')
     }
 
-    if (routeLocation.pathname === '/masterAdmin/shops/create') {  //////
+    if (routeLocation.pathname==='/masterAdmin/shops/create') {  //////
       dispatch(reset())
     } else {  // i.e. /masterAdmin/shops/edit/17 etc
       dispatch(resetExceptShop())
     }
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   }, [shop, isError, message, isSuccess, dispatch, navigate, shopSubmitted])
     // [id, routeLocation, shop, shopApiCallCount, isError, message, isSuccess, dispatch, navigate, shopSubmitted])  // add renderPending if required
     // id, shop and shopApiCallCount needs default values for create shop to work
@@ -225,9 +236,21 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          { addrAvailable ? 
-            <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
-            : <></> 
+          { (addrAvailable==='AVAIL') ? 
+            <>
+              <p>Edit old Address</p>
+              <InputAddress setAddrDataToShop={setAddrData} fillData={address} /> 
+            </>
+            : 
+            (addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') ? 
+            <>
+              <p>Address does not exists</p>
+              <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
+            </> 
+            :
+            <>
+              <p>Loading ...</p>
+            </> 
           }
           <br />
 
@@ -330,15 +353,41 @@ function CreateShop() {
           <br />
 
           <h4>Owner Address Details</h4>
-          { !addrAvailable ? <></> 
-            : ownerAddrIsSameAsShop ? 
-            <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
-            : <>
+          {
+            (ownerAddrAvailable==='AVAIL' && ownerAddrIsSameAsShop) ? 
+            <>
+              <p>Edit old Address, owner Addr is same as shop Addr</p>
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} />
+            </> 
+            : 
+            (ownerAddrAvailable==='AVAIL' && !ownerAddrIsSameAsShop) ? 
+            <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
               <br />
+              <p>Edit old Address, owner Addr is different from shop Addr</p>
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
-            </> }
+            </>
+            :
+            ((ownerAddrAvailable==='UNAVAIL' && ownerAddrIsSameAsShop) || routeLocation.pathname==='/masterAdmin/shops/create') ? 
+            <>
+              <p>Address does not exists, owner Addr is same as shop Addr</p>
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} />
+            </> 
+            : 
+            ((ownerAddrAvailable==='UNAVAIL' && !ownerAddrIsSameAsShop) || routeLocation.pathname==='/masterAdmin/shops/create') ? 
+            <>
+              <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
+              <br />
+              <br />
+              <p>Address does not exists, owner Addr is different from shop Addr</p>
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
+            </>
+            :
+            <>
+              <p>Loading ...</p>
+            </>
+          }
           
           <div className="mb-3 formm-group">
             <button type="submit" className="btnn btnn-block">Submit</button>
