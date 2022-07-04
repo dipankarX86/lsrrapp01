@@ -52,6 +52,8 @@ function CreateShop() {
 
   const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
   const [shopSubmitted, setShopSubmitted] = useState(false);
+
+  const [addrAvailable, setAddrAvailable] = useState(false);
   
   // on change
   const onChange = (e) => {
@@ -142,6 +144,11 @@ function CreateShop() {
         'ownerPhone': shop.owner_phone,
         'ownerAddress': shop.owner_address,
       }))
+
+      if(shop.address && shop.address.city) {
+        console.log(address.city)
+        setAddrAvailable(true)
+      }
     }
 
     if(isError) {
@@ -218,7 +225,10 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
+          { addrAvailable ? 
+            <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
+            : <></> 
+          }
           <br />
 
           <div className="mb-3 formm-group">
@@ -320,7 +330,8 @@ function CreateShop() {
           <br />
 
           <h4>Owner Address Details</h4>
-          { ownerAddrIsSameAsShop ? 
+          { !addrAvailable ? <></> 
+            : ownerAddrIsSameAsShop ? 
             <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} /> 
             : <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
