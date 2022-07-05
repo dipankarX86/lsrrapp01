@@ -24,9 +24,9 @@ class ShopController extends Controller
             $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
         } else  */
         if (request(['sort_by']) && request(['sort_by'])['sort_by'] === 'ASC_CREATED') {
-            $rawShops = Shop::oldest()->filter(request(['srch_string']))->paginate(6);
+            $rawShops = Shop::oldest()->filter(request(['srch_string']))->paginate(12);
         } else {
-            $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(6);
+            $rawShops = Shop::latest()->filter(request(['srch_string']))->paginate(12);
         }
         
         $shops =  json_decode(json_encode($rawShops));

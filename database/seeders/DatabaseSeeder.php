@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
 
 
         // Seed shops
-        Shop::factory(16)->create();
-        Address::factory(20)->create();
+        Shop::factory(100)->create();
+        Address::factory(200)->create();
 
 
         // Seed roles
