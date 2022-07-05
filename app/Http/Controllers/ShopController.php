@@ -62,9 +62,9 @@ class ShopController extends Controller
 
             'address.line1' => 'nullable|string',  // this is a possibility  
             'address.line2' => 'nullable|string',
-            'address.city' => 'string',
-            'address.state' => 'string',
-            'address.country' => 'string',
+            'address.city' => 'required|string',
+            'address.state' => 'required|string',
+            'address.country' => 'required|string',
             'address.postal_code' => 'nullable|string',
 
             // 'address' => '',
@@ -79,9 +79,9 @@ class ShopController extends Controller
 
             'owner_address.line1' => 'nullable|string',  // this is a possibility  
             'owner_address.line2' => 'nullable|string',
-            'owner_address.city' => 'string',
-            'owner_address.state' => 'string',
-            'owner_address.country' => 'string',
+            'owner_address.city' => 'required|string',
+            'owner_address.state' => 'required|string',
+            'owner_address.country' => 'required|string',
             'owner_address.postal_code' => 'nullable|string',
 
             // 'owner_address' => '',

@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router'
 import { useParams, useLocation } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-import {createShop, reset, getShop, gotShop, resetExceptShop} from '../../../features/shops/shopSlice'
+import {createShop, editShop, reset, getShop, gotShop, resetExceptShop} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 import InputAddress from '../../../components/InputAddress'
 
@@ -95,25 +95,43 @@ function CreateShop() {
 
   // 
   const onSubmit = (e) => {  // Final submission of the form to the server
-    // 
     // console.log("CREATE-SHOP: onSubmit")
     e.preventDefault()
     // 
-    const shopData = {
-      email, 
-      phone, 
-      address,
-      latLon, 
-      pan, 
-      gst, 
-      tradeLicense,
-      ownerName, 
-      ownerEmail, 
-      ownerPhone, 
-      ownerAddress,
-    }
     // console.log(shopData)
-    dispatch(createShop(shopData))
+    // depending upon, it is on create or edit page, it will call the slice function accordingly
+    if (routeLocation.pathname==='/masterAdmin/shops/create') {
+      const shopData = {
+        email, 
+        phone, 
+        address,
+        latLon, 
+        pan, 
+        gst, 
+        tradeLicense,
+        ownerName, 
+        ownerEmail, 
+        ownerPhone, 
+        ownerAddress,
+      }
+      dispatch(createShop(shopData))
+    } else {
+      const shopData = {
+        id: id ? id : '0',
+        email, 
+        phone, 
+        address,
+        latLon, 
+        pan, 
+        gst, 
+        tradeLicense,
+        ownerName, 
+        ownerEmail, 
+        ownerPhone, 
+        ownerAddress,
+      }
+      dispatch(editShop(shopData))
+    }
     setShopSubmitted(true)
     toast.success('form submitted!!!!')
   }
@@ -135,7 +153,7 @@ function CreateShop() {
         ...previousState, 
         'email': shop.email ? shop.email : '',
         'phone': shop.phone ? shop.phone : '',
-        'address': shop.address ? shop.address : {},
+        // 'address': shop.address ? shop.address : {},  // no need to set address locally at this point. Let it come from child
         'latLon': shop.lat_lon ? shop.lat_lon : '',
         'pan': shop.pan ? shop.pan: '',
         'gst': shop.gst ? shop.gst : '',
@@ -143,18 +161,16 @@ function CreateShop() {
         'ownerName': shop.owner_name ? shop.owner_name : '',
         'ownerEmail': shop.owner_email ? shop.owner_email : '',
         'ownerPhone': shop.owner_phone ? shop.owner_phone : '',
-        'ownerAddress': shop.owner_address ? shop.owner_address : {},
+        // 'ownerAddress': shop.owner_address ? shop.owner_address : {},
       }))
 
-      if(shop.address && shop.address.city) {
-        // console.log('REACHED REACHED REACHED  !!!!!!!!!!!!!!!!')
+      if(shop.address && shop.address!==0) {
         setAddrAvailable('AVAIL')
       } else {
         setAddrAvailable('UNAVAIL')
       }
 
-      if(shop.owner_address && shop.owner_address.city) {
-        // console.log('REACHED REACHED REACHED  !!!!!!!!!!!!!!!!')
+      if(shop.owner_address && shop.owner_address!==0) {
         setOwnerAddrAvailable('AVAIL')
       } else {
         setOwnerAddrAvailable('UNAVAIL')
@@ -172,8 +188,13 @@ function CreateShop() {
     } */
 
     if(shopSubmitted && isSuccess) {  // This needs to run after submit button is pressed
-      // console.log("CREATE-SHOP: UseEffect - 3")
-      navigate('/masterAdmin/shops')
+      if (routeLocation.pathname==='/masterAdmin/shops/create') {
+        // console.log("CREATE-SHOP: UseEffect - 3")
+        navigate('/masterAdmin/shops')
+      } else {
+        // console.log("EDIT-SHOP: UseEffect - 3")
+        navigate('/masterAdmin/shops/'+id)
+      }
     }
 
     if (routeLocation.pathname==='/masterAdmin/shops/create') {  //////
@@ -239,7 +260,7 @@ function CreateShop() {
           { (addrAvailable==='AVAIL') ? 
             <>
               <p>Edit old Address</p>
-              <InputAddress setAddrDataToShop={setAddrData} fillData={address} /> 
+              <InputAddress setAddrDataToShop={setAddrData} fillData={address} oldData={shop.address} /> 
             </>
             : 
             (addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') ? 
@@ -357,7 +378,7 @@ function CreateShop() {
             (ownerAddrAvailable==='AVAIL' && ownerAddrIsSameAsShop) ? 
             <>
               <p>Edit old Address, owner Addr is same as shop Addr</p>
-              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} />
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} oldData={shop.address} />
             </> 
             : 
             (ownerAddrAvailable==='AVAIL' && !ownerAddrIsSameAsShop) ? 
@@ -366,7 +387,7 @@ function CreateShop() {
               <br />
               <br />
               <p>Edit old Address, owner Addr is different from shop Addr</p>
-              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} />
+              <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} oldData={shop.owner_address} />
             </>
             :
             ((ownerAddrAvailable==='UNAVAIL' && ownerAddrIsSameAsShop) || routeLocation.pathname==='/masterAdmin/shops/create') ? 
