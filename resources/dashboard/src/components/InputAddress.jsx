@@ -193,6 +193,14 @@ function InputAddress({setAddrDataToShop, fillData, oldData}) {
 
   // use effect function call
   useEffect(() => {
+    
+    // if initial reset called through props it will reset the store, may be once per form 
+
+
+
+
+
+
     // if city, state and country are empty in redux store we need them loaded first
     if ( !csc && cscApiCallCount === 0) {
       // console.log('CSC API CALL')
@@ -242,7 +250,13 @@ function InputAddress({setAddrDataToShop, fillData, oldData}) {
       setSubmitCount(1)
     }
 
+
+
+
+
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [csc, cscApiCallCount, initialSubmitCount, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])  
   // }, [csc, cscApiCallCount, initialSubmitCount, addrData, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])
       // States must be passed, as it is not JSX. "fillData" and "setAddrDataToShop" are excluded from dependency, as they are used only once
@@ -307,8 +321,7 @@ function InputAddress({setAddrDataToShop, fillData, oldData}) {
         <div className="alert alert-info" role="alert">
           Please select a State to enable Cities
         </div>
-      </> 
-      : <></> }
+      </> : <></> }
       
 
       <div className="mb-3 formm-group">
@@ -337,8 +350,7 @@ function InputAddress({setAddrDataToShop, fillData, oldData}) {
         <div className="alert alert-info" role="alert">
           Please select a Country to enable States
         </div>
-      </> 
-      : <></> }
+      </> : <></> }
       
 
       <div className="mb-3 formm-group">

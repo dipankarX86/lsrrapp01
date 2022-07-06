@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-import {createShop, editShop, reset, getShop, gotShop, resetExceptShop} from '../../../features/shops/shopSlice'
+import {createShop, editShop, reset, getShop, gotShop, setInitialRefreshIsDone, unsetInitialRefreshIsDone} from '../../../features/shops/shopSlice'  // resetExceptShop
 import Spinner from '../../../components/Spinner'
 import InputAddress from '../../../components/InputAddress'
 
@@ -15,7 +15,7 @@ function CreateShop() {
   const dispatch = useDispatch()
 
   // const {auth} = useSelector((state) => state.auth)
-  const {isLoading, isError, isSuccess, message, shop, shopApiCallCount} = useSelector((state) => state.shops)
+  const {isLoading, isError, isSuccess, message, shop, shopApiCallCount, initialRefreshIsDone} = useSelector((state) => state.shops)
 
   // is parameter passed? then surely it is edit form
   const { id } = useParams();
@@ -140,72 +140,95 @@ function CreateShop() {
   // use effect function call
   useEffect(() => {
 
-    // if the form is edit form(known from the link name and the parameter passed), 
-    // I need to load the shop details
-    if ( id && !shop && shopApiCallCount === 0) {  //////
-      dispatch(getShop(id))
-      dispatch(gotShop())
-    } 
-    // if shop is received
-    if(shop) {
-      // now set the formData, 
-      setFormData((previousState) => ({  //////
-        ...previousState, 
-        'email': shop.email ? shop.email : '',
-        'phone': shop.phone ? shop.phone : '',
-        // 'address': shop.address ? shop.address : {},  // no need to set address locally at this point. Let it come from child
-        'latLon': shop.lat_lon ? shop.lat_lon : '',
-        'pan': shop.pan ? shop.pan: '',
-        'gst': shop.gst ? shop.gst : '',
-        'tradeLicense': shop.trade_license ? shop.trade_license : '',
-        'ownerName': shop.owner_name ? shop.owner_name : '',
-        'ownerEmail': shop.owner_email ? shop.owner_email : '',
-        'ownerPhone': shop.owner_phone ? shop.owner_phone : '',
-        // 'ownerAddress': shop.owner_address ? shop.owner_address : {},
-      }))
+    // two variables, old link and refresh count
+    // if link is same as old shop module link then do not do full-refresh, full refresh will be done anyways, when form submit succeeds
+    // if not same definitely do a complete refresh, once. Only then keep doing rest of the stuff
 
-      if(shop.address && shop.address!==0) {
-        setAddrAvailable('AVAIL')
-      } else {
-        setAddrAvailable('UNAVAIL')
-      }
-
-      if(shop.owner_address && shop.owner_address!==0) {
-        setOwnerAddrAvailable('AVAIL')
-      } else {
-        setOwnerAddrAvailable('UNAVAIL')
-      }
-    }
-
-    if(isError) {
-      // console.log("CREATE-SHOP: UseEffect - 1")
-      toast.error(message)
-    }
-
-    /* if(!auth) {
-      // console.log("CREATE-SHOP: UseEffect - 2")
-      toast.error('Create-Shop access is Unauthorized')
-    } */
-
-    if(shopSubmitted && isSuccess) {  // This needs to run after submit button is pressed
-      if (routeLocation.pathname==='/masterAdmin/shops/create') {
-        // console.log("CREATE-SHOP: UseEffect - 3")
-        navigate('/masterAdmin/shops')
-      } else {
-        // console.log("EDIT-SHOP: UseEffect - 3")
-        navigate('/masterAdmin/shops/'+id)
-      }
-    }
-
-    if (routeLocation.pathname==='/masterAdmin/shops/create') {  //////
+    if (!initialRefreshIsDone) {
       dispatch(reset())
-    } else {  // i.e. /masterAdmin/shops/edit/17 etc
-      dispatch(resetExceptShop())
+      dispatch(setInitialRefreshIsDone())
+    } else {
+      
+
+
+      // if the form is edit form(known from the link name and the parameter passed), 
+      // I need to load the shop details
+      if ( id && !shop && shopApiCallCount === 0) {
+        dispatch(getShop(id))
+        dispatch(gotShop())
+      } 
+      // if shop is received
+      if(shop) {
+        // now set the formData, 
+        setFormData((previousState) => ({
+          ...previousState, 
+          'email': shop.email ? shop.email : '',
+          'phone': shop.phone ? shop.phone : '',
+          // 'address': shop.address ? shop.address : {},  // no need to set address locally at this point. Let it come from child
+          'latLon': shop.lat_lon ? shop.lat_lon : '',
+          'pan': shop.pan ? shop.pan: '',
+          'gst': shop.gst ? shop.gst : '',
+          'tradeLicense': shop.trade_license ? shop.trade_license : '',
+          'ownerName': shop.owner_name ? shop.owner_name : '',
+          'ownerEmail': shop.owner_email ? shop.owner_email : '',
+          'ownerPhone': shop.owner_phone ? shop.owner_phone : '',
+          // 'ownerAddress': shop.owner_address ? shop.owner_address : {},
+        }))
+
+        if(shop.address && shop.address!==0) {
+          setAddrAvailable('AVAIL')
+        } else {
+          setAddrAvailable('UNAVAIL')
+        }
+
+        if(shop.owner_address && shop.owner_address!==0) {
+          setOwnerAddrAvailable('AVAIL')
+        } else {
+          setOwnerAddrAvailable('UNAVAIL')
+        }
+      }
+
+      if(isError) {
+        // console.log("CREATE-SHOP: UseEffect - 1")
+        toast.error(message)
+      }
+
+      /* if(!auth) {
+        // console.log("CREATE-SHOP: UseEffect - 2")
+        toast.error('Create-Shop access is Unauthorized')
+      } */
+
+      if(shopSubmitted && isSuccess) {  // This needs to run after submit button is pressed
+        
+          // needs a complete refresh of store slice for shop ****
+          dispatch(reset())
+
+        if (routeLocation.pathname==='/masterAdmin/shops/create') {
+          // console.log("CREATE-SHOP: UseEffect - 3")
+          navigate('/masterAdmin/shops')
+        } else {
+          // console.log("EDIT-SHOP: UseEffect - 3")
+          navigate('/masterAdmin/shops/'+id)
+        }
+      }
+
+      // if (routeLocation.pathname==='/masterAdmin/shops/create') {  // these are rubbish, do not provide any useful purpose 
+      //   dispatch(reset())
+      // } else {  // i.e. /masterAdmin/shops/edit/17 etc
+      //   dispatch(resetExceptShop())
+      // }
+
+      /* window.addEventListener('unload', function (event) {
+        unsetInitialRefreshIsDone()
+      }) */
+      
+
+
     }
-    
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  
-  }, [shop, isError, message, isSuccess, dispatch, navigate, shopSubmitted])
+
+  }, [shop, isError, message, isSuccess, dispatch, navigate, shopSubmitted, initialRefreshIsDone])
     // [id, routeLocation, shop, shopApiCallCount, isError, message, isSuccess, dispatch, navigate, shopSubmitted])  // add renderPending if required
     // id, shop and shopApiCallCount needs default values for create shop to work
     // that can be done in shopSlice. 

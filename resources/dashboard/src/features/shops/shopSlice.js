@@ -2,13 +2,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import shopService from './shopService'
 
 const initialState = {
-  shops: [],
-  shopsApiCallCount: 0,
+  initialRefreshIsDone: false,
+
   isLoading: false,
   isSuccess: false,
   isError: false,
   message: '',
   
+  shops: {},
+  shopsApiCallCount: 0,
+
   shop: null,
   shopApiCallCount: 0,
 }
@@ -87,11 +90,17 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
-    resetShops: (state) => {
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
+    // resetShops: (state) => {
+    //   state.isLoading = false
+    //   state.isSuccess = false
+    //   state.isError = false
+    //   state.message = ''
+    // },
+    setInitialRefreshIsDone: (state) => {
+      state.initialRefreshIsDone = true
+    },
+    unsetInitialRefreshIsDone: (state) => {
+      state.initialRefreshIsDone = false
     },
     gotShops: (state) => {
       state.shopsApiCallCount++
@@ -99,14 +108,14 @@ export const shopSlice = createSlice({
     gotShop: (state) => {
       state.shopApiCallCount++
     },
-    resetExceptShop: (state) => {
-      state.shops = []
-      state.shopsApiCallCount = 0
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
-    }
+    // resetExceptShop: (state) => {
+    //   state.shops = []
+    //   state.shopsApiCallCount = 0
+    //   state.isLoading = false
+    //   state.isSuccess = false
+    //   state.isError = false
+    //   state.message = ''
+    // }
   },
   extraReducers: (builder) => {
     builder
@@ -187,5 +196,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, resetShops, gotShops, gotShop, resetExceptShop} = shopSlice.actions
+export const {reset, setInitialRefreshIsDone, unsetInitialRefreshIsDone, gotShops, gotShop} = shopSlice.actions  // resetShops, resetExceptShop
 export default shopSlice.reducer

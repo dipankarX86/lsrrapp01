@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router'
 import Table from 'react-bootstrap/Table';
 import {toast} from 'react-toastify'
-import {getPagedShops, gotShops, resetShops} from '../../../features/shops/shopSlice'  // getShops is removed
+import {getPagedShops, gotShops} from '../../../features/shops/shopSlice'  // resetShops, // getShops is removed
 import Spinner from '../../../components/Spinner'
 import {FaCaretLeft, FaCaretRight, FaSearch, FaPlus, FaSync} from 'react-icons/fa'
 
@@ -107,6 +107,12 @@ function Shops() {
 
   // Use-Effect Function Call
   useEffect(() => {
+
+
+
+
+
+
     if(isError) {
       toast.error(message)
     }
@@ -127,12 +133,19 @@ function Shops() {
       dispatch(getPagedShops(loadParams))    // THIS GOES TO INF LOOP IF THE SERVER IS DOWN, SET LIMITS FOR MAX CALL COUNT
     }
     
-    dispatch(resetShops())  
+    // dispatch(resetShops())
+
       // always note, does resetting removes something which is useEffect is dependent on? if so, is it reloading it? 
       // Use complete - reset() in pages where shops is not required, so when coming to shops page from another shop page shops will be clear already
       // HOW WILL I CLEAR FIRST TIME????
 
+
+
+
+
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [shopsApiCallCount, isError, message, navigate, dispatch])  
   // }, [shopsApiCallCount, isError, message, srchSort, srchString, navigate, dispatch])  
     // removed dependency of shops to avoid infinite loop
