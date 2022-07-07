@@ -5,10 +5,10 @@ const initialState = {
   csc: null,  // make it one, in the backend, will fetch them as one api call
   cscApiCallCount: 0,
   
-  isLoading: false,
-  isSuccess: false,
-  isError: false,
-  message: ''
+  // isLoading: false,
+  // isSuccess: false,
+  // isError: false,
+  // message: ''
 }
 
 // Get Cities, States and Countries: Get all 3 of them at one go

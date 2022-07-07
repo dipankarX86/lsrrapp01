@@ -2,13 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import shopService from './shopService'
 
 const initialState = {
-  shops: [],
-  shopsApiCallCount: 0,
   isLoading: false,
   isSuccess: false,
   isError: false,
   message: '',
   
+  shops: {},
+  shopsApiCallCount: 0,
+
   shop: null,
   shopApiCallCount: 0,
 }
@@ -23,7 +24,6 @@ export const createShop = createAsyncThunk('shops/create', async (shopData, thun
     return thunkAPI.rejectWithValue(message)
   }
 })
-
 
 // Get shops
 /* export const getShops = createAsyncThunk('shops/getAll', async (_, thunkAPI) => {
@@ -58,6 +58,19 @@ export const getShop = createAsyncThunk('shops/getOne', async (shopId, thunkAPI)
   }
 })
 
+
+// Edit shop
+export const editShop = createAsyncThunk('shops/edit', async (shopData, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.auth.token
+    return await shopService.editShop(shopData, token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+
 // Delete shop
 export const deleteShop = createAsyncThunk('shops/delete', async (id, thunkAPI) => {
   try {
@@ -75,26 +88,12 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
-    resetShops: (state) => {
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
-    },
     gotShops: (state) => {
       state.shopsApiCallCount++
     },
     gotShop: (state) => {
       state.shopApiCallCount++
     },
-    resetExceptShop: (state) => {
-      state.shops = []
-      state.shopsApiCallCount = 0
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -104,7 +103,7 @@ export const shopSlice = createSlice({
     .addCase(createShop.fulfilled, (state, action) => {
       state.isLoading = false
       state.isSuccess = true
-      // state.shops.push(action.payload)  // need to make sure if this is required, ad shops is unlikely to survive form exit
+      // state.shops.push(action.payload)
     })
     .addCase(createShop.rejected, (state, action) => {
       state.isLoading = false
@@ -139,10 +138,25 @@ export const shopSlice = createSlice({
         state.message = action.payload
     })
 
-
     .addCase(getShop.fulfilled, (state, action) => {
         state.shop = action.payload
     })
+
+    
+    .addCase(editShop.pending, (state) => {
+      state.isLoading = true
+    })
+    .addCase(editShop.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      // state.shops.push(action.payload)
+    })
+    .addCase(editShop.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload
+    })
+
 
     .addCase(deleteShop.pending, (state) => {
         state.isLoading = true
@@ -160,5 +174,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, resetShops, gotShops, gotShop, resetExceptShop} = shopSlice.actions
+export const {reset, gotShops, gotShop} = shopSlice.actions
 export default shopSlice.reducer

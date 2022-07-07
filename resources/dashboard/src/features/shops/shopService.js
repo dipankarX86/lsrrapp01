@@ -75,7 +75,31 @@ const getShop = async (token, shopId) => {
   console.log(response.data.shop)
   return response.data.shop
 }
-// 
+
+
+//
+// Create shop
+const editShop = async (shopData, token) => {
+  console.log(shopData) //
+
+  // setting up case converter options
+  const options = {
+    ignoreHeaders: true
+  };
+  const client = applyCaseMiddleware(axios.create(), options);
+
+  // setting up the bearer token
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const response = await client.post(API_URL+'/edit/'+shopData.id, shopData, config)
+
+  console.log(response.data) //
+  return response.data
+}
+
 
 // Delete shop
 const deleteShop = async (shopId, token) => {
@@ -94,6 +118,7 @@ const shopService = {
   createShop,
   getPagedShops,  // getShops is removed
   getShop,
+  editShop,
   deleteShop
 }
 

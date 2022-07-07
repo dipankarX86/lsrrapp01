@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getCsc, gotCsc} from '../features/addresses/addressSlice'
 
-function InputAddress({setAddrDataToShop, fillData}) {
+function InputAddress({setAddrDataToShop, fillData, oldData}) {
 
   console.log("ADDRESS: Entered")
   
@@ -22,18 +22,31 @@ function InputAddress({setAddrDataToShop, fillData}) {
     countries: [],
   })
 
+  // I can also provide the whole comparison 
+  // if fill data has state and city in it, we need cities and states loaded
+  // if oldData comes, it will not come without city, state and country: as these are required in api
+  // console.log(oldData)
   const [addrData, setAddrData] = useState(
-    (fillData && fillData.city) ? fillData :   // I can also provide the whole comparison 
-    // if fill data has state and city in it, we need cities and states loaded
+    oldData ? 
+    { 
+      line1: oldData.line1,
+      line2: oldData.line2,
+      city: oldData.city.toString(),
+      state: oldData.state.toString(),
+      country: oldData.country.toString(),
+      postalCode: oldData.postal_code,
+    }
+    : (fillData && fillData.city) ? fillData :   
     { 
       line1: '',
       line2: '',
       city: '0',
       state: '0',
       country: '0',
-      postalCode: '',       //  Try reducing number of STATES, try using REDUX instead ---- 24th June 2022
+      postalCode: '',
     }
-  )
+  )  
+  // Try reducing number of STATES, try using REDUX instead ---- 24th June 2022
 
   const {
     line1,
@@ -180,6 +193,14 @@ function InputAddress({setAddrDataToShop, fillData}) {
 
   // use effect function call
   useEffect(() => {
+    
+    // if initial reset called through props it will reset the store, may be once per form 
+
+
+
+
+
+
     // if city, state and country are empty in redux store we need them loaded first
     if ( !csc && cscApiCallCount === 0) {
       // console.log('CSC API CALL')
@@ -187,7 +208,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
       dispatch(gotCsc())
     } 
 
-    // initial return submit, for possible changes in oener-address data, 
+    // initial return submit, for possible changes in owner-address data, 
     // this needs to happen only once 
     if( csc && initialSubmitCount === 0 ) {
       // console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
@@ -200,10 +221,17 @@ function InputAddress({setAddrDataToShop, fillData}) {
       if(fillData && fillData.state) {
         // console.log("ADDRESS: UseEffect - 1A: Start Loading States") 
         loadItem('states', parseInt(fillData.country), 0)
-      } 
+      } else if (oldData) {
+        // console.log("ADDRESS: UseEffect - 1A-OLD: Start Loading States") 
+        loadItem('states', parseInt(oldData.country), 0)
+      }
+
       if(fillData && fillData.city) {
         // console.log("ADDRESS: UseEffect - 1B: Start Loading Cities") 
         loadItem('cities', parseInt(fillData.country), parseInt(fillData.state))
+      } else if (oldData) {
+        // console.log("ADDRESS: UseEffect - 1B-OLD: Start Loading Cities") 
+        loadItem('cities', parseInt(oldData.country), parseInt(oldData.state))
       }
 
       setInitialSubmitCount(1)
@@ -222,7 +250,13 @@ function InputAddress({setAddrDataToShop, fillData}) {
       setSubmitCount(1)
     }
 
+
+
+
+
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [csc, cscApiCallCount, initialSubmitCount, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])  
   // }, [csc, cscApiCallCount, initialSubmitCount, addrData, formPrefillLoaded, submitPossible, submitCount, loadItem, dispatch, setAddrDataToShop, fillData])
       // States must be passed, as it is not JSX. "fillData" and "setAddrDataToShop" are excluded from dependency, as they are used only once
@@ -287,8 +321,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
         <div className="alert alert-info" role="alert">
           Please select a State to enable Cities
         </div>
-      </> 
-      : <></> }
+      </> : <></> }
       
 
       <div className="mb-3 formm-group">
@@ -317,8 +350,7 @@ function InputAddress({setAddrDataToShop, fillData}) {
         <div className="alert alert-info" role="alert">
           Please select a Country to enable States
         </div>
-      </> 
-      : <></> }
+      </> : <></> }
       
 
       <div className="mb-3 formm-group">
