@@ -321,13 +321,13 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          { (addrAvailable==='AVAIL' && initialRefreshIsDone) ? 
+          { (addrAvailable==='AVAIL' && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
             <>
               <p>Edit old Address</p>
               <InputAddress setAddrDataToShop={setAddrData} fillData={address} oldData={shop.address} /> 
             </>
             : 
-            (initialRefreshIsDone && (addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create')) ? 
+            ((addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
             <>
               <p>Address does not exists</p>
               <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
@@ -439,13 +439,13 @@ function CreateShop() {
 
           <h4>Owner Address Details</h4>
           {
-            (ownerAddrAvailable==='AVAIL' && ownerAddrIsSameAsShop && initialRefreshIsDone) ? 
+            (ownerAddrAvailable==='AVAIL' && ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
             <>
               <p>Edit old Address, owner Addr is same as shop Addr</p>
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} oldData={shop.address} />
             </> 
             : 
-            (ownerAddrAvailable==='AVAIL' && !ownerAddrIsSameAsShop && initialRefreshIsDone) ? 
+            (ownerAddrAvailable==='AVAIL' && !ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
             <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
@@ -454,13 +454,13 @@ function CreateShop() {
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} oldData={shop.owner_address} />
             </>
             :
-            ((ownerAddrAvailable==='UNAVAIL' && ownerAddrIsSameAsShop && initialRefreshIsDone) || (routeLocation.pathname==='/masterAdmin/shops/create' && ownerAddrIsSameAsShop && initialRefreshIsDone)) ? 
+            ((ownerAddrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') && ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
             <>
               <p>Address does not exists, owner Addr is same as shop Addr</p>
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} />
             </> 
             : 
-            ((ownerAddrAvailable==='UNAVAIL' && !ownerAddrIsSameAsShop && initialRefreshIsDone) || (routeLocation.pathname==='/masterAdmin/shops/create' && !ownerAddrIsSameAsShop && initialRefreshIsDone)) ? 
+            ((ownerAddrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') && !ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
             <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
