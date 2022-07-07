@@ -50,7 +50,7 @@ function Shops() {
       srchSort,
       'scrhPage': 1,
     }
-    console.log(loadParams)
+    // console.log(loadParams)
     dispatch(getPagedShops(loadParams))  // page 1 of searched results
   }
 
@@ -100,7 +100,7 @@ function Shops() {
       }
     }
 
-    console.log(loadParams)
+    // console.log(loadParams)
     dispatch(getPagedShops(loadParams))
   };
 
@@ -128,7 +128,7 @@ function Shops() {
         srchSort,
         'scrhPage': 1,
       }
-      console.log(loadParams)
+      // console.log(loadParams)
       dispatch(gotShops())
       dispatch(getPagedShops(loadParams))    // THIS GOES TO INF LOOP IF THE SERVER IS DOWN, SET LIMITS FOR MAX CALL COUNT
     }

@@ -213,6 +213,9 @@ function InputAddress({setAddrDataToShop, fillData, oldData}) {
     if( csc && initialSubmitCount === 0 ) {
       // console.log("ADDRESS: UseEffect - 1: Setting INITIAL Addr data bk to Shop")
       setAddrDataToShop(addrData, true);
+      // 
+      console.log(fillData)
+      console.log(oldData)
 
       loadItem('countries', 0, 0)  // taking the opportunity to load the drop down before anything happens
       

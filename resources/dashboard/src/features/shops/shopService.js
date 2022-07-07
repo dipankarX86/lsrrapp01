@@ -21,7 +21,7 @@ const createShop = async (shopData, token) => {
   }
   const response = await client.post(API_URL, shopData, config)
 
-  console.log(response.data) //
+  // console.log(response.data) //
   return response.data
 }
 
@@ -55,11 +55,11 @@ const getPagedShops = async (token, loadParams) => {
     urlString = urlString + '&sort_by='+loadParams.srchSort
   }
 
-  console.log(urlString)
+  // console.log(urlString)
 
   const response = await axios.get(urlString, config)
 
-  console.log(response.data)
+  // console.log(response.data)
   return response.data
 }
 
@@ -72,7 +72,7 @@ const getShop = async (token, shopId) => {
       }
   }
   const response = await axios.get(API_URL + '/' + shopId, config)
-  console.log(response.data.shop)
+  // console.log(response.data.shop)
   return response.data.shop
 }
 
@@ -96,7 +96,7 @@ const editShop = async (shopData, token) => {
   }
   const response = await client.post(API_URL+'/edit/'+shopData.id, shopData, config)
 
-  console.log(response.data) //
+  // console.log(response.data) //
   return response.data
 }
 

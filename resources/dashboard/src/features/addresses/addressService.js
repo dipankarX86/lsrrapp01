@@ -11,7 +11,7 @@ const getCsc = async (token) => {
       }
   }
   const response = await axios.get(API_URL + '/csc', config)  // replace with csc in both front an bkend
-  console.log(response.data)
+  // console.log(response.data)
   return response.data
 }
 

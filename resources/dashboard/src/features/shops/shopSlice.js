@@ -48,7 +48,7 @@ export const getPagedShops = createAsyncThunk('shops/getPaged', async (loadParam
 
 // Get Shop
 export const getShop = createAsyncThunk('shops/getOne', async (shopId, thunkAPI) => {
-  console.log(shopId)
+  // console.log(shopId)
   try {
     const token = thunkAPI.getState().auth.auth.token
     return await shopService.getShop(token, shopId)

@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-import {setInitialRefreshIsDone} from '../../../features/auth/authSlice'
+import {setInitialRefreshIsDone, unsetInitialRefreshIsDone} from '../../../features/auth/authSlice'
 import {createShop, editShop, reset, getShop, gotShop} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 import InputAddress from '../../../components/InputAddress'
@@ -54,9 +54,26 @@ function CreateShop() {
   const [ownerAddrIsSameAsShop, setOwnerAddrIsSameAsShop] = useState(false);
   const [shopSubmitted, setShopSubmitted] = useState(false);
 
-  const [addrAvailable, setAddrAvailable] = useState(false);
+  const [addrAvailable, setAddrAvailable] = useState('PRE');
   const [ownerAddrAvailable, setOwnerAddrAvailable] = useState('PRE');
   
+
+  // 
+  const [newLink, setNewLink] = useState('');
+
+  const openNewLink = (e) => {
+    e.preventDefault()
+  
+    console.log(newLink)
+
+    // reset initial-refresh and go to provided new route
+    navigate(newLink)
+    dispatch(unsetInitialRefreshIsDone())
+    // setTimeout(dispatch(unsetInitialRefreshIsDone()), 1000)
+  }
+  // 
+  
+
   // on change
   const onChange = (e) => {
     // console.log("CREATE-SHOP: Non Address Form-Fields onChange")
@@ -145,10 +162,41 @@ function CreateShop() {
     // if link is same as old shop module link then do not do full-refresh, full refresh will be done anyways, when form submit succeeds
     // if not same definitely do a complete refresh, once. Only then keep doing rest of the stuff
 
-    if (!initialRefreshIsDone) {  //  || (shop && shop.id!==parseInt(id))
+    if (!initialRefreshIsDone || (shop && shop.id!==parseInt(id ? id : '0'))) {  //  || (shop && shop.id!==parseInt(id))
+      // 
+      console.log( 'initialRefreshIsDone: ' + initialRefreshIsDone + ', shop.id: ' + (shop ? (shop.id ? shop.id : 'none') : 'none') + ', id: ' + (id ? id : '0'))
+
       dispatch(reset())
+
+      // now reset some other values which are not resetting even though the createShop component has re-rendered
+      setFormData((previousState) => ({
+        ...previousState, 
+        'email': '',
+        'phone': '',
+        'address': {},
+        'latLon': '',
+        'pan': '',
+        'gst': '',
+        'tradeLicense': '',
+        'ownerName': '',
+        'ownerEmail': '',
+        'ownerPhone': '',
+        'ownerAddress': {},
+      }))
+      setAddrAvailable('PRE')
+      setOwnerAddrAvailable('PRE')
+
       dispatch(setInitialRefreshIsDone())
+
     } else {
+      // 
+      console.log( 'initialRefreshIsDone: ' + initialRefreshIsDone + ', shop.id: ' + (shop ? (shop.id ? shop.id : 'null') : 'null') + ', id: ' + (id ? id : '0'))
+      // 
+      console.log(formData)
+      // 
+      console.log('addrAvailable: ' + addrAvailable + ', ownerAddrAvailable: '+ownerAddrAvailable)
+      
+
       
       // if the form is edit form(known from the link name and the parameter passed), 
       // I need to load the shop details
@@ -273,13 +321,13 @@ function CreateShop() {
 
           <h4>Shop Address:</h4>
           <br />
-          { (addrAvailable==='AVAIL') ? 
+          { (addrAvailable==='AVAIL' && initialRefreshIsDone) ? 
             <>
               <p>Edit old Address</p>
               <InputAddress setAddrDataToShop={setAddrData} fillData={address} oldData={shop.address} /> 
             </>
             : 
-            (addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') ? 
+            (initialRefreshIsDone && (addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create')) ? 
             <>
               <p>Address does not exists</p>
               <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
@@ -391,13 +439,13 @@ function CreateShop() {
 
           <h4>Owner Address Details</h4>
           {
-            (ownerAddrAvailable==='AVAIL' && ownerAddrIsSameAsShop) ? 
+            (ownerAddrAvailable==='AVAIL' && ownerAddrIsSameAsShop && initialRefreshIsDone) ? 
             <>
               <p>Edit old Address, owner Addr is same as shop Addr</p>
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} oldData={shop.address} />
             </> 
             : 
-            (ownerAddrAvailable==='AVAIL' && !ownerAddrIsSameAsShop) ? 
+            (ownerAddrAvailable==='AVAIL' && !ownerAddrIsSameAsShop && initialRefreshIsDone) ? 
             <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
@@ -406,13 +454,13 @@ function CreateShop() {
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} oldData={shop.owner_address} />
             </>
             :
-            ((ownerAddrAvailable==='UNAVAIL' && ownerAddrIsSameAsShop) || routeLocation.pathname==='/masterAdmin/shops/create') ? 
+            ((ownerAddrAvailable==='UNAVAIL' && ownerAddrIsSameAsShop && initialRefreshIsDone) || (routeLocation.pathname==='/masterAdmin/shops/create' && ownerAddrIsSameAsShop && initialRefreshIsDone)) ? 
             <>
               <p>Address does not exists, owner Addr is same as shop Addr</p>
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} />
             </> 
             : 
-            ((ownerAddrAvailable==='UNAVAIL' && !ownerAddrIsSameAsShop) || routeLocation.pathname==='/masterAdmin/shops/create') ? 
+            ((ownerAddrAvailable==='UNAVAIL' && !ownerAddrIsSameAsShop && initialRefreshIsDone) || (routeLocation.pathname==='/masterAdmin/shops/create' && !ownerAddrIsSameAsShop && initialRefreshIsDone)) ? 
             <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
@@ -431,6 +479,32 @@ function CreateShop() {
           </div>
         </form>
       </section>
+
+
+      <hr />
+      <section className="formm">
+        <form onSubmit={openNewLink}>
+
+          <div className="mb-3 formm-group">
+            <label htmlFor="role" className="form-label">newLink</label>
+            <input 
+              type="text" 
+              className="" 
+              id="newLink" 
+              name="newLink" 
+              value={newLink} 
+              placeholder="enter new link" 
+              onChange={e => setNewLink(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3 formm-group">
+            <button type="submit" className='btn btn-sm btn-outline-primary'>Go</button>
+          </div>
+        </form>
+      </section>
+
+
     </>
   )
 }
