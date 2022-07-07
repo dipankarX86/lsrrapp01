@@ -4,7 +4,8 @@ import {useNavigate} from 'react-router'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {FaStore} from 'react-icons/fa'
-import {createShop, editShop, reset, getShop, gotShop, setInitialRefreshIsDone, unsetInitialRefreshIsDone} from '../../../features/shops/shopSlice'  // resetExceptShop
+import {setInitialRefreshIsDone} from '../../../features/auth/authSlice'
+import {createShop, editShop, reset, getShop, gotShop} from '../../../features/shops/shopSlice'
 import Spinner from '../../../components/Spinner'
 import InputAddress from '../../../components/InputAddress'
 
@@ -14,8 +15,8 @@ function CreateShop() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // const {auth} = useSelector((state) => state.auth)
-  const {isLoading, isError, isSuccess, message, shop, shopApiCallCount, initialRefreshIsDone} = useSelector((state) => state.shops)
+  const {initialRefreshIsDone} = useSelector((state) => state.auth)  // {auth, } removed
+  const {isLoading, isError, isSuccess, message, shop, shopApiCallCount} = useSelector((state) => state.shops)
 
   // is parameter passed? then surely it is edit form
   const { id } = useParams();
@@ -144,13 +145,11 @@ function CreateShop() {
     // if link is same as old shop module link then do not do full-refresh, full refresh will be done anyways, when form submit succeeds
     // if not same definitely do a complete refresh, once. Only then keep doing rest of the stuff
 
-    if (!initialRefreshIsDone) {
+    if (!initialRefreshIsDone) {  //  || (shop && shop.id!==parseInt(id))
       dispatch(reset())
       dispatch(setInitialRefreshIsDone())
     } else {
       
-
-
       // if the form is edit form(known from the link name and the parameter passed), 
       // I need to load the shop details
       if ( id && !shop && shopApiCallCount === 0) {
@@ -217,13 +216,7 @@ function CreateShop() {
       // } else {  // i.e. /masterAdmin/shops/edit/17 etc
       //   dispatch(resetExceptShop())
       // }
-
-      /* window.addEventListener('unload', function (event) {
-        unsetInitialRefreshIsDone()
-      }) */
       
-
-
     }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

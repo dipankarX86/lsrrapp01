@@ -9,7 +9,9 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
-  message: ''
+  message: '',
+  
+  initialRefreshIsDone: false,
 }
 
 // User login
@@ -43,6 +45,12 @@ export const authSlice = createSlice({
       state.isSuccess = false
       state.isError = false
       state.message = ''
+    },
+    setInitialRefreshIsDone: (state) => {
+      state.initialRefreshIsDone = true
+    },
+    unsetInitialRefreshIsDone: (state) => {
+      state.initialRefreshIsDone = false
     }
   },
   extraReducers: (builder) => {
@@ -68,5 +76,5 @@ export const authSlice = createSlice({
   }
 })
 
-export const {reset} = authSlice.actions
+export const {reset, setInitialRefreshIsDone, unsetInitialRefreshIsDone} = authSlice.actions
 export default authSlice.reducer

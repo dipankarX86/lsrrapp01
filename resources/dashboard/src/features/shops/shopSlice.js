@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import shopService from './shopService'
 
 const initialState = {
-  initialRefreshIsDone: false,
-
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -90,32 +88,12 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
-    // resetShops: (state) => {
-    //   state.isLoading = false
-    //   state.isSuccess = false
-    //   state.isError = false
-    //   state.message = ''
-    // },
-    setInitialRefreshIsDone: (state) => {
-      state.initialRefreshIsDone = true
-    },
-    unsetInitialRefreshIsDone: (state) => {
-      state.initialRefreshIsDone = false
-    },
     gotShops: (state) => {
       state.shopsApiCallCount++
     },
     gotShop: (state) => {
       state.shopApiCallCount++
     },
-    // resetExceptShop: (state) => {
-    //   state.shops = []
-    //   state.shopsApiCallCount = 0
-    //   state.isLoading = false
-    //   state.isSuccess = false
-    //   state.isError = false
-    //   state.message = ''
-    // }
   },
   extraReducers: (builder) => {
     builder
@@ -196,5 +174,5 @@ export const shopSlice = createSlice({
   }
 })
 
-export const {reset, setInitialRefreshIsDone, unsetInitialRefreshIsDone, gotShops, gotShop} = shopSlice.actions  // resetShops, resetExceptShop
+export const {reset, gotShops, gotShop} = shopSlice.actions
 export default shopSlice.reducer
