@@ -59,7 +59,7 @@ function CreateShop() {
   
 
   // 
-  const [newLink, setNewLink] = useState('');
+  /* const [newLink, setNewLink] = useState('');
 
   const openNewLink = (e) => {
     e.preventDefault()
@@ -70,7 +70,7 @@ function CreateShop() {
     navigate(newLink)
     dispatch(unsetInitialRefreshIsDone())
     // setTimeout(dispatch(unsetInitialRefreshIsDone()), 1000)
-  }
+  } */
   // 
   
 
@@ -327,7 +327,7 @@ function CreateShop() {
               <InputAddress setAddrDataToShop={setAddrData} fillData={address} oldData={shop.address} /> 
             </>
             : 
-            ((addrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
+            ((addrAvailable==='UNAVAIL' && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) || (routeLocation.pathname==='/masterAdmin/shops/create' && initialRefreshIsDone)) ? 
             <>
               <p>Address does not exists</p>
               <InputAddress setAddrDataToShop={setAddrData} fillData={address} />
@@ -454,13 +454,13 @@ function CreateShop() {
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={ownerAddress} oldData={shop.owner_address} />
             </>
             :
-            ((ownerAddrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') && ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
+            ((ownerAddrAvailable==='UNAVAIL' && ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) || (routeLocation.pathname==='/masterAdmin/shops/create' && ownerAddrIsSameAsShop && initialRefreshIsDone)) ? 
             <>
               <p>Address does not exists, owner Addr is same as shop Addr</p>
               <InputAddress setAddrDataToShop={setOwnerAddrData} fillData={address} />
             </> 
             : 
-            ((ownerAddrAvailable==='UNAVAIL' || routeLocation.pathname==='/masterAdmin/shops/create') && !ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) ? 
+            ((ownerAddrAvailable==='UNAVAIL' && !ownerAddrIsSameAsShop && initialRefreshIsDone && (shop && shop.id===parseInt(id ? id : '0'))) || (routeLocation.pathname==='/masterAdmin/shops/create' && !ownerAddrIsSameAsShop && initialRefreshIsDone)) ? 
             <>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={copyShopAddrToOwner}>Same as Shop Address</button>
               <br />
@@ -481,7 +481,7 @@ function CreateShop() {
       </section>
 
 
-      <hr />
+      {/* <hr />
       <section className="formm">
         <form onSubmit={openNewLink}>
 
@@ -502,7 +502,7 @@ function CreateShop() {
             <button type="submit" className='btn btn-sm btn-outline-primary'>Go</button>
           </div>
         </form>
-      </section>
+      </section> */}
 
 
     </>
